@@ -1,0 +1,137 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เปลี่ยนรูปแบบการทำงานและวันหยุด
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เปลี่ยนรูปแบบการทำงานและวันหยุด</h1>
+    <form class="ui form segment" action="/manager/edit/shiftandoff/shiftandoffsummary" method="POST">
+        <h4 style="color: red;">*กรุณาเปลี่ยนรูปแบบกะในวันจันทร์ของสัปดาห์ถัดไปเท่านั้น</h4>
+            <h4 h1 style="font-family: sans-serif; text-align: center;">ไม่มีรายการเปลี่ยนแปลงในขณะนี้</h4>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>วันที่มีผล</th>
+                        <th>รูปแบบการทำงานเดิม</th>
+                        <th>รูปแบบการทำงานใหม่</th>
+                        <th>วันหยุดเดิม</th>
+                        <th>วันหยุดใหม่</th>
+                        <th>เลือกรูปแบบกะ</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>15-8-2022</td>
+                            <td>เวลาปกติ</td>
+                            <td>
+                                <div class="field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" value="11">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">--</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="11">เวลาปกติ</div>
+                                            <div class="item" data-value="22">เวลากะ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>A</td>
+                            <td>
+                                <div class="field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" value="none">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">--</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="none">--</div>
+                                            <div class="item" data-value="a">A</div>
+                                            <div class="item" data-value="b">B</div>
+                                            <div class="item" data-value="c">C</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="/manager/edit/shiftandoff/viewshift">ตรวจสอบ</a>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <div>
+            <button class="ui primary button" type="button"><i class="plus add icon"></i>เพิ่มเพื่อนทั้งทีม (ลบออกภายหลังได้)</button>
+        </div>
+        <br>
+        <div>
+            <button class="ui primary button" type="button"><i class="plus add icon"></i>เพิ่มทีละคน</button>
+        </div>
+        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
+
+        <h3>1.โปรดระบุเหตุผลที่ต้องการเปลี่ยน</h3>
+        <div class="field">
+            <input type="text" name="reason" placeholder="ระบุเหตุผล">
+        </div>
+
+        <h3>2.โปรดเลือกผู้เห็นชอบและผู้อนุมัติ</h3>
+        <!-- <h4>ผู้เห็นชอบ</h4>
+        <div class="field">
+            <div class="ui fluid selection dropdown">
+                <input name="employee" type="hidden" value="1111">
+                <i class="dropdown icon"></i>
+                <div class="default text">--</div>
+                <div class="menu">
+                    <div class="item" data-value="1111">เจม</div>
+                    <div class="item" data-value="2222">จอหน์</div>
+                    <div class="item" data-value="3333">ฌอน</div>
+                </div>
+            </div>
+        </div> -->
+        <h4>ผู้อนุมัติ</h4>
+        <div class="field">
+            <div class="ui fluid selection dropdown">
+                <input name="employee" type="hidden" value="11111">
+                <i class="dropdown icon"></i>
+                <div class="default text">--</div>
+                <div class="menu">
+                    <div class="item" data-value="11111">เจฟ</div>
+                    <div class="item" data-value="22222">จอร์จ</div>
+                    <div class="item" data-value="33333">จวน</div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+            <button class="ui green button" type="submit">บันทึก</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

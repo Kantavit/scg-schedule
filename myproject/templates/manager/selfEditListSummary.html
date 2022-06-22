@@ -1,0 +1,63 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+สรุปข้อมูลเปลี่ยนกะของพนักงาน
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>สรุปข้อมูลเปลี่ยนกะของพนักงาน</h1>
+    <form class="ui form segment" action="/manager/edit/selflist/selflistsummary/selftransactionend" method="POST">
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>วันที่ขอเปลี่ยน</th>
+                        <th>กะเดิม/อื่น ๆ</th>
+                        <th>กะใหม่/อื่น ๆ</th>
+                        <th>โปรดระบุเหตุผล</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>11-11-2011</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>555555555</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <!-- COPY ข้อมูลจาก table temporary ชั่วคราวลงไปใน table transaction -->
+        <h4 h1 style="font-family: sans-serif; text-align: center;">ข้อมูลตารางใหม่ พ.ศ.:  เดือน:  สัปดาห์: </h4>
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+            <button class="ui yellow button" formaction="/manager/edit/selflist">แก้ไข</button>
+            <button class="ui button red" type="button">ยกเลิก</button>
+            <button class="ui green button" type="submit">ยืนยัน</button>
+        </div>
+    </form>
+
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

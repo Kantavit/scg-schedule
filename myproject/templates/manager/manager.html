@@ -1,0 +1,53 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+ตัวเลือกของหัวหน้า
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>ตัวเลือกของหัวหน้า</h1>
+    <br>
+    <br>
+    <br>
+    <a href="/manager/status/pending">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">รายการรออนุมัติ</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/manager/status/approve">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">รายการที่อนุมัติแล้ว</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/manager/shift">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">ตารางกะพนักงานในปัจจุบัน</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/manager/edit">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">แก้ไขรูปแบบหรือตารางกะของพนักงาน</button>
+        </div>
+    </a>
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+สรุปเปลี่ยนรูปแบบการทำงานและวันหยุด
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>สรุปเปลี่ยนรูปแบบการทำงานและวันหยุด</h1>
+    <form class="ui form segment" action="/manager/edit/shiftandoff/shiftandoffsummary/shiftandofftransactionend" method="POST">
+        <h4 style="color: red;">*กรุณาเปลี่ยนรูปแบบกะในวันจันทร์ของสัปดาห์ถัดไปเท่านั้น</h4>
+            <h4 h1 style="font-family: sans-serif; text-align: center;">ไม่มีรายการเปลี่ยนแปลงในขณะนี้</h4>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>วันที่มีผล</th>
+                        <th>รูปแบบการทำงานเดิม</th>
+                        <th>รูปแบบการทำงานใหม่</th>
+                        <th>วันหยุดเดิม</th>
+                        <th>วันหยุดใหม่</th>
+                        <th>เลือกรูปแบบกะ</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>15-8-2022</td>
+                            <td>เวลาปกติ</td>
+                            <td>เวลากะ</td>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>
+                                <a href="/manager/edit/shiftandoff/viewshiftonly">ตรวจสอบ</a>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h3>รายละเอียดเหตุผลที่ต้องการเปลี่ยน: </h3>
+
+        <h3>รายละเอียดผู้เห็นชอบและผู้อนุมัติ</h3>
+        <!-- <h4>ผู้เห็นชอบ: เจม</h4> -->
+        <h4>ผู้อนุมัติ: เจฟ</h4>
+
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+            <button class="ui yellow button" formaction="/manager/edit/shiftandoff">แก้ไข</button>
+            <button class="ui button red" type="button">ยกเลิก</button>
+            <button class="ui green button" type="submit">ยืนยัน</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

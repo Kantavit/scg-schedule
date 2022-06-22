@@ -1,0 +1,52 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+รายการที่อนุมัติแล้ว
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>รายการที่อนุมัติแล้ว</h1>
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <tr>
+                    <th>ชื่อ-สกุล</th>
+                    <th>วันที่ยื่นคำขอ</th>
+                    <th>รายการ</th>
+                    <th>สถานะคำขอ</th>
+                    <th> </th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                        <td>11-11-2011</td>
+                        <td>เปลี่ยนกะตนเอง</td>
+                        <td><button class="ui button green" type="button">อนุมัติแล้ว</button></td>
+                        <td><a href="/employee/edit/shift/self/selflist/selflistsummary">แก้ไข</a>
+                            /<a href="/employee/edit/shift/self/selflist/selflistsummary" style="color: red">ยกเลิก</a></td>
+                    </tr>
+                </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

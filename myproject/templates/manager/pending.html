@@ -1,0 +1,179 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+รายการรออนุมัติ
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>รายการรออนุมัติ</h1>
+    <div class="table-scrolling">
+      <table class="ui celled unstackable table">
+          <thead>
+              <tr>
+                  <th>
+                      <input type="checkbox" name="fruits">
+                      <label>All อนุมัติ</label>
+                  </th>
+                  <th>วันที่ยื่นคำขอ</th>
+                  <th>รายการ</th>
+                  <th>ชื่อ-สกุล</th>
+                  <th> </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>
+                      <input type="checkbox" name="fruits">
+                      <a href="/employee/edit/shift/self/selflist/selflistsummary">อนุมัติ</a>
+                  </td>
+                  <td>11-11-2011</td>
+                  <td>เปลี่ยนกะตนเอง</td>
+                  <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                  <td><a href="/employee/edit/shift/self/selflist/selflistsummary">แก้ไข</a>
+                    /<a href="/employee/edit/shift/self/selflist/selflistsummary" style="color: red">ยกเลิก</a></td>
+              </tr>
+          </tbody> 
+      </table>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div id="foot-button">
+        <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+        <a href="/manager/status/pending/approvetransactionend">
+          <button class="ui green button" type="button">อนุมัติทั้งหมด</button>
+        </a>
+    </div>
+
+
+    <!-- <div class="ui celled relaxed list">
+        <div class="item">
+            <div class="ui master checkbox">
+                <input type="checkbox" name="fruits">
+                <label>Fruits</label>
+            </div>
+            <div class="list">
+                <div class="item">
+                <div class="ui child checkbox">
+                    <input type="checkbox" name="apple">
+                    <label>Apple</label>
+                </div>
+                </div>
+                <div class="item">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="orange">
+                        <label>Orange</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="pear">
+                        <label>Pear</label>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui master checkbox">
+                    <input type="checkbox" name="vegetables">
+                    <label>Vegetables</label>
+                </div>
+                <div class="list">
+                    <div class="item">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="lettuce">
+                        <label>Lettuce</label>
+                    </div>
+                    </div>
+                    <div class="item">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="carrot">
+                        <label>Carrot</label>
+                    </div>
+                    </div>
+                    <div class="item">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="spinach">
+                        <label>Spinach</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+        
+            
+            
+        <!-- </div>
+    </div> -->
+
+</div>
+
+<script>
+$('.list .master.checkbox')
+  .checkbox({
+    // check all children
+    onChecked: function() {
+      var
+        $childCheckbox  = $(this).closest('.checkbox').siblings('.list').find('.checkbox')
+      ;
+      $childCheckbox.checkbox('check');
+    },
+    // uncheck all children
+    onUnchecked: function() {
+      var
+        $childCheckbox  = $(this).closest('.checkbox').siblings('.list').find('.checkbox')
+      ;
+      $childCheckbox.checkbox('uncheck');
+    }
+  })
+;
+
+$('.list .child.checkbox')
+  .checkbox({
+    // Fire on load to set parent value
+    fireOnInit : true,
+    // Change parent state on each child checkbox change
+    onChange   : function() {
+      var
+        $listGroup      = $(this).closest('.list'),
+        $parentCheckbox = $listGroup.closest('.item').children('.checkbox'),
+        $checkbox       = $listGroup.find('.checkbox'),
+        allChecked      = true,
+        allUnchecked    = true
+      ;
+      // check to see if all other siblings are checked or unchecked
+      $checkbox.each(function() {
+        if( $(this).checkbox('is checked') ) {
+          allUnchecked = false;
+        }
+        else {
+          allChecked = false;
+        }
+      });
+      // set parent checkbox state, but don't trigger its onChange callback
+      if(allChecked) {
+        $parentCheckbox.checkbox('set checked');
+      }
+      else if(allUnchecked) {
+        $parentCheckbox.checkbox('set unchecked');
+      }
+      else {
+        $parentCheckbox.checkbox('set indeterminate');
+      }
+    }
+  })
+;
+</script>
+
+{% endblock %}

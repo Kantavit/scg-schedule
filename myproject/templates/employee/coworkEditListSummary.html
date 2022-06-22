@@ -1,0 +1,76 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+สรุปข้อมูลสลับกะกับเพื่อน
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>สรุปข้อมูลสลับกะกับเพื่อน</h1>
+    <form class="ui form segment" action="/employee/edit/shift/cowork/coworksummary/coworktransactionend" method="POST">
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>วันที่ขอเปลี่ยน</th>
+                        <th>กะเดิม</th>
+                        <th>กะใหม่(ระบุ)</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>Mar 1, 2022</td>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>B</td>
+                            <td>Mar 1, 2022</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>C</td>
+                            <td>Mar 1, 2022</td>
+                            <td>3</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h3>เหตุผลที่ต้องการเปลี่ยน: เหตุผล</h3>
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+            <button class="ui yellow button" formaction="/employee/edit/shift/cowork">แก้ไข</button>
+            <button class="ui button red" type="button">ยกเลิก</button>
+            <button class="ui green button" type="submit">ยืนยัน</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

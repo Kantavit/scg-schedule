@@ -1,0 +1,81 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เปลี่ยนกะ
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เปลี่ยนกะ</h1>
+    <form class="ui form segment" action="/employee/edit/shift/self/selflist/selflistsummary" method="POST">
+        <h3>โปรดระบุกะใหม่ที่ต้องการเปลี่ยน</h3>
+            <h4 h1 style="font-family: sans-serif; text-align: center;">ไม่มีรายการเปลี่ยนแปลงในขณะนี้</h4>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>วันที่ขอเปลี่ยน</th>
+                        <th>กะเดิม/อื่น ๆ</th>
+                        <th>กะใหม่/อื่น ๆ</th>
+                        <th>โปรดระบุเหตุผล</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>11-11-2011</td>
+                            <td>1</td>
+                            <td>
+                                <div class="field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" value="none">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">--</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="none">--</div>
+                                            <div class="item" data-value="01">1</div>
+                                            <div class="item" data-value="02">2</div>
+                                            <div class="item" data-value="03">3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <input type="text" name="reason" placeholder="ระบุเหตุผล">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <button class="ui primary button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
+        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+            <button class="ui green button" type="submit">บันทึก</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

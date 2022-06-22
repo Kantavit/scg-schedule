@@ -1,0 +1,67 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+สรุปการเพิ่มพนักงานในหน่วยงาน
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>สรุปการเพิ่มพนักงานในหน่วยงาน</h1>
+    <form class="ui form segment" action="/manager/edit/addemployee/addemployeesummary/addemployeetransactionend" method="POST">
+        <h3>จำนวน ## คน</h3>
+        
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>เลขประจำตัว</th>
+                        <th>ชื่อ</th>
+                        <th>วันเริ่มต้น</th>
+                        <th>หน่วยงานเดิม</th>
+                        <th>หน่วยงานใหม่</th>
+                        <th>รูปแบบตารางกะ</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>0150-696969</td>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>20-06-2022</td>
+                            <td>TS4</td>
+                            <td>TS5</td>
+                            <td>DD202101</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+        <br>
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
+            <button class="ui yellow button" formaction="/manager/edit/addemployee">แก้ไข</button>
+            <button class="ui button red" type="button">ยกเลิก</button>
+            <button class="ui green button" type="submit">ขออนุมัติ</button>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}

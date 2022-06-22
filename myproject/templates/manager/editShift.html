@@ -1,0 +1,109 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+ตารางกะการทำงานในปัจจุบัน
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>ตารางกะการทำงานในปัจจุบัน</h1>
+    <form class="ui form segment" action="/employee" method="POST">
+        <div class="field">
+            <h3>โปรดเลือกหน่วยงาน</h3>
+            <div class="ui fluid selection dropdown">
+                <input name="content" type="hidden">
+                <div class="default text">เลือกทีมย่อย/ทั้งหมด</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="11">เหมือง</div>
+                    <div class="item" data-value="22">ต้อนรับ</div>
+                    <div class="item" data-value="33">ทั้งหมด</div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <h3>โปรดเลือกเวลา</h3>
+            <div id="center-button">
+                <button class="ui blue button">ดูสรุปของสัปดาห์นี้</button>
+                <button class="ui blue button">ดูสรุปของเดือนนี้</button>
+            </div>
+        </div>
+        <div class="three fields">
+            <div class="field">
+                <h4>พ.ศ.</h4>
+                <div class="ui fluid selection dropdown">
+                    <input type="hidden" name="year">
+                    <div class="default text">พ.ศ.</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="77">2565</div>
+                        <div class="item" data-value="88">2564</div>
+                        <div class="item" data-value="99">2563</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <h4>เดือน</h4>
+                <div class="ui fluid selection dropdown">
+                    <input type="hidden" name="month">
+                    <div class="default text">เดือน</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="wf">พฤษภาคม</div>
+                        <div class="item" data-value="eh">มิถุนายน</div>
+                        <div class="item" data-value="ye">กรกฎาคม</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <h4>สัปดาห์ที่</h4>
+                <div class="ui fluid selection dropdown">
+                    <input type="hidden" name="week">
+                    <div class="default text">สัปดาห์ที่</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="wf">1</div>
+                        <div class="item" data-value="eh">2</div>
+                        <div class="item" data-value="ye">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h3>โปรดเลือกมุมมอง</h3>
+        <div class="field">
+            <div class="ui fluid selection dropdown">
+                <input type="hidden" name="week">
+                <div class="default text">โปรดเลือกมุมมอง</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="wf">พนักงานในแต่ละกะ</div>
+                    <div class="item" data-value="eh">กะของพนักงานแต่ละคน</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="ui error message"></div> จาก script ข้างล่าง-->
+        <br>
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
+            <button class="ui yellow button" formaction="/manager/edit">แก้ไข</button>
+        </div>
+    </form>
+
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}

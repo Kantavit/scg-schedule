@@ -1,0 +1,51 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+รายการที่อนุมัติแล้ว
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>รายการที่อนุมัติแล้ว</h1>
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <tr>
+                    <th>วันที่ยื่นคำขอ</th>
+                    <th>รายการ</th>
+                    <th>ชื่อ-สกุล</th>
+                    <th>ชื่อผู้อนุมัติ</th>
+                    <th>วันที่อนุมัติ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>11-11-2011</td>
+                    <td>เปลี่ยนกะตนเอง</td>
+                    <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                    <td>ผู้จัดการ</td>
+                    <td>01-06-2022</td>
+                </tr>
+            </tbody> 
+        </table>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

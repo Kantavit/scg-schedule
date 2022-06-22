@@ -1,0 +1,114 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เพิ่มพนักงานในหน่วยงาน
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เพิ่มพนักงานในหน่วยงาน</h1>
+    <form class="ui form segment" action="/employee/edit/addemployee" method="POST">
+        <div class="field">
+            <h3>1.เลขประจำตัวพนักงาน</h3>
+            <input type="text" name="content">
+            <h4 style="text-align: center;">หรือระบุข้อมูล</h4>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <h3>1.ชื่อจริง</h3>
+                <input type="text" name="content">
+            </div>
+            <div class="field">
+                <h3>2.นามสกุล</h3>
+                <input type="text" name="content">
+            </div>
+        </div>
+
+        <div id="center-button">
+            <button class="ui blue button" type="submit">แสดง</button>
+        </div>
+        <br>
+        <br>
+
+        
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>เลขประจำตัว</th>
+                        <th>ชื่อ</th>
+                        <th>หน่วยงานเดิม</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>0150-696969</td>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>TS4</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h4>รายละเอียดการเพิ่มชื่อพนักงาน</h4>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>เลขประจำตัว</th>
+                        <th>ชื่อ</th>
+                        <th>วันเริ่มต้น</th>
+                        <th>หน่วยงานเดิม</th>
+                        <th>หน่วยงานใหม่</th>
+                        <th>รูปแบบตารางกะ</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>0150-696969</td>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>20-06-2022</td>
+                            <td>TS4</td>
+                            <td>TS5</td>
+                            <td>DD202101</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
+        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
+        <br>
+        <br>
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
+            <button class="ui green button" formaction="/employee/edit/addemployee/addemployeesummary">บันทึก</button>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เปลี่ยนกะ
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เปลี่ยนกะ</h1>
+    <form class="ui form segment" action="/employee/edit/shift/self" method="POST">
+        <!-- <h2>เปลี่ยนแปลงได้เฉพาะเจ้าของ User เท่านั้น</h2> -->
+        <h3>โปรดเลือกช่วงเวลาที่ต้องการให้แสดง</h3>
+        <div class="three fields">
+            <div class="field">
+                <h4>พ.ศ.</h4>
+                <div class="ui fluid selection dropdown">
+                    <input type="hidden" name="year">
+                    <div class="default text">พ.ศ.</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="77">2565</div>
+                        <div class="item" data-value="88">2564</div>
+                        <div class="item" data-value="99">2563</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <h4>เดือน</h4>
+                <div class="ui fluid selection dropdown">
+                    <input type="hidden" name="month">
+                    <div class="default text">เดือน</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="wf">พฤษภาคม</div>
+                        <div class="item" data-value="eh">มิถุนายน</div>
+                        <div class="item" data-value="ye">กรกฎาคม</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <h4>สัปดาห์ที่(ถ้ามี)</h4>
+                <div class="ui fluid selection dropdown">
+                    <input type="hidden" name="week">
+                    <div class="default text">สัปดาห์ที่</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="wf">1</div>
+                        <div class="item" data-value="eh">2</div>
+                        <div class="item" data-value="ye">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui blue button" type="submit">ค้นหา</button>
+        </div>
+        <!-- <h4 style="display: flex; justify-content: center; color: red;">รายการเปลี่ยนแปลง</h4>
+        <h4 style="display: flex; justify-content: center; color: orange;">วันหยุดนักขัตฤกษ์</h4>
+        <h4 style="display: flex; justify-content: center; color: green;">วันหยุด (OFF)</h4> -->
+        <!-- <h5 style="background-color:Tomato;">fdf</h5> -->
+        <div id="foot-button">
+            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+            <button class="ui green button" formaction="/employee/edit/shift/self/selflist">แก้ไข</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

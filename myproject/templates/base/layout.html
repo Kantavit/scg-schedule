@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- fomantic ui -->
+    <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='node_modules/fomantic-ui-css/semantic.min.css') }}">
+    <script src="{{ url_for('static', filename='node_modules/fomantic-ui-css/semantic.min.js') }}"></script>
+
+    <!-- line notify -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <!-- line get data -->
+    <script>
+      function logOut() {
+        liff.logout()
+        window.location.reload()
+      }
+      function logIn() {
+        liff.login({ redirectUri: window.location.href })
+      }
+      async function getUserProfile() {
+        const profile = await liff.getProfile()
+  
+        document.getElementById("userId").append(profile.userId)
+        // window.location.href = "screen/employee/index.php?w1=" + profile.userId + "&name=" + profile.displayName+ "&email="+liff.getDecodedIDToken().email
+       
+        
+      }
+      async function main() {
+        await liff.init({ liffId: "1657170281-gDAYb1LW" , withLogin0nExternalBrowser: true })
+        // await liff.init({ liffId: '1656632478-Wl457ZM8' });
+        if (liff.isInClient()) {
+          getUserProfile()
+        } else {
+          if (liff.isLoggedIn()) {
+            getUserProfile()
+            document.getElementById("btnLogIn").style.display = "none"
+            // document.getElementById("btnLogOut").style.display = "block"
+          } else {
+            document.getElementById("btnLogIn").style.display = "block"
+            // document.getElementById("btnLogOut").style.display = "none"
+          }
+        }
+      }
+      main()
+    </script>
+
+  <p id="userId"><b>userId:</b></p>
+
+  <button id="btnLogIn" class="ui button green" onclick="logIn()">
+    <i class="linechat icon"></i>
+    ล็อกอิน
+  </button>
+
+  <!-- <section id="button">
+    <button id="btnLogIn" class="col-md-12" style="position: fixed; top: 40%; display:none;">login</button>
+  </section> -->
+    
+    <!-- <script>
+            // Body element
+        const body = document.getElementById('body');
+        
+        // Button elements
+        const btnLogIn = document.getElementById('btnLogIn');
+        const btnLogOut = document.getElementById('btnLogOut');
+        
+        async function main() {
+          // Initialize LIFF app
+          await liff.init({ liffId: '1656632478-Wl457ZM8' });
+        
+          // Try a LIFF function
+          switch (liff.getOS()) {
+            case 'android':
+              body.style.backgroundColor = '#d1f5d3';
+              break;
+            case 'ios':
+              body.style.backgroundColor = '#eeeeee';
+              break;
+          }
+        
+          getUserProfile();
+          if (!liff.isInClient()) {
+            if (liff.isLoggedIn()) {
+              btnLogIn.style.display = 'none';
+              getUserProfile();
+            } else {
+              btnLogIn.style.display = 'block';
+            }
+          }
+        }
+        main();
+        
+        async function getUserProfile() {
+          const profile = await liff.getProfile();
+          window.location.href = "screen/employee/index.php?w1=" + profile.userId + "&name=" + profile.displayName+ "&email="+liff.getDecodedIDToken().email
+
+
+        }
+        
+        btnLogIn.onclick = () => {
+          liff.login();
+        };
+        
+        btnLogOut.onclick = () => {
+          liff.logout();
+          window.location.reload();
+        };
+        
+    </script> -->
+
+    <div class="ui menu">
+        <div class="left menu">
+            <div class="ui small image">
+                <img src="https://i.ibb.co/tB2x8W1/SCGLogo.jpg" alt="SCGLogo" width="100" height="80">
+                <!-- ../images/SCGLogo.png -->
+            </div>
+        </div>
+        <div class="right menu" style="padding-top: 15px;">
+            <h2 class="name-title">คุณ {% block head %}{% endblock %}&nbsp;</h2>
+        </div>
+    </div>
+
+<style>
+#foot-button{
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    height: 60px;
+}
+
+#center-button{
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.name-title{
+    font-size: large;
+}
+
+h1{
+    display: flex; 
+    justify-content: center;
+    border-radius: 25px;
+    border: 2px solid #070706;
+    background-color: #ffffff;
+}
+
+h2{
+    display: flex; 
+    justify-content: center;
+}
+
+/* h5 {  
+  font-size: 48px;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  display: inline;
+  background-image: linear-gradient(#fff 60%, #ff9797 55%);
+}                                                                 Cool backline text */
+
+.table-scrolling {
+  float: left; /* fix for  buggy browsers */
+  display: table-column;
+  width: 100%;
+  overflow-x: auto;
+  white-space:nowrap;
+}
+
+</style>
+
+</head>
+<body>
+
+    {% block body %}{% endblock %}
+
+<script>
+$('.ui.dropdown') //dropdown animation
+    .dropdown({
+    transition: 'fade up'
+  })
+;
+
+$(document).ready(function(){ //loading animation
+    $("#button-load").click(function(){ //.ui.button
+        $(this).addClass("loading");
+    });
+});
+
+$('#button-clear') //clear all data in form .ui.button
+  .on('click', function() {
+    $('.ui.dropdown')
+      .dropdown('restore defaults')
+    ;
+  })
+;
+
+$('#standard_calendar') //calendar input
+  .calendar({type: 'date', 
+            today: 'true', 
+            showWeekNumbers: 'false'})
+;
+
+
+</script>
+</body>
+</html>

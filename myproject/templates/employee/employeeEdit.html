@@ -1,0 +1,59 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เปลี่ยนแปลงข้อมูล
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เปลี่ยนแปลงข้อมูล</h1>
+    <br>
+    <br>
+    <br>
+    <a href="/employee/edit/shift">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">เปลี่ยนกะ/เพิ่มข้อมูลกะ</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/employee/edit/shiftandoff">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">เปลี่ยนรูปแบบการทำงานและวันหยุด</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/employee/edit/status">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">ตรวจสอบสถานะการทำงาน</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/employee/edit/addemployee">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">เพิ่มพนักงานในหน่วยงาน</button>
+        </div>
+    </a>  
+    <br>
+    <a href="/employee">
+        <div id="foot-button" style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui red button">กลับ</button>
+        </div>
+    </a>
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}

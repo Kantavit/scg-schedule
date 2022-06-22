@@ -1,0 +1,52 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เปลี่ยนกะ/เพิ่มข้อมูลกะ
+{% endblock %}
+
+
+{% block head %}
+ชื่อจริง นามสกุล
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เปลี่ยนกะ/เพิ่มข้อมูลกะ</h1>
+    <br>
+    <br>
+    <br>
+    <a href="/employee/edit/shift/self">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">เปลี่ยนกะของตนเอง</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/employee/edit/shift/cowork">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">สลับกะกับเพื่อน</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/employee/edit/shift/addshift">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">เพิ่มกะในวันเดียวกัน</button>
+        </div>
+    </a>
+    <br>
+    <a href="/employee/edit">
+        <div id="foot-button" style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui red button">กลับ</button>
+        </div>
+    </a>
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}
