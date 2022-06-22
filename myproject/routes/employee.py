@@ -6,7 +6,7 @@ from flask import render_template, redirect, url_for, request
 
 @employee.route('/', methods=['GET'])
 def index():
-    if request.method == 'POST':
+    if request.method == 'GET':
         return redirect(url_for('employee.employeePage')) # redirect to employeePage()
 
 @employee.route('/employee', methods=['POST','GET'])
