@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, request
 
 
 
-@employee.route('/')
+@employee.route('/', methods=['GET', 'POST'])
 def index():
     return redirect(url_for('employee.employeePage')) # redirect to employeePage()
 
