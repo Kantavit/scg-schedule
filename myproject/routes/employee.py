@@ -8,7 +8,7 @@ from flask import render_template, redirect, url_for, request
 def index():
     return redirect(url_for('employee.employeePage')) # redirect to employeePage()
 
-@employee.route('/employee', methods=['POST','GET'])
+@employee.route('/employee', methods=['GET', 'POST'])
 def employeePage():
     if request.method == 'POST':
         task_content = request.form['content']
