@@ -16,47 +16,46 @@
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
     <!-- line get data -->
-    <script>
-      function logOut() {
-        liff.logout()
-        window.location.reload()
-      }
-      function logIn() {
-        liff.login({ redirectUri: window.location.href })
-      }
-      async function getUserProfile() {
-        const profile = await liff.getProfile()
-  
-        document.getElementById("userId").append(profile.userId)
-        // window.location.href = "screen/employee/index.php?w1=" + profile.userId + "&name=" + profile.displayName+ "&email="+liff.getDecodedIDToken().email
-       
-        
-      }
-      async function main() {
-        await liff.init({ liffId: "1656632478-zGvenBjQ" , withLogin0nExternalBrowser: true })
-        // await liff.init({ liffId: '1656632478-Wl457ZM8' });
-        if (liff.isInClient()) {
+    <p id="userId"><b>userId:</b></p>
+
+  <button id="btnLogIn" onclick="logIn()">Log In</button>
+  <button id="btnLogOut" onclick="logOut()">Log Out</button>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    function logOut() {
+      liff.logout()
+      window.location.reload()
+    }
+    function logIn() {
+      liff.login({ redirectUri: window.location.href })
+    }
+    async function getUserProfile() {
+      const profile = await liff.getProfile()
+
+      document.getElementById("userId").append(profile.userId)
+     
+      
+    }
+    
+    async function main() {
+      await liff.init({ liffId: "1656632478-zGvenBjQ" , withLogin0nExternalBrowser: true })
+      if (liff.isInClient()) {
+        getUserProfile()
+      } else {
+        if (liff.isLoggedIn()) {
           getUserProfile()
+          document.getElementById("btnLogIn").style.display = "none"
+          document.getElementById("btnLogOut").style.display = "block"
         } else {
-          if (liff.isLoggedIn()) {
-            getUserProfile()
-            document.getElementById("btnLogIn").style.display = "none"
-            document.getElementById("btnLogOut").style.display = "block"
-          } else {
-            document.getElementById("btnLogIn").style.display = "block"
-            document.getElementById("btnLogOut").style.display = "none"
-          }
+          document.getElementById("btnLogIn").style.display = "block"
+          document.getElementById("btnLogOut").style.display = "none"
         }
       }
-      main()
-    </script>
+    }
+    main()
+  </script>
 
-  <p id="userId"><b>userId:</b></p>
-
-  <button id="btnLogIn" class="ui button green" onclick="logIn()">
-    <i class="linechat icon"></i>
-    ล็อกอิน
-  </button>
+  
 
   <!-- <section id="button">
     <button id="btnLogIn" class="col-md-12" style="position: fixed; top: 40%; display:none;">login</button>
