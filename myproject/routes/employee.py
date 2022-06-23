@@ -28,9 +28,9 @@ def employeePage():
         #     userDetails = cur.fetchall()
         #     cur.close()
         #     return render_template('employee/employee.html',userDetails=userDetails)
-        userid = request.form['userId']
-        # userid = request.args.get("userId")
-        return render_template('employee/employee.html')
+        # userid = request.form['userId']
+        userid = request.args.get("userId")
+        return render_template('employee/employee.html', userid=userid)
         
 
 @employee.route('/employee/edit', methods=['POST','GET'])
