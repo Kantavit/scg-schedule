@@ -26,7 +26,7 @@ def employeePage():
         #     userDetails = cur.fetchall()
         #     cur.close()
         #     return render_template('employee/employee.html',userDetails=userDetails)
-        # userid = request.form['userId']
+
         line_userid = request.args.get("userId")
         cur = db.connection.cursor()
         query = "SELECT * FROM employee a , employeeInfo b WHERE a.line_id = " + line_userid + " AND a.employee_id = b.employee_id"
@@ -34,7 +34,7 @@ def employeePage():
         userDetails = cur.fetchall()
         cur.close()
 
-        return render_template('employee/employee.html', user_name=user_name)
+        return render_template('employee/employee.html', userDetails=userDetails)
         
 
 @employee.route('/employee/edit', methods=['POST','GET'])
