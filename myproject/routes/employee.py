@@ -9,8 +9,7 @@ from flask import render_template, redirect, url_for, request
 @employee.route('/', methods=['POST','GET'])
 def index():
     if request.method == 'POST':
-        userid = request.form['userId']
-        return redirect(url_for('employee.employeePage'), userid=userid) # redirect to employeePage()
+        return redirect(url_for('employee.employeePage')) # redirect to employeePage()
     else:
         return redirect(url_for('employee.employeePage'))
 
@@ -18,7 +17,8 @@ def index():
 def employeePage():
     if request.method == 'POST':
         task_content = request.form['content']
-        return render_template('employee/employee.html',content=task_content)
+        userid = request.form['userId']
+        return render_template('employee/employee.html',content=task_content, userid=userid)
     
     else:
         # cur = db.connection.cursor()
