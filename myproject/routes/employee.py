@@ -28,13 +28,13 @@ def employeePage():
         #     return render_template('employee/employee.html',userDetails=userDetails)
 
         line_userid = request.args.get("userId")
-        cur = db.connection.cursor()
-        query = "SELECT * FROM employee a , employeeInfo b WHERE a.line_id = " + line_userid + " AND a.employee_id = b.employee_id"
-        user_name = cur.execute(query)
-        userDetails = cur.fetchall()
-        cur.close()
+        # cur = db.connection.cursor()
+        # query = "SELECT * FROM employee a , employeeInfo b WHERE a.line_id = " + line_userid + " AND a.employee_id = b.employee_id"
+        # user_name = cur.execute(query)
+        # userDetails = cur.fetchall()
+        # cur.close()
 
-        return render_template('employee/employee.html')
+        return render_template('employee/employee.html', userDetails=line_userid)
         
 
 @employee.route('/employee/edit', methods=['POST','GET'])
