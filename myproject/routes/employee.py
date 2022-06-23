@@ -20,7 +20,7 @@ def employeePage():
         userid = request.form['userId']
         return render_template('employee/employee.html',content=task_content, userid=userid)
     
-    else:
+    elif request.method == 'GET':
         # cur = db.connection.cursor()
         # users = cur.execute("SELECT * FROM users")
 
