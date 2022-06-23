@@ -2,9 +2,7 @@ from .__init__ import employee
 from ..extensions import db
 from flask import render_template, redirect, url_for, request
 
-# cur = db.connection.cursor()
-# users = cur.execute("SELECT * FROM employee a , employeeInfo b WHERE a.line_id = '$line_id' AND a.employee_id = b.employee_id")
-#                                                                                 เอาจากไหนวะ??
+
 
 @employee.route('/', methods=['POST','GET'])
 def index():
@@ -29,8 +27,12 @@ def employeePage():
         #     cur.close()
         #     return render_template('employee/employee.html',userDetails=userDetails)
         # userid = request.form['userId']
-        userid = request.args.get("userId")
-        return render_template('employee/employee.html', userid=userid)
+        line_userid = request.args.get("userId")
+        cur = db.connection.cursor()
+        query = "SELECT * FROM employee a , employeeInfo b WHERE a.line_id = " + line_userid + " AND a.employee_id = b.employee_id"
+        user_name = cur.execute(query)
+
+        return render_template('employee/employee.html', user_name=user_name)
         
 
 @employee.route('/employee/edit', methods=['POST','GET'])
