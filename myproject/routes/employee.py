@@ -34,7 +34,7 @@ def employeePage():
         userDetails = cur.fetchall()
         cur.close()
 
-        return render_template('employee/employee.html', userDetails=userDetails.employee_id)
+        return render_template('employee/employee.html')
         
 
 @employee.route('/employee/edit', methods=['POST','GET'])
