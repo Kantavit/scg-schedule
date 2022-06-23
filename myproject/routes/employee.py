@@ -2,11 +2,17 @@ from .__init__ import employee
 from ..extensions import db
 from flask import render_template, redirect, url_for, request
 
+# cur = db.connection.cursor()
+# users = cur.execute("SELECT * FROM employee a , employeeInfo b WHERE a.line_id = '$line_id' AND a.employee_id = b.employee_id")
+#                                                                                 เอาจากไหนวะ??
 
-
-@employee.route('/')
+@employee.route('/', methods=['POST','GET'])
 def index():
-    return redirect(url_for('employee.employeePage')) # redirect to employeePage()
+    if request.method == 'POST':
+        userid = request.form['userId']
+        return redirect(url_for('employee.employeePage'), userid=userid) # redirect to employeePage()
+    else:
+        return redirect(url_for('employee.employeePage'))
 
 @employee.route('/employee', methods=['POST','GET'])
 def employeePage():
