@@ -30,7 +30,7 @@ def employeePage():
         # line_userid = request.args.get("userId")
         cur = db.connection.cursor()
         # query = "SELECT * FROM employee a , employeeInfo b WHERE a.line_id = " + line_userid + " AND a.employee_id = b.employee_id"
-        query = "SELECT employee_id FROM employee WHERE line_id = Ua67c4cbed161177369250da3ce0fd69" 
+        query = "SELECT employee_id FROM employee WHERE line_id = Ua67c4cbed161177369250da3ce0fd698" 
         user_name = cur.execute(query)
         userDetails = cur.fetchall()
         cur.close()
