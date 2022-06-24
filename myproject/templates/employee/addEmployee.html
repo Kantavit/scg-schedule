@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-เพิ่มพนักงานในหน่วยงาน
+เพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย
 {% endblock %}
 
 
@@ -12,23 +12,22 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>เพิ่มพนักงานในหน่วยงาน</h1>
+    <h1>เพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย</h1>
     <form class="ui form segment" action="/employee/edit/addemployee" method="POST">
         <div class="field">
-            <h3>1.เลขประจำตัวพนักงาน</h3>
-            <input type="text" name="content">
-            <h4 style="text-align: center;">หรือระบุข้อมูล</h4>
+            <h3>1.ค้นหาข้อมูลพนักงาน</h3>
+            <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="employee">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select employee</div>
+                <div class="menu">
+                    <div class="item" data-value="af">0150-123457</div>
+                    <div class="item" data-value="ax">0150-123456</div>
+                    <div class="item" data-value="ax">0150-123458</div>
+                </div>
+            </div> 
         </div>
-        <div class="two fields">
-            <div class="field">
-                <h3>1.ชื่อจริง</h3>
-                <input type="text" name="content">
-            </div>
-            <div class="field">
-                <h3>2.นามสกุล</h3>
-                <input type="text" name="content">
-            </div>
-        </div>
+
 
         <div id="center-button">
             <button class="ui blue button" type="submit">แสดง</button>
@@ -73,6 +72,7 @@
                         <th>หน่วยงานเดิม</th>
                         <th>หน่วยงานใหม่</th>
                         <th>รูปแบบตารางกะ</th>
+                        <th>ทีมย่อย</th>
                     </tr>
                 </thead>
                     <tbody>
@@ -83,6 +83,7 @@
                             <td>TS4</td>
                             <td>TS5</td>
                             <td>DD202101</td>
+                            <td>ฝ่ายต้อนรับ</td>
                         </tr>
                     </tbody>
             </table>

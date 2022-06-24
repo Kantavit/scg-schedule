@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-สรุปการเพิ่มพนักงานในหน่วยงาน
+สรุปการเพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย
 {% endblock %}
 
 
@@ -12,7 +12,7 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>สรุปการเพิ่มพนักงานในหน่วยงาน</h1>
+    <h1>สรุปการเพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย</h1>
     <form class="ui form segment" action="/employee/edit/addemployee/addemployeesummary/addemployeetransactionend" method="POST">
         <h3>จำนวน ## คน</h3>
         
@@ -49,7 +49,7 @@
         
         <br>
         <br>
-        <div id="foot-button">
+        <div id="foot-button" style="width:100%;text-align:center;">
             <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
             <button class="ui yellow button" formaction="/employee/edit/addemployee">แก้ไข</button>
             <button class="ui button red" type="button">ยกเลิก</button>
@@ -58,6 +58,7 @@
     </form>
 
 </div>
+
 
 
 <script>
