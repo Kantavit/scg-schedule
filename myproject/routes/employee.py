@@ -27,10 +27,11 @@ def employeePage():
         #     cur.close()
         #     return render_template('employee/employee.html',userDetails=userDetails)
 
-        # line_userid = request.args.get("userId")
+        line_userid = request.args.get("userId")
+        toString = str(line_userid)
+        
         cur = db.connection.cursor()
-        # query = "SELECT * FROM employee a , employeeInfo b WHERE a.line_id = " + line_userid + " AND a.employee_id = b.employee_id"
-        query = "SELECT employee_id FROM employee WHERE line_id = Ua67c4cbed161177369250da3ce0fd698" 
+        query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
         user_name = cur.execute(query)
         userDetails = cur.fetchall()
         cur.close()
