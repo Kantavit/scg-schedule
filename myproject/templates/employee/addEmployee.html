@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-เพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย
+เพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่
 {% endblock %}
 
 
@@ -12,7 +12,7 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>เพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย</h1>
+    <h1>เพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่</h1>
     <form class="ui form segment" action="/employee/edit/addemployee" method="POST">
         <div class="field">
             <h3>1.ค้นหาข้อมูลพนักงาน</h3>
@@ -21,9 +21,9 @@
                 <i class="dropdown icon"></i>
                 <div class="default text">Select employee</div>
                 <div class="menu">
-                    <div class="item" data-value="af">0150-123457</div>
-                    <div class="item" data-value="ax">0150-123456</div>
-                    <div class="item" data-value="ax">0150-123458</div>
+                    <div class="item" data-value="af">0150-123457 กฤต</div>
+                    <div class="item" data-value="ax">0150-123456 หวาน</div>
+                    <div class="item" data-value="ax">0150-123458 ตาล</div>
                 </div>
             </div> 
         </div>
@@ -42,7 +42,8 @@
                     <tr>
                         <th>เลขประจำตัว</th>
                         <th>ชื่อ</th>
-                        <th>หน่วยงานเดิม</th>
+                        <th>หน่วยงาน</th>
+                        <th>ทีมย่อย</th>
                     </tr>
                 </thead>
                     <tbody>
@@ -50,6 +51,7 @@
                             <td>0150-696969</td>
                             <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
                             <td>TS4</td>
+                            <td> </td>
                         </tr>
                     </tbody>
             </table>
@@ -61,7 +63,7 @@
         <br>
         <br>
 
-        <h4>รายละเอียดการเพิ่มชื่อพนักงาน</h4>
+        <h4>เพิ่มทีมย่อย</h4>
         <div class="table-scrolling">
             <table class="ui celled unstackable table">
                 <thead>
@@ -69,10 +71,8 @@
                         <th>เลขประจำตัว</th>
                         <th>ชื่อ</th>
                         <th>วันเริ่มต้น</th>
-                        <th>หน่วยงานเดิม</th>
-                        <th>หน่วยงานใหม่</th>
                         <th>รูปแบบตารางกะ</th>
-                        <th>ทีมย่อย</th>
+                        <th>เพิ่มทีมย่อย</th>
                     </tr>
                 </thead>
                     <tbody>
@@ -80,9 +80,97 @@
                             <td>0150-696969</td>
                             <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
                             <td>20-06-2022</td>
+                            <td>DD202101</td>
+                            <td>
+                                <div class="field">
+                                    <input type="text" name="หน่วยงาน" placeholder="หน่วยงาน">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
+
+        <br>
+        <br>
+        <br>
+        <h4>เปลี่ยนหน่วย (ทีมย่อยของท่านจะถูกลบ)</h4>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>เลขประจำตัว</th>
+                        <th>ชื่อ</th>
+                        <th>วันเริ่มต้น</th>
+                        <th>รูปแบบตารางกะ</th>
+                        <th>หน่วยงานเดิม</th>
+                        <th>หน่วยงานใหม่</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>0150-696969</td>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>20-06-2022</td>
+                            <td>DD202101</td>
+                            <td>TS4</td>
+                            <td>
+                                <div class="field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input type="hidden" name="เลือกเปลี่ยน">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">Select</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="af">TS5</div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
+        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
+
+        <br>
+        <br>
+        <br>
+        <!-- <h4>dddd</h4>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>เลขประจำตัว</th>
+                        <th>ชื่อ</th>
+                        <th>วันเริ่มต้น</th>
+                        <th>รูปแบบตารางกะ</th>
+                        <th>หน่วยงานเดิม</th>
+                        <th>หน่วยงานใหม่</th>
+                        <th>เพิ่มทีมย่อย</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>0150-696969</td>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>20-06-2022</td>
+                            <td>DD202101</td>
                             <td>TS4</td>
                             <td>TS5</td>
-                            <td>DD202101</td>
                             <td>ฝ่ายต้อนรับ</td>
                         </tr>
                     </tbody>
@@ -93,13 +181,9 @@
         <br>
         <br>
         <br>
-        <br>
+        <br> -->
 
-        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
-        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
-        <br>
-        <br>
-        <div id="foot-button">
+        <div id="foot-button" style="width:100%;text-align:center;">
             <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
             <button class="ui green button" formaction="/employee/edit/addemployee/addemployeesummary">บันทึก</button>
         </div>

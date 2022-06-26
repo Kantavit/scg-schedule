@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-สรุปการเพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย
+สรุปการเพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่
 {% endblock %}
 
 
@@ -12,10 +12,10 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>สรุปการเพิ่มพนักงานในหน่วยงาน/จัดการทีมย่อย</h1>
+    <h1>สรุปการเพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่</h1>
     <form class="ui form segment" action="/employee/edit/addemployee/addemployeesummary/addemployeetransactionend" method="POST">
-        <h3>จำนวน ## คน</h3>
         
+        <h3>เพิ่มทีมย่อยไม่ต้องอนุมัติ</h3>
         <div class="table-scrolling">
             <table class="ui celled unstackable table">
                 <thead>
@@ -23,9 +23,8 @@
                         <th>เลขประจำตัว</th>
                         <th>ชื่อ</th>
                         <th>วันเริ่มต้น</th>
-                        <th>หน่วยงานเดิม</th>
-                        <th>หน่วยงานใหม่</th>
                         <th>รูปแบบตารางกะ</th>
+                        <th>เพิ่มทีมย่อย</th>
                     </tr>
                 </thead>
                     <tbody>
@@ -33,9 +32,34 @@
                             <td>0150-696969</td>
                             <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
                             <td>20-06-2022</td>
+                            <td>DD202101</td>
+                            <td>แผนกต้อนรับ</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+
+        <h3>เปลี่ยนหน่วยงานต้องรออนุมัติ</h3>
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <tr>
+                        <th>เลขประจำตัว</th>
+                        <th>ชื่อ</th>
+                        <th>วันเริ่มต้น</th>
+                        <th>รูปแบบตารางกะ</th>
+                        <th>หน่วยงานเดิม</th>
+                        <th>หน่วยงานใหม่</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>
+                            <td>0150-696969</td>
+                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
+                            <td>20-06-2022</td>
+                            <td>DD202101</td>
                             <td>TS4</td>
                             <td>TS5</td>
-                            <td>DD202101</td>
                         </tr>
                     </tbody>
             </table>
