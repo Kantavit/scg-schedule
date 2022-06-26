@@ -23,7 +23,7 @@ def employeePage():
         toString = str(line_userid)
         
         cur = db.connection.cursor()
-        query = "SELECT employee_name employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
+        query = "SELECT employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
         justQuery = cur.execute(query)
         user_name = cur.fetchall()
         cur.close()
