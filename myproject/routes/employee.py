@@ -1,7 +1,7 @@
 from .__init__ import employee
 from ..extensions import db
 from flask import render_template, redirect, url_for, request, session
-from flask_session import Session
+
 
 
 @employee.route('/', methods=['POST','GET'])
