@@ -38,8 +38,21 @@ def employeePage():
 def chooseEdit():
     if request.method == 'POST':
         return render_template('employee/employeeEdit.html')
-    else:
-        return render_template('employee/employeeEdit.html')
+        
+    elif request.method == 'GET':
+        line_userid = request.args.get("userId")
+        toString = str(line_userid)
+        
+        cur = db.connection.cursor()
+        query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
+        justQuery = cur.execute(query)
+        first_name = cur.fetchall()
+        query = "SELECT employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
+        justQuery = cur.execute(query)
+        last_name = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/employeeEdit.html', first_name=first_name, last_name=last_name)
 
 ####################################################################################################
 
