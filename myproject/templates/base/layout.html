@@ -60,64 +60,6 @@
       main()
     </script>
 
-  
-
-  <!-- <section id="button">
-    <button id="btnLogIn" class="col-md-12" style="position: fixed; top: 40%; display:none;">login</button>
-  </section> -->
-    
-    <!-- <script>
-            // Body element
-        const body = document.getElementById('body');
-        
-        // Button elements
-        const btnLogIn = document.getElementById('btnLogIn');
-        const btnLogOut = document.getElementById('btnLogOut');
-        
-        async function main() {
-          // Initialize LIFF app
-          await liff.init({ liffId: '1656632478-Wl457ZM8' });
-        
-          // Try a LIFF function
-          switch (liff.getOS()) {
-            case 'android':
-              body.style.backgroundColor = '#d1f5d3';
-              break;
-            case 'ios':
-              body.style.backgroundColor = '#eeeeee';
-              break;
-          }
-        
-          getUserProfile();
-          if (!liff.isInClient()) {
-            if (liff.isLoggedIn()) {
-              btnLogIn.style.display = 'none';
-              getUserProfile();
-            } else {
-              btnLogIn.style.display = 'block';
-            }
-          }
-        }
-        main();
-        
-        async function getUserProfile() {
-          const profile = await liff.getProfile();
-          window.location.href = "screen/employee/index.php?w1=" + profile.userId + "&name=" + profile.displayName+ "&email="+liff.getDecodedIDToken().email
-
-
-        }
-        
-        btnLogIn.onclick = () => {
-          liff.login();
-        };
-        
-        btnLogOut.onclick = () => {
-          liff.logout();
-          window.location.reload();
-        };
-        
-    </script> -->
-
     <div class="ui menu">
         <div class="left menu">
             <div class="ui small image">
@@ -207,7 +149,7 @@ $('#button-clear') //clear all data in form .ui.button
   })
 ;
 
-$('#standard_calendar') //calendar input
+$('#standard_calendar') //date input
   .calendar({type: 'date', 
             today: 'true', 
             showWeekNumbers: 'false'})
