@@ -20,7 +20,7 @@ def employeePage():
     
     else:
         line_userid = request.args.get("userId")
-        session['my_var'] = 'my_value'
+        # session['my_var'] = 'my_valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
         
         if line_userid is None:
             return render_template('employee/employee.html', first_name=" ", last_name=" ")
@@ -42,8 +42,8 @@ def employeePage():
 @employee.route('/employee/edit')
 def chooseEdit():
     line_userid = request.args.get("userId")
-    my_var = session.get("my_var")
-    print(my_var)
+    # my_var = session.get("my_var")
+    # print(my_var)
         
     if line_userid is None:
         return render_template('employee/employeeEdit.html', first_name=" ", last_name=" ")

@@ -11,6 +11,11 @@ def create_app():
     app.config['MYSQL_PASSWORD'] = "Hellothailand123-"
     app.config['MYSQL_DB'] = "u662141035_OT"
     db.init_app(app)
+
+    # app.secret_key = 'super secret key'
+    # app.config['SESSION_TYPE'] = 'filesystem'
+    # sess.init_app(app)
+    
     migrate.init_app(app, db)
 
     app.register_blueprint(employee)
