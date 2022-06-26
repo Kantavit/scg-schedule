@@ -23,12 +23,12 @@ def employeePage():
         toString = str(line_userid)
         
         cur = db.connection.cursor()
-        query = "SELECT * FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
+        query = "SELECT employee_name employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
         justQuery = cur.execute(query)
         user_name = cur.fetchall()
         cur.close()
 
-        return render_template('employee/employee.html', user_name=user_name)
+        return render_template('employee/employee.html', first_name=user_name, last_name=user_name)
         
 
 @employee.route('/employee/edit', methods=['POST','GET'])
