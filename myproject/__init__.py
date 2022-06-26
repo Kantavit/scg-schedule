@@ -1,5 +1,5 @@
 from flask import Flask
-from .extensions import db, migrate
+from .extensions import db, migrate, sess
 from .routes.employee import employee
 from .routes.manager import manager
 
@@ -12,9 +12,9 @@ def create_app():
     app.config['MYSQL_DB'] = "u662141035_OT"
     db.init_app(app)
 
-    # app.secret_key = 'super secret key'
-    # app.config['SESSION_TYPE'] = 'filesystem'
-    # sess.init_app(app)
+    app.secret_key = 'scgschedulersuperdupersecretkey'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    sess.init_app(app)
     
     migrate.init_app(app, db)
 

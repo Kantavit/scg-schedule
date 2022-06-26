@@ -1,7 +1,7 @@
 from .__init__ import employee
 from ..extensions import db
 from flask import render_template, redirect, url_for, request, session
-
+from flask_session import Session
 
 
 @employee.route('/', methods=['POST','GET'])
@@ -19,13 +19,13 @@ def employeePage():
         return render_template('employee/employee.html',content=task_content, userid=userid)
     
     else:
-        line_userid = request.args.get("userId")
-        # session['my_var'] = 'my_valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+        line_id = request.args.get("userId")
         
-        if line_userid is None:
+        if line_id is None:
             return render_template('employee/employee.html', first_name=" ", last_name=" ")
         else:
-            toString = str(line_userid)
+            toString = str(line_id)
+            session['line_id'] = toString # send line_id to other page
             
             cur = db.connection.cursor()
             query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
@@ -36,30 +36,20 @@ def employeePage():
             last_name = cur.fetchall()
             cur.close()
 
+            session['first_name'] = first_name # send first_name to other page
+            session['last_name'] = last_name # send last_name to other page
+
             return render_template('employee/employee.html', first_name=first_name, last_name=last_name)
         
 
 @employee.route('/employee/edit')
 def chooseEdit():
-    line_userid = request.args.get("userId")
-    # my_var = session.get("my_var")
-    # print(my_var)
+    line_id = session.get("line_id") # in case for query
         
-    if line_userid is None:
+    if line_id is None:
         return render_template('employee/employeeEdit.html', first_name=" ", last_name=" ")
     else:
-        toString = str(line_userid)
-        
-        cur = db.connection.cursor()
-        query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
-        justQuery = cur.execute(query)
-        first_name = cur.fetchall()
-        query = "SELECT employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
-        justQuery = cur.execute(query)
-        last_name = cur.fetchall()
-        cur.close()
-
-        return render_template('employee/employeeEdit.html', first_name=first_name, last_name=last_name)
+        return render_template('employee/employeeEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 ####################################################################################################
 
