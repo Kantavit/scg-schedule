@@ -44,7 +44,7 @@ def chooseEdit():
     line_userid = request.args.get("userId")
         
     if line_userid is None:
-        return render_template('employee/employee.html', first_name=" ", last_name=" ")
+        return render_template('employee/employeeEdit.html', first_name=" ", last_name=" ")
     else:
         toString = str(line_userid)
         
