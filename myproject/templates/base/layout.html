@@ -71,7 +71,7 @@
       window.location.reload()
     }
     function logIn() {
-      liff.login({ redirectUri: window.location.href = "insertLineId.php?w1=" + profile.userId + "&user_id=" + id  })
+      liff.login({ redirectUri: window.location.href })
     }
     async function getUserProfile() {
       const profile = await liff.getProfile()
@@ -82,20 +82,21 @@
     
     async function main() {
       await liff.init({ liffId: "1657170281-gDAYb1LW" , withLogin0nExternalBrowser: true })
+        getUserProfile();
+          if (!liff.isInClient()) {
+            if (liff.isLoggedIn()) {
+                getUserProfile();
+            } else {
+              btnLogIn.style.display = 'block';
+              btnLogOut.style.display = 'none';
+            }
+          } else {
+            btnSend.style.display = 'block';
             getUserProfile();
-                  if (!liff.isInClient()) {
-                    if (liff.isLoggedIn()) {
-                        getUserProfile();
-                    } else {
-                      btnLogIn.style.display = 'block';
-                      btnLogOut.style.display = 'none';
-                    }
-                  } else {
-                    btnSend.style.display = 'block';
-                    getUserProfile();
-                  }
-                }
-                main();
+          }
+    }
+
+    main();
   </script>
 
     <div class="ui menu">
