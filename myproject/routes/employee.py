@@ -4,42 +4,38 @@ from flask import render_template, redirect, url_for, request, session
 
 
 
-@employee.route('/', methods=['POST','GET'])
+@employee.route('/')
 def index():
-    if request.method == 'POST':
-        return redirect(url_for('employee.employeePage')) # redirect to employeePage()
-    else:
-        return redirect(url_for('employee.employeePage'))
+    line_id = request.args.get("userId")
+    
+    # if line_id is None:
+    #     return render_template('employee/employee.html', first_name=" ", last_name=" ")
+
+    toString = str(line_id)
+    session['line_id'] = toString # send line_id to other page
+    
+    cur = db.connection.cursor()
+    query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
+    justQuery = cur.execute(query)
+    first_name = cur.fetchall()
+    query = "SELECT employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
+    justQuery = cur.execute(query)
+    last_name = cur.fetchall()
+    cur.close()
+
+    session['first_name'] = first_name # send first_name to other page
+    session['last_name'] = last_name # send last_name to other page
+
+    return render_template('employee/welcome.html')
 
 @employee.route('/employee', methods=['POST','GET'])
 def employeePage():
-    if request.method == 'POST':
-        task_content = request.form['content']
-        userid = request.form['userId']
-        return render_template('employee/employee.html',content=task_content, userid=userid)
-    
-    else:
-        line_id = request.args.get("userId")
+    line_id = session.get("line_id") # in case for query
         
-        if line_id is None:
-            return render_template('employee/employee.html', first_name=" ", last_name=" ")
-        else:
-            toString = str(line_id)
-            session['line_id'] = toString # send line_id to other page
-            
-            cur = db.connection.cursor()
-            query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
-            justQuery = cur.execute(query)
-            first_name = cur.fetchall()
-            query = "SELECT employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
-            justQuery = cur.execute(query)
-            last_name = cur.fetchall()
-            cur.close()
-
-            session['first_name'] = first_name # send first_name to other page
-            session['last_name'] = last_name # send last_name to other page
-
-            return render_template('employee/employee.html', first_name=first_name, last_name=last_name)
+    if line_id is None:
+        return render_template('employee/employee.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/employee.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
         
 
 @employee.route('/employee/edit')
