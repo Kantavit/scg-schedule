@@ -16,7 +16,7 @@
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
     <!-- line get data -->
-    <!-- <p id="userId"><b>userId:</b></p>
+    <p id="userId"><b>userId:</b></p>
     <a href="https://scgschedule.herokuapp.com/manager">ไปที่เมนูหัวหน้า</a>
 
     <button id="btnLogIn" class="ui button green" onclick="logIn()">
@@ -57,47 +57,7 @@
         }
       }
       main()
-    </script> -->
-
-
-    <p id="userId"><b>userId:</b></p>
-
-  <button id="btnLogIn" onclick="logIn()">Log In</button>
-  <button id="btnLogOut" onclick="logOut()">Log Out</button>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-  <script>
-    function logOut() {
-      liff.logout()
-      window.location.reload()
-    }
-    function logIn() {
-      liff.login({ redirectUri: window.location.href })
-    }
-    async function getUserProfile() {
-      const profile = await liff.getProfile()
-      document.getElementById("userId").append(profile.userId)
-     
-      
-    }
-    
-    async function main() {
-      await liff.init({ liffId: "1656632478-zGvenBjQ" , withLogin0nExternalBrowser: true })
-        getUserProfile();
-          if (!liff.isInClient()) {
-            if (liff.isLoggedIn()) {
-                getUserProfile();
-            } else {
-              btnLogIn.style.display = 'block';
-              btnLogOut.style.display = 'none';
-            }
-          } else {
-            btnSend.style.display = 'block';
-            getUserProfile();
-          }
-    }
-
-    main();
-  </script>
+    </script>
 
     <div class="ui menu">
         <div class="left menu">
