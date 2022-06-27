@@ -55,20 +55,44 @@ def chooseEdit():
 
 @employee.route('/employee/edit/shift')
 def chooseEditShift():
-    return render_template('employee/editShift.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/editShift.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/editShift.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/editShift.html')
 
 @employee.route('/employee/edit/shift/self', methods=['POST','GET'])
 def editYourself():
-    return render_template('employee/selfEdit.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/selfEdit.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/selfEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/selfEdit.html')
 
 @employee.route('/employee/edit/shift/cowork', methods=['POST','GET'])
 def editCowork():
-    return render_template('employee/coworkEdit.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/coworkEdit.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/coworkEdit.html')
     # ถ้าคนเป็น 2 ให้รับค่าแค่ 2 แถวแรก ถ้า 3 คนให้เอาทั้ง 3 แถว ถ้าเลือก 2 คนใส่มาคนเดียวให้ซ้ำหน้าเดิม
 
 @employee.route('/employee/edit/shift/addshift', methods=['POST','GET'])
 def editAddShift():
-    return render_template('employee/addshiftEdit.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/addshiftEdit.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/addshiftEdit.html')
 
 ####################################################################################################
 
@@ -165,12 +189,3 @@ def employeeShiftAndOffTransactionEnd():
 def employeeAddEmployeeTransactionEnd():
     return render_template('employee/addEmployeeTransactionEnd.html')
     # บันทึกลง table transaction
-
-
-# @employee.route('/user/<name>')
-# def create_user(name):
-#     user = User(name=name)
-#     db.session.add(user)
-#     db.session.commit()
-
-#     return 'User created !!'
