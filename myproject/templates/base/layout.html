@@ -61,40 +61,42 @@
 
 
     <p id="userId"><b>userId:</b></p>
-    <script>
-      function logOut() {
-        liff.logout()
-        window.location.reload()
-      }
-      function logIn() {
-        liff.login({ redirectUri: window.location.href })
-      }
-      async function getUserProfile() {
-        const profile = await liff.getProfile()
-        document.getElementById("userId").append(profile.userId)
-       
-        
-      }
+
+  <button id="btnLogIn" onclick="logIn()">Log In</button>
+  <button id="btnLogOut" onclick="logOut()">Log Out</button>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    function logOut() {
+      liff.logout()
+      window.location.reload()
+    }
+    function logIn() {
+      liff.login({ redirectUri: window.location.href = "insertLineId.php?w1=" + profile.userId + "&user_id=" + id  })
+    }
+    async function getUserProfile() {
+      const profile = await liff.getProfile()
+      document.getElementById("userId").append(profile.userId)
+     
       
-      async function main() {
-        await liff.init({ liffId: "1656632478-zGvenBjQ" , withLogin0nExternalBrowser: true })
-          
-  
-        getUserProfile();
-                    if (!liff.isInClient()) {
-                      if (liff.isLoggedIn()) {
+    }
+    
+    async function main() {
+      await liff.init({ liffId: "1657170281-gDAYb1LW" , withLogin0nExternalBrowser: true })
+            getUserProfile();
+                  if (!liff.isInClient()) {
+                    if (liff.isLoggedIn()) {
                         getUserProfile();
-                      } else {
-                        btnLogIn.style.display = 'block';
-                        btnLogOut.style.display = 'none';
-                      }
                     } else {
-                      btnSend.style.display = 'block';
-                      getUserProfile();
+                      btnLogIn.style.display = 'block';
+                      btnLogOut.style.display = 'none';
                     }
+                  } else {
+                    btnSend.style.display = 'block';
+                    getUserProfile();
                   }
-      main();
-    </script>
+                }
+                main();
+  </script>
 
     <div class="ui menu">
         <div class="left menu">
