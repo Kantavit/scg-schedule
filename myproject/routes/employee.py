@@ -98,94 +98,208 @@ def editAddShift():
 
 @employee.route('/employee/edit/shiftandoff', methods=['POST','GET'])
 def chooseEditShiftAndOff():
-    return render_template('employee/editShiftAndOff.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/editShiftAndOff.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/editShiftAndOff.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/editShiftAndOff.html')
 
 @employee.route('/employee/edit/shiftandoff/viewshift', methods=['POST','GET']) # แก้เป็นให้เข้าไปแก้ตาม <int:id> 
 def viewShift():
-    return render_template('employee/viewShift.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/viewShift.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/viewShift.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/viewShift.html')
 
 @employee.route('/employee/edit/shiftandoff/viewshiftonly', methods=['POST','GET']) 
 def viewShiftOnly():
-    return render_template('employee/viewShiftOnly.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/viewShiftOnly.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/viewShiftOnly.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/viewShiftOnly.html')
 
 ####################################################################################################
 
 @employee.route('/employee/edit/status')
 def chooseCheckStatus():
-    return render_template('employee/checkStatus.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/checkStatus.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/checkStatus.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/checkStatus.html')
 
 @employee.route('/employee/edit/status/pending')
 def pending():
-    return render_template('employee/pending.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/pending.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/pending.html')
 
 @employee.route('/employee/edit/status/approve')
 def approve():
-    return render_template('employee/approve.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/approve.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/approve.html')
 
 @employee.route('/employee/edit/status/reject')
 def reject():
-    return render_template('employee/reject.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/reject.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/reject.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/reject.html')
 
 ####################################################################################################
 
 @employee.route('/employee/edit/addemployee', methods=['POST','GET'])
 def addEmployee():
-    return render_template('employee/addEmployee.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/addEmployee.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/addEmployee.html')
 
 ####################################################################################################
 
 @employee.route('/employee/edit/shift/self/selflist', methods=['POST','GET'])
 def editYourselfList():
-    return render_template('employee/selfEditList.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/selfEditList.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/selfEditList.html')
 
 
 @employee.route('/employee/edit/shift/self/selflist/selflistsummary', methods=['POST','GET'])
 def employeeSelfTransaction():
-    return render_template('employee/selfEditListSummary.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/selfEditListSummary.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/selfEditListSummary.html')
 
 
 @employee.route('/employee/edit/shift/cowork/coworksummary', methods=['POST','GET'])
 def employeeCoworkTransaction():
-    return render_template('employee/coworkEditListSummary.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/coworkEditListSummary.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/coworkEditListSummary.html')
 
 
 @employee.route('/employee/edit/shift/addshift/addshiftsummary', methods=['POST','GET'])
 def employeeAddShiftTransaction():
-    return render_template('employee/addShiftEditListSummary.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/addShiftEditListSummary.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/addShiftEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/addShiftEditListSummary.html')
 
 
 @employee.route('/employee/edit/shiftandoff/shiftandoffsummary', methods=['POST','GET'])
 def employeeShiftAndOffTransaction():
-    return render_template('employee/shiftAndOffEditListSummary.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/shiftAndOffEditListSummary.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/shiftAndOffEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/shiftAndOffEditListSummary.html')
 
 
 @employee.route('/employee/edit/addemployee/addemployeesummary', methods=['POST','GET'])
 def employeeAddTransaction():
-    return render_template('employee/addEmployeeEditListSummary.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/addEmployeeEditListSummary.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/addEmployeeEditListSummary.html')
 
 ####################################################################################################
 
 @employee.route('/employee/edit/shift/self/selflist/selflistsummary/selftransactionend', methods=['POST','GET'])
 def employeeSelfTransactionEnd():
-    return render_template('employee/selfTransactionEnd.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/selfTransactionEnd.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/selfTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/selfTransactionEnd.html')
     # บันทึกลง table transaction
 
 @employee.route('/employee/edit/shift/cowork/coworksummary/coworktransactionend', methods=['POST','GET'])
 def employeeCoworkTransactionEnd():
-    return render_template('employee/coworkTransactionEnd.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/coworkTransactionEnd.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/coworkTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/coworkTransactionEnd.html')
     # บันทึกลง table transaction
 
 @employee.route('/employee/edit/shift/addshift/addshiftsummary/addshifttransactionend', methods=['POST','GET'])
 def employeeAddShiftTransactionEnd():
-    return render_template('employee/addShiftTransactionEnd.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/addShiftTransactionEnd.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/addShiftTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/addShiftTransactionEnd.html')
     # บันทึกลง table transaction
 
 @employee.route('/employee/edit/shiftandoff/shiftandoffsummary/shiftandofftransactionend', methods=['POST','GET'])
 def employeeShiftAndOffTransactionEnd():
-    return render_template('employee/shiftAndOffTransactionEnd.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/shiftAndOffTransactionEnd.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/shiftAndOffTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/shiftAndOffTransactionEnd.html')
     # บันทึกลง table transaction
 
 @employee.route('/employee/edit/addemployee/addemployeesummary/addemployeetransactionend', methods=['POST','GET'])
 def employeeAddEmployeeTransactionEnd():
-    return render_template('employee/addEmployeeTransactionEnd.html')
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None:
+        return render_template('employee/addEmployeeTransactionEnd.html', first_name=" ", last_name=" ")
+    else:
+        return render_template('employee/addEmployeeTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('employee/addEmployeeTransactionEnd.html')
     # บันทึกลง table transaction
