@@ -26,7 +26,7 @@
     <br>
     <a href="/manager">
         <div style="display: flex; justify-content: center; align-items: center;">
-            <button id="btnLogIn" class="ui button purple fluid">ไปที่เมนูหัวหน้า</button>
+            <button class="ui button purple fluid">ไปที่เมนูหัวหน้า</button>
         </div>
     </a> 
     <br>
@@ -34,17 +34,39 @@
     <br>
     <a href="/employee">
         <div style="display: flex; justify-content: center; align-items: center;">
-            <button id="btnLogIn" class="ui button blue fluid">เริ่มต้นใช้งาน</button>
+            <button class="ui button blue fluid">เริ่มต้นใช้งาน</button>
         </div>
     </a> 
     
+    <br>
+    <!-- <div style="display: flex; justify-content: center; align-items: center;"> 
+      <button id="line-login"  onclick="logIn()">
+        <img src="{{url_for('static', filename='images/btn_login_base.png')}}" onmouseout="mouseoutImage()" onmouseenter="mouseoverImage()" onmousedown="mousedownImage()">
+      </button>
+    </div> -->
+    
+
 </div>
+
+
+<!-- <script>
+  function mouseoutImage(){
+    document.getElementById('line-button').src="{{url_for('static', filename='images/btn_login_base.png')}}";
+  }
+  function mouseoverImage(){
+    document.getElementById('line-button').src="{{url_for('static', filename='images/btn_login_hover.png')}}";
+  }
+  function mousedownImage(){
+    document.getElementById('line-button').src="{{url_for('static', filename='images/btn_login_press.png')}}";
+  }
+</script> -->
 
 
 <!-- line notify -->
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
+
   function logOut() {
     liff.logout()
     window.location.reload()
