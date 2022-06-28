@@ -8,12 +8,12 @@ from flask import render_template, redirect, url_for, request, session
 def employeeLoginPage():
     line_id = request.args.get("userId")
 
-    toString = str(line_id)
-    session['line_id'] = toString # send line_id to other page
-
     if line_id is None:
         session['line_id'] = None
         return render_template('employee/welcome.html')
+    
+    toString = str(line_id)
+    session['line_id'] = toString # send line_id to other page
     
     cur = db.connection.cursor()
     query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
@@ -24,6 +24,10 @@ def employeeLoginPage():
     last_name = cur.fetchall()
     cur.close()
 
+    if bool(first_name) == False and bool(last_name) == False:
+        session['first_name'] = "userNotFound" # send first_name to other page
+        return render_template('employee/welcome.html')
+
     session['first_name'] = first_name # send first_name to other page
     session['last_name'] = last_name # send last_name to other page
 
@@ -32,8 +36,8 @@ def employeeLoginPage():
 @employee.route('/employee', methods=['POST','GET'])
 def employeePage():
     line_id = session.get("line_id") # in case for query
-        
-    if line_id is None:
+
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/employee.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -43,7 +47,7 @@ def employeePage():
 def chooseEdit():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/employeeEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -54,7 +58,7 @@ def chooseEdit():
 def chooseEditShift():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/editShift.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -64,7 +68,7 @@ def chooseEditShift():
 def editYourself():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/selfEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -74,7 +78,7 @@ def editYourself():
 def editCowork():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -85,7 +89,7 @@ def editCowork():
 def editAddShift():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -97,7 +101,7 @@ def editAddShift():
 def chooseEditShiftAndOff():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/editShiftAndOff.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -107,7 +111,7 @@ def chooseEditShiftAndOff():
 def viewShift():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/viewShift.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -117,7 +121,7 @@ def viewShift():
 def viewShiftOnly():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/viewShiftOnly.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -129,7 +133,7 @@ def viewShiftOnly():
 def chooseCheckStatus():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/checkStatus.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -139,7 +143,7 @@ def chooseCheckStatus():
 def pending():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -149,7 +153,7 @@ def pending():
 def approve():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -159,7 +163,7 @@ def approve():
 def reject():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/reject.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -171,7 +175,7 @@ def reject():
 def addEmployee():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -183,7 +187,7 @@ def addEmployee():
 def editYourselfList():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -194,7 +198,7 @@ def editYourselfList():
 def employeeSelfTransaction():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -205,7 +209,7 @@ def employeeSelfTransaction():
 def employeeCoworkTransaction():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -216,7 +220,7 @@ def employeeCoworkTransaction():
 def employeeAddShiftTransaction():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/addShiftEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -227,7 +231,7 @@ def employeeAddShiftTransaction():
 def employeeShiftAndOffTransaction():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/shiftAndOffEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -238,7 +242,7 @@ def employeeShiftAndOffTransaction():
 def employeeAddTransaction():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -250,7 +254,7 @@ def employeeAddTransaction():
 def employeeSelfTransactionEnd():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/selfTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -261,7 +265,7 @@ def employeeSelfTransactionEnd():
 def employeeCoworkTransactionEnd():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/coworkTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -272,7 +276,7 @@ def employeeCoworkTransactionEnd():
 def employeeAddShiftTransactionEnd():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/addShiftTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -283,7 +287,7 @@ def employeeAddShiftTransactionEnd():
 def employeeShiftAndOffTransactionEnd():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/shiftAndOffTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
@@ -294,7 +298,7 @@ def employeeShiftAndOffTransactionEnd():
 def employeeAddEmployeeTransactionEnd():
     line_id = session.get("line_id") # in case for query
         
-    if line_id is None:
+    if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         return render_template('employee/addEmployeeTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
