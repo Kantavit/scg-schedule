@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" src="{{url_for('static', filename='images/SCGLogo.png')}}">
 
     <!-- fomantic ui -->
     <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
@@ -21,7 +22,7 @@
             </div>
         </div>
         <div class="right menu" style="padding-top: 15px;">
-            <h2 class="name-title">คุณ {% block head %}{% endblock %}&nbsp;</h2>
+            <h2 class="name-title">{% block head %}{% endblock %}&nbsp;</h2>
         </div>
     </div>
 

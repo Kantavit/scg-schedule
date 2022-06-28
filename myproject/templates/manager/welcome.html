@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-ระบบจัดตารางกะ (พนักงาน)
+ระบบจัดตารางกะ (หัวหน้า)
 {% endblock %}
 
 
@@ -12,7 +12,7 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>ระบบจัดตารางกะ (พนักงาน)</h1>
+    <h1>ระบบจัดตารางกะ (หัวหน้า)</h1>
     
 
     <!-- line get data -->
@@ -24,15 +24,15 @@
     <br>
     <br>
     <br>
-    <a href="/manager">
+    <a href="/">
         <div style="display: flex; justify-content: center; align-items: center;">
-            <button class="ui button purple fluid">ไปที่เมนูหัวหน้า</button>
+            <button class="ui button pink fluid">ไปที่เมนูพนักงาน</button>
         </div>
     </a> 
     <br>
     <br>
     <br>
-    <a href="/employee">
+    <a href="/manager/home">
         <div style="display: flex; justify-content: center; align-items: center;">
             <button class="ui button blue fluid">เริ่มต้นใช้งาน</button>
         </div>
@@ -79,11 +79,11 @@
 
     document.getElementById("userId").append(profile.userId)
     // window.location.href = "screen/employee/?userId=" + profile.userId
-    window.location.href = "/" + "?userId=" + profile.userId // get userId
+    window.location.href = "/manager" + "?userId=" + profile.userId // get userId
   }
   
   async function main() {
-    await liff.init({ liffId: "1656632478-zGvenBjQ" , withLogin0nExternalBrowser: true })
+    await liff.init({ liffId: "1656632478-rppb3AlL" , withLogin0nExternalBrowser: true })
     if (liff.isInClient()) {
       getUserProfile()
     } else {

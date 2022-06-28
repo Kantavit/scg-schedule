@@ -6,7 +6,7 @@
 
 
 {% block head %}
-ชื่อจริง นามสกุล
+คุณ {{first_name.0.0}} {{last_name.0.0}}
 {% endblock %}
 
 
@@ -49,7 +49,7 @@
     <br>
     <br>
 
-    <div id="foot-button">
+    <div id="foot-button" style="width:100%;text-align:center;">
         <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
         <a href="/manager/status/pending/approvetransactionend">
           <button class="ui green button" type="button">อนุมัติทั้งหมด</button>
