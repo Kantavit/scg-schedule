@@ -11,6 +11,58 @@
 
 
 {% block body %}
+<div class="table-scrolling">
+    <div class="ui container">
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<script>
+    calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'th',
+        timeZone: 'local',
+        firstDay: 1,
+        headerToolbar: {
+            left: 'prevYear,nextYear prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+            
+        },
+        buttonIcons: false, // show the prev/next text
+        weekNumbers: true,
+        navLinks: true, // can click day/week names to navigate views
+        editable: false,
+        dayMaxEvents: true, // allow "more" link when too many events
+
+        events: [{
+    title:"วันหยุดประจำสัปดาห์",
+    daysOfWeek: [ 6, 0 ],
+    textColor: 'black',
+    borderColor: 'black',
+    backgroundColor:  'yellow',
+},
+{   
+    title:"ทำงาน",
+    daysOfWeek: [ 1,2,3,4,5 ],
+    textColor: 'black',
+    borderColor: 'black',
+    backgroundColor: 'white',
+    startTime: '7:30',
+    endTime: '16:30'
+},],
+
+        // {   
+        //     title:"วันหยุดนักขัตฯ/ชดเชย",
+        //     start: '2022-06-03',
+        //     borderColor: 'black',
+        //     backgroundColor: 'red',
+        // },],
+              
+});
+calendar.render();
+</script>
+
 <div class="ui container">
     <h1>สรุปข้อมูลเปลี่ยนกะตนเอง</h1>
     <form class="ui form segment" action="/employee/edit/shift/self/selflist/selflistsummary/selftransactionend" method="POST">
