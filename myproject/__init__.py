@@ -2,17 +2,18 @@ from flask import Flask
 from .extensions import db, migrate, sess
 from .routes.employee import employee
 from .routes.manager import manager
+from .config import MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, secret_key
 
 # Database from Hostinger 
 def create_app():
     app = Flask(__name__)
-    app.config['MYSQL_HOST'] = "sql596.main-hosting.eu"
-    app.config['MYSQL_USER'] = "u662141035_sts"
-    app.config['MYSQL_PASSWORD'] = "Hellothailand123-"
-    app.config['MYSQL_DB'] = "u662141035_OT"
+    app.config['MYSQL_HOST'] = MYSQL_HOST
+    app.config['MYSQL_USER'] = MYSQL_USER
+    app.config['MYSQL_PASSWORD'] = MYSQL_PASSWORD
+    app.config['MYSQL_DB'] = MYSQL_DB
     db.init_app(app)
 
-    app.secret_key = 'scgschedulersuperdupersecretkey'
+    app.secret_key = secret_key
     app.config['SESSION_TYPE'] = 'filesystem'
     sess.init_app(app)
     
