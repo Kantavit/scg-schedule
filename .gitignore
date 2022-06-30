@@ -11,3 +11,5 @@ package-lock.json
 *.egg-info/
 
 config.py
+/package.json
+/Procfile
