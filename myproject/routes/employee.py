@@ -1,7 +1,8 @@
+from sqlite3 import Timestamp
 from .__init__ import employee
 from ..extensions import db
 from flask import render_template, redirect, url_for, request, session
-
+import datetime;
 
 
 @employee.route('/')
@@ -17,11 +18,15 @@ def employeeLoginPage():
     
     cur = db.connection.cursor()
     query = "SELECT employee_name FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
-    justQuery = cur.execute(query)
-    first_name = cur.fetchall()
+    cur.execute(query)
+    first_name = cur.fetchall()  
     query = "SELECT employee_lastname FROM employee inner join employeeInfo on employee.employee_id = employeeInfo.employee_id WHERE line_id = " + "'" + toString + "'"
-    justQuery = cur.execute(query)
+    cur.execute(query)
     last_name = cur.fetchall()
+    query = "SELECT employee_id FROM employee WHERE line_id = " + "'" + toString + "'"
+    cur.execute(query)
+    employee_id = cur.fetchall()
+
     cur.close()
 
     if bool(first_name) == False and bool(last_name) == False:
@@ -30,6 +35,7 @@ def employeeLoginPage():
 
     session['first_name'] = first_name # send first_name to other page
     session['last_name'] = last_name # send last_name to other page
+    session['employee_id'] = employee_id[0][0] # send last_name to other page
 
     return render_template('employee/welcome.html')
 
@@ -186,13 +192,80 @@ def addEmployee():
 @employee.route('/employee/edit/shift/self/selflist', methods=['POST','GET'])
 def editYourselfList():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
-    else:
-        return render_template('employee/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/selfEditList.html')
+    
+    elif request.method == 'POST':
+        if request.form['choose'] == "add":
+            name = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            NewShift = request.form['NewShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+              
+            cur = db.connection.cursor()
+            query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
+            cur.execute(query)
+            employeeinfo_db = cur.fetchall()
+            approver_id = employeeinfo_db[0][4]
 
+            cur.execute("INSERT INTO transactionChangeShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editYourselfList'))
+
+        elif request.form['choose'] == "update":
+            NewShift = request.form['NewShift']
+            reason = request.form['reason']
+            transactionChangeShift_id = request.form['transactionChangeShift_id']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeShift SET NewShift=%s, reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(NewShift, reason, TimeStamp, transactionChangeShift_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editYourselfList'))
+
+        elif request.form['choose'] == "delete":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM users WHERE id=%s",[id_data])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editYourselfList'))
+
+
+    else:
+        cur = db.connection.cursor()
+        query = "SELECT * FROM transactionChangeShift WHERE employee_id = " + "'" + employee_id + "'"
+        transactionChangeShift_element = cur.execute(query)
+        transactionChangeShift = cur.fetchall()
+        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
+        cur.execute(query)
+        shifts = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift, shifts=shifts)
+    
+
+# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    # @app.route('/delete/<string:id_data>', methods=["GET", "POST"])
+    # def delete(id_data):
+    #     cur = mysql.connection.cursor()
+    #     cur.execute("DELETE FROM users WHERE id=%s",[id_data])
+    #     mysql.connection.commit()
+    #     cur.close()
+    #     return redirect(url_for('databaseTest'))
+
+# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 @employee.route('/employee/edit/shift/self/selflist/selflistsummary', methods=['POST','GET'])
 def employeeSelfTransaction():
