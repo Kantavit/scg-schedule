@@ -15,19 +15,12 @@
     <h1>เปลี่ยนกะ</h1>
     <h3>โปรดระบุกะใหม่ที่ต้องการเปลี่ยน</h3>
 
-    <!-- <input type="date" name="date" required="yes">
-    <br>
-    <br>
-    <div class="ui primary add-data button">
-        ตกลง
-    </div> -->
-
     {% if transactionChangeShift_element < 1 %}
     <h4 h1 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
 
     {% else %}
     <div class="table-scrolling">
-        <table class="ui celled table">
+        <table class="ui celled unstackable table">
             <thead>
                 <th>ชื่อ</th>
                 <th>วันที่ขอเปลี่ยน</th>
@@ -49,7 +42,7 @@
                         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
                     </td>
                     <td>
-                        <a href="/delete/{{transaction.0}}" class="ui button red">ลบ</a>
+                        <a class="ui red delete-data button {{transaction.0}}">ลบ</a>
                     </td>
                 </tr>
                 
@@ -128,7 +121,7 @@
             แก้ไขข้อมูล
         </div>
         <div class="content">
-            <form id="update-data{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
                 <div class="field">
                     <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="update">
@@ -167,7 +160,7 @@
             </form>
         </div>
         <div class="actions">
-            <button type="submit" form="update-data{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
             <div class="ui red cancel inverted button">
                 ยกเลิก
             </div>
@@ -176,12 +169,31 @@
     {% endfor %}
 
 
-    
 
+    <!-- ส่วนปุ่มลบข้อมูล -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui delete-data modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-    <br>
-    <br>
-    <br>
     <br>
     <br>
     <br>
@@ -203,6 +215,14 @@ $('.add-data.modal')
 <script>
 $('.{{transaction.0}}.edit-data.modal')
     .modal('attach events', '.{{transaction.0}}.edit-data.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.delete-data.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data button
 ;
 </script>
 {% endfor %}

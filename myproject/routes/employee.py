@@ -234,8 +234,10 @@ def editYourselfList():
             return redirect(url_for('employee.editYourselfList'))
 
         elif request.form['choose'] == "delete":
+            transactionChangeShift_id = request.form['transactionChangeShift_id']
+
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM users WHERE id=%s",[id_data])
+            cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",[transactionChangeShift_id])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
@@ -256,15 +258,6 @@ def editYourselfList():
     
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    # @app.route('/delete/<string:id_data>', methods=["GET", "POST"])
-    # def delete(id_data):
-    #     cur = mysql.connection.cursor()
-    #     cur.execute("DELETE FROM users WHERE id=%s",[id_data])
-    #     mysql.connection.commit()
-    #     cur.close()
-    #     return redirect(url_for('databaseTest'))
-
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 @employee.route('/employee/edit/shift/self/selflist/selflistsummary', methods=['POST','GET'])
