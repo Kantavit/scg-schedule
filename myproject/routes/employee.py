@@ -94,9 +94,21 @@ def editCowork():
 @employee.route('/employee/edit/shift/addshift', methods=['POST','GET'])
 def editAddShift():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+    
+    elif request.method == 'POST':
+        if request.form['choose'] == "add":
+            return redirect(url_for('employee.editAddShift'))
+
+        elif request.form['choose'] == "update":
+            return redirect(url_for('employee.editAddShift'))
+
+        elif request.form['choose'] == "delete":
+            return redirect(url_for('employee.editAddShift'))
+
     else:
         return render_template('employee/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
     # return render_template('employee/addshiftEdit.html')
