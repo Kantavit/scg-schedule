@@ -33,7 +33,7 @@
             <tbody>
                 {% for transaction in transactionChangeShift %}
                 <tr>
-                    <td>{{transaction.1}}</td>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
@@ -122,7 +122,7 @@
         </div>
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
-                <div class="field">
+                <!-- <div class="field">
                     <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
@@ -156,7 +156,47 @@
                 <div class="required field">
                     <label>โปรดระบุเหตุผล</label>
                     <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
+                </div> -->
+
+                <div class="field">
+                    <label>ชื่อ</label>
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
                 </div>
+                <div class="required field">
+                    <label>วันที่ขอเปลี่ยน</label>
+                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" />
+                </div>
+                <div class="field">
+                    <label>กะเดิม/อื่น ๆ</label>
+                    <div class="ui input">
+                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
+                    </div>
+                </div>
+
+                <!-- ////////////////////////////////////////////// -->
+
+                <div class="required field">
+                    <label>กะใหม่/อื่น ๆ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div> 
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="ลา">ลา</div>
+                            <div class="item" data-value="อบรม">อบรม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
+                </div>
+
             </form>
         </div>
         <div class="actions">
@@ -197,9 +237,8 @@
     <br>
     <br>
     <br>
-    <br>
     <div id="foot-button">
-        <button class="ui green button" type="submit">บันทึก</button>
+        <a href="/employee/edit/shift/self/selflist/selflistsummary" class="ui green button">บันทึก</a>
     </div>
 
 
@@ -227,7 +266,6 @@ $('.{{transaction.0}}.delete-data.modal')
 </script>
 {% endfor %}
 
-
 <script>
     const data = [] 
     data[0] = ['2022-07-30', '1']
@@ -236,10 +274,8 @@ $('.{{transaction.0}}.delete-data.modal')
     function myScript() {
         var datee = document.getElementById("date").value
         var check = true 
-        console.log(datee)
         for (var i = 0; i < data.length; i++) {
             if (data[i][0] == datee) {
-                // console.log("here")
                 document.getElementById("box").value = data[i][1] ;
                 check = false 
                 break
@@ -250,6 +286,29 @@ $('.{{transaction.0}}.delete-data.modal')
         }
     }
 </script>
+
+{% for transaction in transactionChangeShift %}
+<script>
+    const data{{transaction.0}} = [] 
+    data{{transaction.0}}[0] = ['2022-07-30', '1']
+    data{{transaction.0}}[1] = ['2022-07-20', '2']
+    data{{transaction.0}}[2] = ['2022-07-10', '3']
+    function myScript{{transaction.0}}() {
+        var datee = document.getElementById("date{{transaction.0}}").value
+        var check = true 
+        for (var i = 0; i < data{{transaction.0}}.length; i++) {
+            if (data{{transaction.0}}[i][0] == datee) {
+                document.getElementById("box{{transaction.0}}").value = data{{transaction.0}}[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("box{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+{% endfor %}
 
 
 {% endblock %}

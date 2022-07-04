@@ -63,53 +63,106 @@
 calendar.render();
 </script> -->
 
+
+
 <div class="ui container">
     <h1>สรุปข้อมูลเปลี่ยนกะตนเอง</h1>
-    <form class="ui form segment" action="/employee/edit/shift/self/selflist/selflistsummary/selftransactionend" method="POST">
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>ชื่อ</th>
-                        <th>วันที่ขอเปลี่ยน</th>
-                        <th>กะเดิม/อื่น ๆ</th>
-                        <th>กะใหม่/อื่น ๆ</th>
-                        <th>โปรดระบุเหตุผล</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>11-11-2011</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>555555555</td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <!-- COPY ข้อมูลจาก table temporary ชั่วคราวลงไปใน table transaction -->
-        <h4 h1 style="font-family: sans-serif; text-align: center;">ข้อมูลตารางใหม่ พ.ศ.:  เดือน:  สัปดาห์: </h4>
-        <br>
-        <div id="foot-button">
-            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
-            <button class="ui yellow button" formaction="/employee/edit/shift/self/selflist">แก้ไข</button>
-            <button class="ui button red" type="button">ยกเลิก</button>
-            <button class="ui green button" type="submit">ยืนยัน</button>
-        </div>
-    </form>
 
+    {% if transactionChangeShift_element < 1 %}
+    <h4 h1 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม/อื่น ๆ</th>
+                <th>กะใหม่/อื่น ๆ</th>
+                <th>โปรดระบุเหตุผล</th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionChangeShift %}
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <br>
+    <br>
+    <br>
+    <!-- COPY ข้อมูลจาก table temporary ชั่วคราวลงไปใน table transaction -->
+    <!-- <h4 h1 style="font-family: sans-serif; text-align: center;">ข้อมูลตารางใหม่ พ.ศ.:  เดือน:  สัปดาห์: </h4> -->
+    <br>
+    <div id="foot-button" style="width:100%;text-align:center;">
+        <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+        <a href="/employee/edit/shift/self/selflist" class="ui yellow button">แก้ไข</a>
+        <a class="ui red button cancel-data">ยกเลิก</a>
+        <a class="ui green button confirm-data">ยืนยัน</a>
+    </div>
+
+
+    <!-- ส่วนปุ่มยกเลิก -->
+    <div class="ui cancel-data modal">
+        <div class="header">
+            ยกเลิกรายการ
+        </div>
+        <div class="content">
+            <form id="cancel-form" class="ui form" action="{{ url_for('employee.employeeSelfTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยกเลิกรายการทั้งหมดหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="cancel">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="cancel-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มยืนยัน -->
+    <div class="ui confirm-data modal">
+        <div class="header">
+            ยืนยันรายการ
+        </div>
+        <div class="content">
+            <form id="confirm-form" class="ui form" action="{{ url_for('employee.employeeSelfTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยืนยันรายการทั้งหมดหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="confirm">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="confirm-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <script>
+$('.cancel-data.modal')
+    .modal('attach events', '.cancel-data.button', 'show') //ใช้ปุ่มโดยเรียก cancel-data button
+;
 
+$('.confirm-data.modal')
+    .modal('attach events', '.confirm-data.button', 'show') //ใช้ปุ่มโดยเรียก confirm-data button
+;
 </script>
 
 {% endblock %}

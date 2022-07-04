@@ -221,14 +221,16 @@ def editYourselfList():
             return redirect(url_for('employee.editYourselfList'))
 
         elif request.form['choose'] == "update":
+            transactionChangeShift_id = request.form['transactionChangeShift_id']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
             NewShift = request.form['NewShift']
             reason = request.form['reason']
-            transactionChangeShift_id = request.form['transactionChangeShift_id']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeShift SET NewShift=%s, reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(NewShift, reason, TimeStamp, transactionChangeShift_id))
+            cur.execute("UPDATE transactionChangeShift SET date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(date , OldShift , NewShift , reason, TimeStamp, transactionChangeShift_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
@@ -237,16 +239,14 @@ def editYourselfList():
             transactionChangeShift_id = request.form['transactionChangeShift_id']
 
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",[transactionChangeShift_id])
+            cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",(transactionChangeShift_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
 
-
     else:
         cur = db.connection.cursor()
-        query = "SELECT * FROM transactionChangeShift WHERE employee_id = " + "'" + employee_id + "'"
-        transactionChangeShift_element = cur.execute(query)
+        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionChangeShift = cur.fetchall()
         query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
         cur.execute(query)
@@ -255,20 +255,42 @@ def editYourselfList():
 
         return render_template('employee/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift, shifts=shifts)
-    
 
-# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 @employee.route('/employee/edit/shift/self/selflist/selflistsummary', methods=['POST','GET'])
 def employeeSelfTransaction():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionChangeShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeSelfTransaction'))
+
+        elif request.form['choose'] == "confirm":
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeShift SET status=%s  WHERE  employee_id=%s AND status=%s", ("waiting",employee_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeSelfTransactionEnd'))
+
     else:
-        return render_template('employee/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/selfEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeShift = cur.fetchall()
+        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
+        cur.execute(query)
+        shifts = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift, shifts=shifts)
 
 
 @employee.route('/employee/edit/shift/cowork/coworksummary', methods=['POST','GET'])
