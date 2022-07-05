@@ -101,17 +101,63 @@ def editAddShift():
     
     elif request.method == 'POST':
         if request.form['choose'] == "add":
+            name = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            addShift = request.form['addShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+              
+            cur = db.connection.cursor()
+            query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
+            cur.execute(query)
+            employeeinfo_db = cur.fetchall()
+            approver_id = employeeinfo_db[0][4]
+
+            cur.execute("INSERT INTO transactionaddShift (employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id))
+            db.connection.commit()
+            cur.close()
             return redirect(url_for('employee.editAddShift'))
 
         elif request.form['choose'] == "update":
+            transactionaddShift_id = request.form['transactionaddShift_id']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            addShift = request.form['addShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionaddShift SET date=%s , OldShift=%s , addShift=%s , reason=%s , TimeStamp=%s WHERE transactionaddShift_id=%s",(date , OldShift , addShift , reason, TimeStamp, transactionaddShift_id))
+            db.connection.commit()
+            cur.close()
             return redirect(url_for('employee.editAddShift'))
 
         elif request.form['choose'] == "delete":
+            transactionaddShift_id = request.form['transactionaddShift_id']
+
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionaddShift WHERE transactionaddShift_id=%s",[transactionaddShift_id])
+            db.connection.commit()
+            cur.close()
             return redirect(url_for('employee.editAddShift'))
 
     else:
-        return render_template('employee/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/addshiftEdit.html')
+        cur = db.connection.cursor()
+        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddShift = cur.fetchall()
+        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
+        cur.execute(query)
+        shifts = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift, shifts=shifts)
+
 
 ####################################################################################################
 
@@ -251,7 +297,7 @@ def editYourselfList():
             transactionChangeShift_id = request.form['transactionChangeShift_id']
 
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",(transactionChangeShift_id))
+            cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",[transactionChangeShift_id])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
@@ -280,7 +326,7 @@ def employeeSelfTransaction():
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionChangeShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+            cur.execute("DELETE FROM transactionChangeShift WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeSelfTransaction'))
