@@ -329,11 +329,14 @@ def employeeSelfTransaction():
             cur.execute("DELETE FROM transactionChangeShift WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
             db.connection.commit()
             cur.close()
-            return redirect(url_for('employee.employeeSelfTransaction'))
+            return redirect(url_for('employee.editYourselfList'))
 
         elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeShift SET status=%s  WHERE  employee_id=%s AND status=%s", ("waiting",employee_id, "unsuccessful"))
+            cur.execute("UPDATE transactionChangeShift SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeSelfTransactionEnd'))
@@ -365,12 +368,40 @@ def employeeCoworkTransaction():
 @employee.route('/employee/edit/shift/addshift/addshiftsummary', methods=['POST','GET'])
 def employeeAddShiftTransaction():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionaddShift WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editAddShift'))
+
+        elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionaddShift SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeAddShiftTransactionEnd'))
+
     else:
-        return render_template('employee/addShiftEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/addShiftEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddShift = cur.fetchall()
+        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
+        cur.execute(query)
+        shifts = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/addShiftEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift, shifts=shifts)
 
 
 @employee.route('/employee/edit/shiftandoff/shiftandoffsummary', methods=['POST','GET'])
