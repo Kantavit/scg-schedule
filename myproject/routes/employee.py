@@ -1,3 +1,4 @@
+from ast import increment_lineno
 from sqlite3 import Timestamp
 from .__init__ import employee
 from ..extensions import db
@@ -25,7 +26,9 @@ def employeeLoginPage():
     last_name = cur.fetchall()
     query = "SELECT employee_id FROM employee WHERE line_id = " + "'" + toString + "'"
     cur.execute(query)
-    employee_id = cur.fetchall()
+    employee_id = cur.fetchall() 
+    cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",(employee_id))
+    sub_team = cur.fetchall()
 
     cur.close()
 
@@ -36,6 +39,7 @@ def employeeLoginPage():
     session['first_name'] = first_name # send first_name to other page
     session['last_name'] = last_name # send last_name to other page
     session['employee_id'] = employee_id[0][0] # send last_name to other page
+    session['sub_team'] = sub_team[0][0]
 
     return render_template('employee/welcome.html')
 
@@ -84,6 +88,7 @@ def editYourself():
 def editCowork():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    sub_team = session.get("sub_team")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -128,13 +133,40 @@ def editCowork():
 
     else:
         cur = db.connection.cursor()
-        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
-        cur.execute(query)
-        shifts = cur.fetchall()
-        cur.close()
+        
+        # count employee
+        cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
+        employee_count = cur.fetchall()
+        count = employee_count[0][0]
 
-        return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
-                                shifts=shifts)
+        # get employee in same team
+        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
+        idSub_team = cur.fetchall()
+
+        otherEmployee = [0]*2
+        for i in range(count):
+            otherEmployee[i] = idSub_team[i][0]
+        
+        try:
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[employee_id])
+            shifts = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+            shifts2 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
+            shifts3 = cur.fetchall()
+            cur.close()
+
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                    idSub_team=idSub_team, shifts=shifts, shifts2=shifts2, shifts3=shifts3 )
+        except IndexError:
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[employee_id])
+            shifts = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+            shifts2 = cur.fetchall()
+            cur.close()
+
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                    idSub_team=idSub_team, shifts=shifts, shifts2=shifts2 )
 
 
 @employee.route('/employee/edit/shift/addshift', methods=['POST','GET'])

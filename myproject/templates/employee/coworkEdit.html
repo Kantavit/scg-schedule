@@ -16,7 +16,8 @@
 
     <form class="ui form segment" action="/employee/edit/shift/cowork/coworksummary" method="POST">
         <h3>1.โปรดเลือกจำนวนคนที่ต้องการสลับ</h3>
-        <div class="field">
+
+        <div class="required field">
             <div class="ui fluid selection dropdown">
                 <input name="employee" type="hidden" value="สองคน" onchange="selectCheck(this);">
                 <i class="dropdown icon"></i>
@@ -45,39 +46,25 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="44">บุคคล 1</div>
-                                                <div class="item" data-value="55">บุคคล 2</div>
-                                                <div class="item" data-value="66">บุคคล 3</div>
-                                            </div>
-                                        </div>
+                                    {{first_name.0.0}} {{last_name.0.0}}
+                                </td>
+                                <td>
+                                    <div class="required field">
+                                        <input type="date" id="date2-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate1()"/>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="ui calendar" id="standard_calendar">
-                                        <div class="ui input left icon">
-                                        <i class="calendar icon"></i>
-                                        <input type="text" name="date" placeholder="วันที่">
-                                        </div>
+                                    <div class="field">
+                                        <input type="text" id="box2-1" name="OldShift" readonly>
                                     </div>
                                 </td>
                                 <td>
-                                    1
-                                </td>
-                                <td>
-                                    <div class="field">
+                                    <div class="required field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
+                                            <input name="employee" type="hidden" required="">
                                             <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
+                                            <div class="default text">เลือกกะ</div>
                                             <div class="menu">
-                                                <div class="item" data-value="none">--</div>
                                                 <div class="item" data-value="01">1</div>
                                                 <div class="item" data-value="02">2</div>
                                                 <div class="item" data-value="03">3</div>
@@ -90,39 +77,36 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div class="field">
+                                    <div class="required field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
+                                            <input name="employee" type="hidden" required="">
                                             <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
+                                            <div class="default text">เลือกชื่อพนักงาน</div>
                                             <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="44">บุคคล 1</div>
-                                                <div class="item" data-value="55">บุคคล 2</div>
-                                                <div class="item" data-value="66">บุคคล 3</div>
+                                                {% for name in idSub_team %}
+                                                    <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="ui calendar" id="standard_calendar">
-                                        <div class="ui input left icon">
-                                        <i class="calendar icon"></i>
-                                        <input type="text" name="date" placeholder="วันที่">
-                                        </div>
+                                    <div class="field">
+                                        <input type="date" id="date2-2" name="date" placeholder="dd/mm/YYYY" readonly/>
                                     </div>
                                 </td>
                                 <td>
-                                    1
+                                    <div class="field">
+                                        <input type="text" id="box2-2" name="OldShift" readonly>
+                                    </div>
                                 </td>
                                 <td>
-                                    <div class="field">
+                                    <div class="required field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
+                                            <input name="employee" type="hidden" required="">
                                             <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
+                                            <div class="default text">เลือกกะ</div>
                                             <div class="menu">
-                                                <div class="item" data-value="none">--</div>
                                                 <div class="item" data-value="01">1</div>
                                                 <div class="item" data-value="02">2</div>
                                                 <div class="item" data-value="03">3</div>
@@ -148,141 +132,121 @@
                             <th>กะใหม่(ระบุ)</th>
                         </tr>
                     </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="44">บุคคล 1</div>
-                                                <div class="item" data-value="55">บุคคล 2</div>
-                                                <div class="item" data-value="66">บุคคล 3</div>
-                                            </div>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{first_name.0.0}} {{last_name.0.0}}
+                            </td>
+                            <td>
+                                <div class="required field">
+                                    <input type="date" id="date3-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate2()"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <input type="text" id="box3-1" name="OldShift" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="required field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" required="">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">เลือกกะ</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="01">1</div>
+                                            <div class="item" data-value="02">2</div>
+                                            <div class="item" data-value="03">3</div>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <div class="ui calendar" id="standard_calendar">
-                                        <div class="ui input left icon">
-                                        <i class="calendar icon"></i>
-                                        <input type="text" name="date" placeholder="วันที่">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="required field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" required="">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">เลือกชื่อพนักงาน</div>
+                                        <div class="menu">
+                                            {% for name in idSub_team %}
+                                                <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
+                                            {% endfor %}
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="01">1</div>
-                                                <div class="item" data-value="02">2</div>
-                                                <div class="item" data-value="03">3</div>
-                                            </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <input type="date" id="date3-2" name="date" placeholder="dd/mm/YYYY" readonly/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <input type="text" id="box3-2" name="OldShift" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="required field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" required="">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">เลือกกะ</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="01">1</div>
+                                            <div class="item" data-value="02">2</div>
+                                            <div class="item" data-value="03">3</div>
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="44">บุคคล 1</div>
-                                                <div class="item" data-value="55">บุคคล 2</div>
-                                                <div class="item" data-value="66">บุคคล 3</div>
-                                            </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="required field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" required="">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">เลือกชื่อพนักงาน</div>
+                                        <div class="menu">
+                                            {% for name in idSub_team %}
+                                                <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
+                                            {% endfor %}
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <div class="ui calendar" id="standard_calendar">
-                                        <div class="ui input left icon">
-                                        <i class="calendar icon"></i>
-                                        <input type="text" name="date" placeholder="วันที่">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <input type="date" id="date3-3" name="date" placeholder="dd/mm/YYYY" readonly/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <input type="text" id="box3-3" name="OldShift" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="required field">
+                                    <div class="ui fluid selection dropdown">
+                                        <input name="employee" type="hidden" required="">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">เลือกกะ</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="01">1</div>
+                                            <div class="item" data-value="02">2</div>
+                                            <div class="item" data-value="03">3</div>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="01">1</div>
-                                                <div class="item" data-value="02">2</div>
-                                                <div class="item" data-value="03">3</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="44">บุคคล 1</div>
-                                                <div class="item" data-value="55">บุคคล 2</div>
-                                                <div class="item" data-value="66">บุคคล 3</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="ui calendar" id="standard_calendar">
-                                        <div class="ui input left icon">
-                                        <i class="calendar icon"></i>
-                                        <input type="text" name="date" placeholder="วันที่">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <div class="field">
-                                        <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" value="none">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">--</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="none">--</div>
-                                                <div class="item" data-value="01">1</div>
-                                                <div class="item" data-value="02">2</div>
-                                                <div class="item" data-value="03">3</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -297,8 +261,8 @@
         <br>
 
         <h3>3.โปรดระบุเหตุผลที่ต้องการเปลี่ยน</h3>
-        <div class="field">
-            <input type="text" name="reason" placeholder="ระบุเหตุผล">
+        <div class="required field">
+            <input type="text" name="reason" placeholder="ระบุเหตุผล" required="">
         </div>
         <br>
         <div id="foot-button">
@@ -310,21 +274,100 @@
 
 <script>
     function selectCheck(that){
-             if (that.value == "สองคน") {
-                      document.getElementById("two").style.display = "block";
-                      document.getElementById("three").style.display = "none";
-             }
-             else if (that.value == "สามคน"){
-                    document.getElementById("three").style.display = "block";
-                    document.getElementById("two").style.display = "none";
-
-             }
-           else {
-                    document.getElementById("two").style.display = "none";
-                    document.getElementById("three").style.display = "none";
-           }
+        if (that.value == "สองคน") {
+                document.getElementById("two").style.display = "block";
+                document.getElementById("three").style.display = "none";
         }
+        else if (that.value == "สามคน"){
+            document.getElementById("three").style.display = "block";
+            document.getElementById("two").style.display = "none";
+
+        }
+        else {
+            document.getElementById("two").style.display = "none";
+            document.getElementById("three").style.display = "none";
+        }
+    }
 </script>
 
+<script>
+    // วันที่ 2 คน
+    const data2_1 = [] 
+    data2_1[0] = ['2022-07-30', '1']
+    data2_1[1] = ['2022-07-20', '2']
+    data2_1[2] = ['2022-07-10', '3']
+    const data2_2 = []
+    data2_2[0] = ['2022-07-30', '2']
+    data2_2[1] = ['2022-07-20', '3']
+    data2_2[2] = ['2022-07-10', '1']
+
+    function myScriptDate1() {
+        var datee = document.getElementById("date2-1").value
+        document.getElementById("date2-2").value = datee ;
+        queryDate1()
+    }
+
+    function queryDate1() {
+        var datee1 = document.getElementById("date2-1").value
+        var datee2 = document.getElementById("date2-2").value
+        var check = true 
+        for (var i = 0; i < data2_1.length; i++) {
+            if (data2_1[i][0] == datee1 && data2_2[i][0] == datee2) {
+                document.getElementById("box2-1").value = data2_1[i][1] ;
+                document.getElementById("box2-2").value = data2_2[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("box2-1").value = "ไม่พบข้อมูล" ;
+            document.getElementById("box2-2").value = "ไม่พบข้อมูล" ;
+        }
+    }
+
+
+    // วันที่ 3 คน
+    const data3_1 = [] 
+    data3_1[0] = ['2022-07-30', '1']
+    data3_1[1] = ['2022-07-20', '2']
+    data3_1[2] = ['2022-07-10', '3']
+    const data3_2 = []
+    data3_2[0] = ['2022-07-30', '2']
+    data3_2[1] = ['2022-07-20', '3']
+    data3_2[2] = ['2022-07-10', '1']
+    const data3_3 = []
+    data3_3[0] = ['2022-07-30', '3']
+    data3_3[1] = ['2022-07-20', '1']
+    data3_3[2] = ['2022-07-10', '2']
+
+    function myScriptDate2() {
+        var datee = document.getElementById("date3-1").value
+        document.getElementById("date3-2").value = datee ;
+        document.getElementById("date3-3").value = datee ;
+        queryDate2()
+    }
+
+    function queryDate2() {
+        var datee1 = document.getElementById("date3-1").value
+        var datee2 = document.getElementById("date3-2").value
+        var datee3 = document.getElementById("date3-3").value
+        var check = true 
+        for (var i = 0; i < data3_1.length; i++) {
+            if (data3_1[i][0] == datee1 && data3_2[i][0] == datee2 && data3_3[i][0] == datee3) {
+                document.getElementById("box3-1").value = data3_1[i][1] ;
+                document.getElementById("box3-2").value = data3_2[i][1] ;
+                document.getElementById("box3-3").value = data3_3[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("box3-1").value = "ไม่พบข้อมูล" ;
+            document.getElementById("box3-2").value = "ไม่พบข้อมูล" ;
+            document.getElementById("box3-3").value = "ไม่พบข้อมูล" ;
+        }
+    }
+
+</script>
 
 {% endblock %}
