@@ -83,13 +83,59 @@ def editYourself():
 @employee.route('/employee/edit/shift/cowork', methods=['POST','GET'])
 def editCowork():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+    
+    elif request.method == 'POST':
+        if request.form['choose'] == "สองคน":
+            name = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            NewShift = request.form['NewShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+              
+            cur = db.connection.cursor()
+            query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
+            cur.execute(query)
+            employeeinfo_db = cur.fetchall()
+            approver_id = employeeinfo_db[0][4]
+
+            cur.execute("INSERT INTO transactionChangeShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeCoworkTransaction'))
+
+        elif request.form['choose'] == "สามคน":
+            transactionChangeShift_id = request.form['transactionChangeShift_id']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            NewShift = request.form['NewShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeShift SET date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(date , OldShift , NewShift , reason, TimeStamp, transactionChangeShift_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeCoworkTransaction'))
+
     else:
-        return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/coworkEdit.html')
-    # ถ้าคนเป็น 2 ให้รับค่าแค่ 2 แถวแรก ถ้า 3 คนให้เอาทั้ง 3 แถว ถ้าเลือก 2 คนใส่มาคนเดียวให้ซ้ำหน้าเดิม
+        cur = db.connection.cursor()
+        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
+        cur.execute(query)
+        shifts = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                shifts=shifts)
+
 
 @employee.route('/employee/edit/shift/addshift', methods=['POST','GET'])
 def editAddShift():
