@@ -11,66 +11,193 @@
 
 
 {% block body %}
+<!-- <div class="table-scrolling">
+    <div class="ui container">
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<script>
+    calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'th',
+        timeZone: 'local',
+        firstDay: 1,
+        headerToolbar: {
+            left: 'prevYear,nextYear prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+            
+        },
+        buttonIcons: false, // show the prev/next text
+        weekNumbers: true,
+        navLinks: true, // can click day/week names to navigate views
+        editable: false,
+        dayMaxEvents: true, // allow "more" link when too many events
+
+        events: [{
+    title:"วันหยุดประจำสัปดาห์",
+    daysOfWeek: [ 6, 0 ],
+    textColor: 'black',
+    borderColor: 'black',
+    backgroundColor:  'yellow',
+},
+{   
+    title:"ทำงาน",
+    daysOfWeek: [ 1,2,3,4,5 ],
+    textColor: 'black',
+    borderColor: 'black',
+    backgroundColor: 'white',
+    startTime: '7:30',
+    endTime: '16:30'
+},],
+
+        // {   
+        //     title:"วันหยุดนักขัตฯ/ชดเชย",
+        //     start: '2022-06-03',
+        //     borderColor: 'black',
+        //     backgroundColor: 'red',
+        // },],
+              
+});
+calendar.render();
+</script> -->
+
+
+
 <div class="ui container">
     <h1>สรุปข้อมูลสลับกะกับเพื่อน</h1>
-    <form class="ui form segment" action="/employee/edit/shift/cowork/coworksummary/coworktransactionend" method="POST">
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>ชื่อ</th>
-                        <th>วันที่ขอเปลี่ยน</th>
-                        <th>กะเดิม</th>
-                        <th>กะใหม่(ระบุ)</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>A</td>
-                            <td>Mar 1, 2022</td>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <td>B</td>
-                            <td>Mar 1, 2022</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <td>C</td>
-                            <td>Mar 1, 2022</td>
-                            <td>3</td>
-                            <td>1</td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
 
-        <h3>เหตุผลที่ต้องการเปลี่ยน: เหตุผล</h3>
-        <br>
-        <div id="foot-button">
-            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
-            <button class="ui yellow button" formaction="/employee/edit/shift/cowork">แก้ไข</button>
-            <button class="ui button red" type="button">ยกเลิก</button>
-            <button class="ui green button" type="submit">ยืนยัน</button>
+    {% if transactionCoworkShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม</th>
+                <th>กะใหม่</th>
+                <th> </th>
+            </thead>
+            {% for transaction in transactionCoworkShift %}
+            <tbody>
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td><a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>{{transaction.11}} {{transaction.12}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                    <td><a class="ui red delete-data button {{transaction.0}}">ลบ</a></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>{{transaction.16}} {{transaction.17}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.18}}</td>
+                    <td>{{transaction.19}}</td>
+                    <td> </td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>เหตุผลที่ต้องการเปลี่ยน: {{transaction.6}}</td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+    <h4 h1 style="font-family: sans-serif; text-align: center; color: red;">กรุณาตรวจสอบรายการของท่านและลบรายการที่ท่านไม่ต้องการก่อนกดยืนยัน</h4>
+    <!-- <h4 h1 style="font-family: sans-serif; text-align: center;">ข้อมูลตารางใหม่ พ.ศ.:  เดือน:  สัปดาห์: </h4> -->
+    <br>
+    <div id="foot-button" style="width:100%;text-align:center;">
+        <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+        <a href="/employee/edit/shift/self/selflist" class="ui yellow button">แก้ไข</a>
+        <a class="ui red button cancel-data">ยกเลิก</a>
+        <a class="ui green button confirm-data">ยืนยัน</a>
+    </div>
+
+
+    <!-- ส่วนปุ่มยกเลิก -->
+    <div class="ui cancel-data modal">
+        <div class="header">
+            ยกเลิกรายการ
         </div>
-    </form>
+        <div class="content">
+            <form id="cancel-form" class="ui form" action="{{ url_for('employee.employeeSelfTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยกเลิกรายการทั้งหมดหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="cancel">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="cancel-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มยืนยัน -->
+    <div class="ui confirm-data modal">
+        <div class="header">
+            ยืนยันรายการ
+        </div>
+        <div class="content">
+            <form id="confirm-form" class="ui form" action="{{ url_for('employee.employeeSelfTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยืนยันรายการทั้งหมดหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="confirm">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="confirm-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <script>
+$('.cancel-data.modal')
+    .modal('attach events', '.cancel-data.button', 'show') //ใช้ปุ่มโดยเรียก cancel-data button
+;
 
+$('.confirm-data.modal')
+    .modal('attach events', '.confirm-data.button', 'show') //ใช้ปุ่มโดยเรียก confirm-data button
+;
 </script>
 
 {% endblock %}
