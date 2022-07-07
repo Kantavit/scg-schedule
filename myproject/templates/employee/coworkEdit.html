@@ -50,7 +50,7 @@
                                 </td>
                                 <td>
                                     <div class="required field">
-                                        <input type="date" id="date2-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate1()"/>
+                                        <input type="date" id="date2-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate2P()"/>
                                     </div>
                                 </td>
                                 <td>
@@ -139,7 +139,7 @@
                             </td>
                             <td>
                                 <div class="required field">
-                                    <input type="date" id="date3-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate2()"/>
+                                    <input type="date" id="date3-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate3P()"/>
                                 </div>
                             </td>
                             <td>
@@ -300,8 +300,12 @@
     data2_2[0] = ['2022-07-30', '2']
     data2_2[1] = ['2022-07-20', '3']
     data2_2[2] = ['2022-07-10', '1']
+    const data2_3 = []
+    data2_3[0] = ['2022-07-30', '3']
+    data2_3[1] = ['2022-07-20', '1']
+    data2_3[2] = ['2022-07-10', '2']
 
-    function myScriptDate1() {
+    function myScriptDate2P() {
         var datee = document.getElementById("date2-1").value
         document.getElementById("date2-2").value = datee ;
         queryDate1()
@@ -309,19 +313,19 @@
 
     function queryDate1() {
         var datee1 = document.getElementById("date2-1").value
-        var datee2 = document.getElementById("date2-2").value
+        // var datee2 = document.getElementById("date2-2").value
         var check = true 
         for (var i = 0; i < data2_1.length; i++) {
-            if (data2_1[i][0] == datee1 && data2_2[i][0] == datee2) {
+            if (data2_1[i][0] == datee1) { // && data2_2[i][0] == datee2
                 document.getElementById("box2-1").value = data2_1[i][1] ;
-                document.getElementById("box2-2").value = data2_2[i][1] ;
+                // document.getElementById("box2-2").value = data2_2[i][1] ;
                 check = false 
                 break
             }
         }
         if (check) {
             document.getElementById("box2-1").value = "ไม่พบข้อมูล" ;
-            document.getElementById("box2-2").value = "ไม่พบข้อมูล" ;
+            // document.getElementById("box2-2").value = "ไม่พบข้อมูล" ;
         }
     }
 
@@ -340,7 +344,7 @@
     data3_3[1] = ['2022-07-20', '1']
     data3_3[2] = ['2022-07-10', '2']
 
-    function myScriptDate2() {
+    function myScriptDate3P() {
         var datee = document.getElementById("date3-1").value
         document.getElementById("date3-2").value = datee ;
         document.getElementById("date3-3").value = datee ;
@@ -349,22 +353,22 @@
 
     function queryDate2() {
         var datee1 = document.getElementById("date3-1").value
-        var datee2 = document.getElementById("date3-2").value
-        var datee3 = document.getElementById("date3-3").value
+        // var datee2 = document.getElementById("date3-2").value
+        // var datee3 = document.getElementById("date3-3").value
         var check = true 
         for (var i = 0; i < data3_1.length; i++) {
-            if (data3_1[i][0] == datee1 && data3_2[i][0] == datee2 && data3_3[i][0] == datee3) {
+            if (data3_1[i][0] == datee1) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
                 document.getElementById("box3-1").value = data3_1[i][1] ;
-                document.getElementById("box3-2").value = data3_2[i][1] ;
-                document.getElementById("box3-3").value = data3_3[i][1] ;
+                // document.getElementById("box3-2").value = data3_2[i][1] ;
+                // document.getElementById("box3-3").value = data3_3[i][1] ;
                 check = false 
                 break
             }
         }
         if (check) {
             document.getElementById("box3-1").value = "ไม่พบข้อมูล" ;
-            document.getElementById("box3-2").value = "ไม่พบข้อมูล" ;
-            document.getElementById("box3-3").value = "ไม่พบข้อมูล" ;
+            // document.getElementById("box3-2").value = "ไม่พบข้อมูล" ;
+            // document.getElementById("box3-3").value = "ไม่พบข้อมูล" ;
         }
     }
 
