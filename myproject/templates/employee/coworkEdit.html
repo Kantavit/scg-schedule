@@ -92,7 +92,7 @@
                                 </td>
                                 <td>
                                     <div class="field">
-                                        <input type="date" id="date2-2" name="date2-2" placeholder="dd/mm/YYYY" readonly/>
+                                        <input type="date" id="date2-2" name="date2-2" placeholder="dd/mm/YYYY" readonly onchange="queryShift2P()"/>
                                     </div>
                                 </td>
                                 <td>
@@ -140,7 +140,7 @@
                             <td>
                                 <div class="required field">
                                     
-                                    <input type="date" id="date3-1" name="date3-1" placeholder="dd/mm/YYYY" onchange="myScriptDate3P()"/>
+                                    <input type="date" id="date3-1" name="date3-1" placeholder="dd/mm/YYYY" onchange="myScriptDate3P()"  />
                                 </div>
                             </td>
                             <td>
@@ -183,7 +183,7 @@
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="date" id="date3-2" name="date3-2" placeholder="dd/mm/YYYY" readonly/>
+                                    <input type="date" id="date3-2" name="date3-2" placeholder="dd/mm/YYYY" readonly onchange="queryShift3P2()" />
                                 </div>
                             </td>
                             <td>
@@ -225,7 +225,7 @@
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="date" id="date3-3" name="date3-3" placeholder="dd/mm/YYYY" readonly/>
+                                    <input type="date" id="date3-3" name="date3-3" placeholder="dd/mm/YYYY" readonly  onchange="queryShift3P3()"/>
                                 </div>
                             </td>
                             <td>
@@ -297,28 +297,28 @@
 
 
 <script>
-    const data2_1 = [] 
-    data2_1[0] = ['2022-07-10', '0150-123457','1']
-    data2_1[1] = ['2022-07-10', '0150-123458','2']
-    data2_1[2] = ['2022-07-10', '0150-123459','3']
+    const date = [] 
+    date[0] = ['2022-07-10', '0150-123457','1']
+    date[1] = ['2022-07-10', '0150-123458','2']
+    date[2] = ['2022-07-10', '0150-123459','3']
 
    
     // เปลี่ยนกะสองคน
     function myScriptDate2P() {
         var datee = document.getElementById("date2-1").value
         document.getElementById("date2-2").value = datee ;
-
+        queryShift2P()
         var check = true 
     
-        for (var i = 0; i < data2_1.length; i++) {
-            if (data2_1[i][0] == datee  ) {       
-                document.getElementById("box2-1").value = data2_1[i][2] ;
+        for (var i = 0; i < date.length; i++) {
+            if (date[i][0] == datee  ) {       
+                document.getElementById("box2-1").value = date[i][2] ;
                 check = false 
                 break
             }           
         }
         if (check) {
-            document.getElementById("box2-1").value = "No data found" ;
+            document.getElementById("box2-1").value = "ไม่พบข้อมูล" ;
         }
     }
   
@@ -327,31 +327,28 @@
         var name = document.getElementById("name2-2").value
         var check = true 
     
-        for (var i = 0; i < data2_1.length ; i++) {
+        for (var i = 0; i < date.length ; i++) {
 
-            if (data2_1[i][0] == datee2 && data2_1[i][1] == name ) {       
-                document.getElementById("box2-2").value = data2_1[i][2] ;
+            if (date[i][0] == datee2 && date[i][1] == name ) {       
+                document.getElementById("box2-2").value = date[i][2] ;
                 check = false 
                 break
             }           
         }
         if (check) {
-            document.getElementById("box2-2").value = "No data found" ;
+            document.getElementById("box2-2").value = "ไม่พบข้อมูล" ;
         }
     }
     
-
-
-
-
-
-
+    
     //เปลี่ยนกะสามคน
     function myScriptDate3P() {
         var datee3 = document.getElementById("date3-1").value
         document.getElementById("date3-2").value = datee3 ;
         document.getElementById("date3-3").value = datee3 ;
         queryShift3P()
+        queryShift3P2()
+        queryShift3P3()
     }
 
 
@@ -359,27 +356,27 @@
         var datee3_1 = document.getElementById("date3-1").value
         var check = true 
     
-        for (var i = 0; i < data2_1.length ; i++) {
+        for (var i = 0; i < date.length ; i++) {
 
-            if (data2_1[i][0] == datee3_1 ) {       
-                document.getElementById("box3-1").value = data2_1[i][2] ;
+            if (date[i][0] == datee3_1 ) {       
+                document.getElementById("box3-1").value = date[i][2] ;
                 check = false 
                 break
             }           
         }
         if (check) {
-            document.getElementById("box3-1").value = "No data found" ;
+            document.getElementById("box3-1").value = "ไม่พบข้อมูล" ;
         }
     }
 
     function queryShift3P2() {
-        var datee3_2 = document.getElementById("date3-1").value
+        var datee3_2 = document.getElementById("date3-2").value
         var name3_2 = document.getElementById("name3-2").value
         
         var check = true 
-        for (var i = 0; i < data2_1.length; i++) {
-            if (data2_1[i][0] == datee3_2 && data2_1[i][1] == name3_2 ) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
-                document.getElementById("box3-2").value = data2_1[i][2] ;
+        for (var i = 0; i < date.length; i++) {
+            if (date[i][0] == datee3_2 && date[i][1] == name3_2 ) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
+                document.getElementById("box3-2").value = date[i][2] ;
                 
                 check = false 
                 break
@@ -392,13 +389,13 @@
     }
 
     function queryShift3P3() {
-        var datee3_3 = document.getElementById("date3-1").value
+        var datee3_3 = document.getElementById("date3-3").value
         var name3_3 = document.getElementById("name3-3").value
         
         var check = true 
-        for (var i = 0; i < data2_1.length; i++) {
-            if (data2_1[i][0] == datee3_3 && data2_1[i][1] == name3_3 ) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
-                document.getElementById("box3-3").value = data2_1[i][2] ;
+        for (var i = 0; i < date.length; i++) {
+            if (date[i][0] == datee3_3 && date[i][1] == name3_3 ) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
+                document.getElementById("box3-3").value = date[i][2] ;
                 
                 check = false 
                 break
