@@ -50,18 +50,18 @@
                                 </td>
                                 <td>
                                     <div class="required field">
-                                        <input type="date" id="date2-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate2P()"/>
+                                        <input type="date" id="date2-1" name="date2-1" placeholder="dd/mm/YYYY" onchange="myScriptDate2P()"/>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="field">
-                                        <input type="text" id="box2-1" name="OldShift" readonly>
+                                        <input type="text" id="box2-1" name="OldShift2-1" readonly>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="required field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" required="">
+                                            <input name="NewShift2-1" type="hidden" required="">
                                             <i class="dropdown icon"></i>
                                             <div class="default text">เลือกกะ</div>
                                             <div class="menu">
@@ -79,12 +79,12 @@
                                 <td>
                                     <div class="required field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" required="">
+                                            <input name="name2-2" id="name2-2" type="hidden" required="" onchange="queryShift2P()">
                                             <i class="dropdown icon"></i>
                                             <div class="default text">เลือกชื่อพนักงาน</div>
-                                            <div class="menu">
+                                            <div class="menu"   >
                                                 {% for name in idSub_team %}
-                                                    <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
+                                                    <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}} </div>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -92,18 +92,18 @@
                                 </td>
                                 <td>
                                     <div class="field">
-                                        <input type="date" id="date2-2" name="date" placeholder="dd/mm/YYYY" readonly/>
+                                        <input type="date" id="date2-2" name="date2-2" placeholder="dd/mm/YYYY" readonly/>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="field">
-                                        <input type="text" id="box2-2" name="OldShift" readonly>
+                                        <input type="text" id="box2-2" name="OldShift2-2" readonly>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="required field">
                                         <div class="ui fluid selection dropdown">
-                                            <input name="employee" type="hidden" required="">
+                                            <input name="NewShift2-2" type="hidden" required="">
                                             <i class="dropdown icon"></i>
                                             <div class="default text">เลือกกะ</div>
                                             <div class="menu">
@@ -139,18 +139,19 @@
                             </td>
                             <td>
                                 <div class="required field">
-                                    <input type="date" id="date3-1" name="date" placeholder="dd/mm/YYYY" onchange="myScriptDate3P()"/>
+                                    
+                                    <input type="date" id="date3-1" name="date3-1" placeholder="dd/mm/YYYY" onchange="myScriptDate3P()"/>
                                 </div>
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="text" id="box3-1" name="OldShift" readonly>
+                                    <input type="text" id="box3-1" name="OldShift3-1" readonly>
                                 </div>
                             </td>
                             <td>
                                 <div class="required field">
                                     <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" required="">
+                                        <input name="NewShift3-1" type="hidden" required="">
                                         <i class="dropdown icon"></i>
                                         <div class="default text">เลือกกะ</div>
                                         <div class="menu">
@@ -168,7 +169,8 @@
                             <td>
                                 <div class="required field">
                                     <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" required="">
+                                    
+                                        <input name="name3-2" id="name3-2" type="hidden" required="" onchange="queryShift3P2()" >
                                         <i class="dropdown icon"></i>
                                         <div class="default text">เลือกชื่อพนักงาน</div>
                                         <div class="menu">
@@ -181,18 +183,18 @@
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="date" id="date3-2" name="date" placeholder="dd/mm/YYYY" readonly/>
+                                    <input type="date" id="date3-2" name="date3-2" placeholder="dd/mm/YYYY" readonly/>
                                 </div>
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="text" id="box3-2" name="OldShift" readonly>
+                                    <input type="text" id="box3-2" name="OldShift3-2" readonly>
                                 </div>
                             </td>
                             <td>
                                 <div class="required field">
                                     <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" required="">
+                                        <input name="NewShift3-2" type="hidden" required="">
                                         <i class="dropdown icon"></i>
                                         <div class="default text">เลือกกะ</div>
                                         <div class="menu">
@@ -210,7 +212,7 @@
                             <td>
                                 <div class="required field">
                                     <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" required="">
+                                        <input name="name3-3" id="name3-3" type="hidden" required="" onchange="queryShift3P3()">
                                         <i class="dropdown icon"></i>
                                         <div class="default text">เลือกชื่อพนักงาน</div>
                                         <div class="menu">
@@ -223,18 +225,18 @@
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="date" id="date3-3" name="date" placeholder="dd/mm/YYYY" readonly/>
+                                    <input type="date" id="date3-3" name="date3-3" placeholder="dd/mm/YYYY" readonly/>
                                 </div>
                             </td>
                             <td>
                                 <div class="field">
-                                    <input type="text" id="box3-3" name="OldShift" readonly>
+                                    <input type="text" id="box3-3" name="OldShift3-3" readonly>
                                 </div>
                             </td>
                             <td>
                                 <div class="required field">
                                     <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" required="">
+                                        <input name="NewShift3-3" type="hidden" required="">
                                         <i class="dropdown icon"></i>
                                         <div class="default text">เลือกกะ</div>
                                         <div class="menu">
@@ -272,6 +274,7 @@
     </form>
 </div>
 
+
 <script>
     function selectCheck(that){
         if (that.value == "สองคน") {
@@ -290,85 +293,120 @@
     }
 </script>
 
-<script>
-    // วันที่ 2 คน
-    const data2_1 = [] 
-    data2_1[0] = ['2022-07-30', '1']
-    data2_1[1] = ['2022-07-20', '2']
-    data2_1[2] = ['2022-07-10', '3']
-    const data2_2 = []
-    data2_2[0] = ['2022-07-30', '2']
-    data2_2[1] = ['2022-07-20', '3']
-    data2_2[2] = ['2022-07-10', '1']
-    const data2_3 = []
-    data2_3[0] = ['2022-07-30', '3']
-    data2_3[1] = ['2022-07-20', '1']
-    data2_3[2] = ['2022-07-10', '2']
 
+
+
+<script>
+    const data2_1 = [] 
+    data2_1[0] = ['2022-07-10', '0150-123457','1']
+    data2_1[1] = ['2022-07-10', '0150-123458','2']
+    data2_1[2] = ['2022-07-10', '0150-123459','3']
+
+   
+    // เปลี่ยนกะสองคน
     function myScriptDate2P() {
         var datee = document.getElementById("date2-1").value
         document.getElementById("date2-2").value = datee ;
-        queryDate1()
+
+        var check = true 
+    
+        for (var i = 0; i < data2_1.length; i++) {
+            if (data2_1[i][0] == datee  ) {       
+                document.getElementById("box2-1").value = data2_1[i][2] ;
+                check = false 
+                break
+            }           
+        }
+        if (check) {
+            document.getElementById("box2-1").value = "No data found" ;
+        }
+    }
+  
+    function queryShift2P() {
+        var datee2 = document.getElementById("date2-1").value
+        var name = document.getElementById("name2-2").value
+        var check = true 
+    
+        for (var i = 0; i < data2_1.length ; i++) {
+
+            if (data2_1[i][0] == datee2 && data2_1[i][1] == name ) {       
+                document.getElementById("box2-2").value = data2_1[i][2] ;
+                check = false 
+                break
+            }           
+        }
+        if (check) {
+            document.getElementById("box2-2").value = "No data found" ;
+        }
+    }
+    
+
+
+
+
+
+
+    //เปลี่ยนกะสามคน
+    function myScriptDate3P() {
+        var datee3 = document.getElementById("date3-1").value
+        document.getElementById("date3-2").value = datee3 ;
+        document.getElementById("date3-3").value = datee3 ;
+        queryShift3P()
     }
 
-    function queryDate1() {
-        var datee1 = document.getElementById("date2-1").value
-        // var datee2 = document.getElementById("date2-2").value
+
+    function queryShift3P() {
+        var datee3_1 = document.getElementById("date3-1").value
+        var check = true 
+    
+        for (var i = 0; i < data2_1.length ; i++) {
+
+            if (data2_1[i][0] == datee3_1 ) {       
+                document.getElementById("box3-1").value = data2_1[i][2] ;
+                check = false 
+                break
+            }           
+        }
+        if (check) {
+            document.getElementById("box3-1").value = "No data found" ;
+        }
+    }
+
+    function queryShift3P2() {
+        var datee3_2 = document.getElementById("date3-1").value
+        var name3_2 = document.getElementById("name3-2").value
+        
         var check = true 
         for (var i = 0; i < data2_1.length; i++) {
-            if (data2_1[i][0] == datee1) { // && data2_2[i][0] == datee2
-                document.getElementById("box2-1").value = data2_1[i][1] ;
-                // document.getElementById("box2-2").value = data2_2[i][1] ;
+            if (data2_1[i][0] == datee3_2 && data2_1[i][1] == name3_2 ) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
+                document.getElementById("box3-2").value = data2_1[i][2] ;
+                
                 check = false 
                 break
             }
         }
         if (check) {
-            document.getElementById("box2-1").value = "ไม่พบข้อมูล" ;
-            // document.getElementById("box2-2").value = "ไม่พบข้อมูล" ;
+            document.getElementById("box3-2").value = "ไม่พบข้อมูล" ;
+            
         }
     }
 
-
-    // วันที่ 3 คน
-    const data3_1 = [] 
-    data3_1[0] = ['2022-07-30', '1']
-    data3_1[1] = ['2022-07-20', '2']
-    data3_1[2] = ['2022-07-10', '3']
-    const data3_2 = []
-    data3_2[0] = ['2022-07-30', '2']
-    data3_2[1] = ['2022-07-20', '3']
-    data3_2[2] = ['2022-07-10', '1']
-    const data3_3 = []
-    data3_3[0] = ['2022-07-30', '3']
-    data3_3[1] = ['2022-07-20', '1']
-    data3_3[2] = ['2022-07-10', '2']
-
-    function myScriptDate3P() {
-        var datee = document.getElementById("date3-1").value
-        document.getElementById("date3-2").value = datee ;
-        document.getElementById("date3-3").value = datee ;
-        queryDate2()
-    }
-
-    function queryDate2() {
-        var datee1 = document.getElementById("date3-1").value
-        // var datee2 = document.getElementById("date3-2").value
-        // var datee3 = document.getElementById("date3-3").value
+    function queryShift3P3() {
+        var datee3_3 = document.getElementById("date3-1").value
+        var name3_3 = document.getElementById("name3-3").value
+        
         var check = true 
-        for (var i = 0; i < data3_1.length; i++) {
-            if (data3_1[i][0] == datee1) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
-                document.getElementById("box3-1").value = data3_1[i][1] ;
-                // document.getElementById("box3-2").value = data3_2[i][1] ;
-                // document.getElementById("box3-3").value = data3_3[i][1] ;
+        for (var i = 0; i < data2_1.length; i++) {
+            if (data2_1[i][0] == datee3_3 && data2_1[i][1] == name3_3 ) { // && data3_2[i][0] == datee2 && data3_3[i][0] == datee3
+                document.getElementById("box3-3").value = data2_1[i][2] ;
+                
                 check = false 
                 break
             }
         }
         if (check) {
-            document.getElementById("box3-1").value = "ไม่พบข้อมูล" ;
-            // document.getElementById("box3-2").value = "ไม่พบข้อมูล" ;
-            // document.getElementById("box3-3").value = "ไม่พบข้อมูล" ;
+            document.getElementById("box3-3").value = "ไม่พบข้อมูล" ;
+            
         }
     }
 
