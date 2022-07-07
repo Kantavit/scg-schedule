@@ -95,10 +95,12 @@ def editCowork():
     
     elif request.method == 'POST':
         if request.form['choose'] == "สองคน":
-            name = request.form['name']
-            date = request.form['date']
-            OldShift = request.form['OldShift']
-            NewShift = request.form['NewShift']
+            date = request.form['date2-1']
+            OldShift = request.form['OldShift2-1']
+            NewShift = request.form['NewShift2-1']
+            employee_id2 = request.form['name2-2']
+            OldShift2 = request.form['OldShift2-2']
+            NewShift2 = request.form['NewShift2-2']
             reason = request.form['reason']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -111,22 +113,34 @@ def editCowork():
             employeeinfo_db = cur.fetchall()
             approver_id = employeeinfo_db[0][4]
 
-            cur.execute("INSERT INTO transactionChangeShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id))
+            cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, OldShift2, NewShift2 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, OldShift2, NewShift2))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeCoworkTransaction'))
 
         elif request.form['choose'] == "สามคน":
-            transactionChangeShift_id = request.form['transactionChangeShift_id']
-            date = request.form['date']
-            OldShift = request.form['OldShift']
-            NewShift = request.form['NewShift']
+            date = request.form['date3-1']
+            OldShift = request.form['OldShift3-1']
+            NewShift = request.form['NewShift3-1']
+            employee_id2 = request.form['name3-2']
+            OldShift2 = request.form['OldShift3-2']
+            NewShift2 = request.form['NewShift3-2']
+            employee_id3 = request.form['name3-3']
+            OldShift3 = request.form['OldShift3-3']
+            NewShift3 = request.form['NewShift3-3']
             reason = request.form['reason']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
-
+            
+            status = "unsuccessful"
+              
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeShift SET date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(date , OldShift , NewShift , reason, TimeStamp, transactionChangeShift_id))
+            query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
+            cur.execute(query)
+            employeeinfo_db = cur.fetchall()
+            approver_id = employeeinfo_db[0][4]
+
+            cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, OldShift2, NewShift2, employee_id3, OldShift3, NewShift3 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, OldShift2, NewShift2, employee_id3, OldShift3, NewShift3))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeCoworkTransaction'))
