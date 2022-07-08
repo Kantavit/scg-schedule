@@ -123,8 +123,6 @@ def editCowork():
             reason = request.form['reason']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
-            
-            status = "unsuccessful"
               
             cur = db.connection.cursor()
             query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
@@ -132,10 +130,31 @@ def editCowork():
             employeeinfo_db = cur.fetchall()
             approver_id = employeeinfo_db[0][4]
 
-            cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2))
-            db.connection.commit()
+            session['date2-1'] = date
+
+            session['name2-1'] = employee_id
+            session['employee_name1'] = session.get("first_name")
+            session['employee_lastname1'] = session.get("last_name")
+            session['OldShift2-1'] = OldShift
+            session['NewShift2-1'] = NewShift
+
+            session['name2-2'] = employee_id2
+            session['employee_name2'] = employee_name2
+            session['employee_lastname2'] = employee_lastname2
+            session['OldShift2-2'] = OldShift2
+            session['NewShift2-2'] = NewShift2
+
+            session['reason2p'] = reason
+            session['TimeStamp2p'] = TimeStamp
+            session['approver_id2p'] = approver_id
+            session['status2p'] = "waiting"
+            session['choose'] = "สองคน"
+
             cur.close()
             return redirect(url_for('employee.employeeCoworkTransaction'))
+            # , date=date,employee_name1=session.get("first_name"),
+            #         employee_lastname1=session.get("last_name"),OldShift=OldShift,NewShift=NewShift,employee_name2=employee_name2,
+            #         employee_lastname2=employee_lastname2,OldShift2=OldShift2,NewShift2=NewShift2,reason=reason
 
         elif request.form['choose'] == "สามคน":
             cur = db.connection.cursor()
@@ -178,8 +197,6 @@ def editCowork():
             reason = request.form['reason']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
-            
-            status = "unsuccessful"
               
             cur = db.connection.cursor()
             query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
@@ -187,10 +204,38 @@ def editCowork():
             employeeinfo_db = cur.fetchall()
             approver_id = employeeinfo_db[0][4]
 
-            cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2, employee_id3, employee_name3, employee_lastname3, OldShift3, NewShift3 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2, employee_id3, employee_name3, employee_lastname3, OldShift3, NewShift3))
-            db.connection.commit()
+            session['date3-1'] = date
+
+            session['name3-1'] = employee_id
+            session['employee_name1'] = session.get("first_name")
+            session['employee_lastname1'] = session.get("last_name")
+            session['OldShift3-1'] = OldShift
+            session['NewShift3-1'] = NewShift
+
+            session['name3-2'] = employee_id2
+            session['employee_name2'] = employee_name2
+            session['employee_lastname2'] = employee_lastname2
+            session['OldShift3-2'] = OldShift2
+            session['NewShift3-2'] = NewShift2
+
+            session['name3-3'] = employee_id3
+            session['employee_name3'] = employee_name3
+            session['employee_lastname3'] = employee_lastname3
+            session['OldShift3-3'] = OldShift3
+            session['NewShift3-3'] = NewShift3
+
+            session['reason3p'] = reason
+            session['TimeStamp3p'] = TimeStamp
+            session['approver_id3p'] = approver_id
+            session['status3p'] = "waiting"
+            session['choose'] = "สามคน"
+
             cur.close()
             return redirect(url_for('employee.employeeCoworkTransaction'))
+            # , date=date,employee_name1=session.get("first_name"),
+            #         employee_lastname1=session.get("last_name"),OldShift=OldShift,NewShift=NewShift,employee_name2=employee_name2,
+            #         employee_lastname2=employee_lastname2,OldShift2=OldShift2,NewShift2=NewShift2,employee_name3=employee_name3,
+            #         employee_lastname3=employee_lastname3,OldShift3=OldShift3,NewShift3=NewShift3,reason=reason
 
     else:
         cur = db.connection.cursor()
@@ -497,22 +542,71 @@ def employeeSelfTransaction():
 def employeeCoworkTransaction():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
-        
+
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
 
-    elif request.method == 'POST':
-        if request.form['choose'] == "cancel":
-            cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionCoworkShift WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
-            db.connection.commit()
-            cur.close()
-            return redirect(url_for('employee.editAddShift'))
+    elif session.get("choose") == "สองคน":
+        date1 = session.get("date2-1")
 
-        elif request.form['choose'] == "confirm":
+        name1 = employee_id
+        employee_name1 = session.get("first_name")
+        employee_lastname1 = session.get("last_name")
+        OldShift1 = session.get("OldShift2-1")
+        NewShift1 = session.get("NewShift2-1")
+
+        name2 = session.get("name2-2")
+        employee_name2 = session.get("employee_name2")
+        employee_lastname2 = session.get("employee_lastname2")
+        OldShift2 = session.get("OldShift2-2")
+        NewShift2 = session.get("NewShift2-2")
+
+        reason = session.get("reason2p")
+        TimeStamp2p = session.get("TimeStamp2p")
+        approver_id2p = session.get("approver_id2p")
+        status2p = "waiting"
+
+        return render_template('employee/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                    date1=date1,employee_name1=employee_name1,employee_lastname1=employee_lastname1,OldShift1=OldShift1,NewShift1=NewShift1,
+                    employee_name2=employee_name2,employee_lastname2=employee_lastname2,OldShift2=OldShift2,NewShift2=NewShift2,reason=reason)
+
+    elif session.get("choose") == "สามคน":
+        date1 = session.get("date3-1")
+
+        name1 = employee_id
+        employee_name1 = session.get("first_name")
+        employee_lastname1 = session.get("last_name")
+        OldShift1 = session.get("OldShift3-1")
+        NewShift1 = session.get("NewShift3-1")
+
+        name2 = session.get("name3-2")
+        employee_name2 = session.get("employee_name2")
+        employee_lastname2 = session.get("employee_lastname2")
+        OldShift2 = session.get("OldShift3-2")
+        NewShift2 = session.get("NewShift3-2")
+
+        name3 = session.get("name3-3")
+        employee_name3 = session.get("employee_name3")
+        employee_lastname3 = session.get("employee_lastname3")
+        OldShift3 = session.get("OldShift3-3")
+        NewShift3 = session.get("NewShift3-3")
+
+        reason = session.get("reason3p")
+        TimeStamp3p = session.get("TimeStamp3p")
+        approver_id3p = session.get("approver_id3p")
+        status3p = "waiting"
+
+        return render_template('employee/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                    date1=date1,employee_name1=employee_name1,employee_lastname1=employee_lastname1,OldShift1=OldShift1,NewShift1=NewShift1,
+                    employee_name2=employee_name2,employee_lastname2=employee_lastname2,OldShift2=OldShift2,NewShift2=NewShift2,employee_name3=employee_name3,
+                    employee_lastname3=employee_lastname3,OldShift3=OldShift3,NewShift3=NewShift3,reason=reason)
+
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "confirm":
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
-
+            
             cur = db.connection.cursor()
             cur.execute("UPDATE transactionCoworkShift SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
             db.connection.commit()
@@ -520,16 +614,7 @@ def employeeCoworkTransaction():
             return redirect(url_for('employee.employeeAddShiftTransactionEnd'))
 
     else:
-        cur = db.connection.cursor()
-        transactionCoworkShift_element = cur.execute(" SELECT * FROM transactionCoworkShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
-        transactionCoworkShift = cur.fetchall()
-        query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
-        cur.execute(query)
-        shifts = cur.fetchall()
-        cur.close()
-
-        return render_template('employee/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
-                        transactionCoworkShift_element=transactionCoworkShift_element, transactionCoworkShift=transactionCoworkShift, shifts=shifts)
+        return render_template('employee/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 
 @employee.route('/employee/edit/shift/addshift/addshiftsummary', methods=['POST','GET'])

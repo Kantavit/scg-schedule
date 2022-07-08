@@ -68,10 +68,8 @@ calendar.render();
 <div class="ui container">
     <h1>สรุปข้อมูลสลับกะกับเพื่อน</h1>
 
-    {% if transactionCoworkShift_element < 1 %}
     <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
 
-    {% else %}
     <div class="table-scrolling">
         <table class="ui celled unstackable table">
             <thead>
@@ -79,58 +77,38 @@ calendar.render();
                 <th>วันที่ขอเปลี่ยน</th>
                 <th>กะเดิม</th>
                 <th>กะใหม่</th>
-                <th> </th>
             </thead>
-            {% for transaction in transactionCoworkShift %}
             <tbody>
                 <tr>
-                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
-                    <td>{{transaction.2}}</td>
-                    <td>{{transaction.3}}</td>
-                    <td>{{transaction.4}}</td>
-                    <td><a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a></td>
+                    <td>{{employee_name1.0.0}} {{employee_lastname1.0.0}}</td>
+                    <td>{{date1}}</td>
+                    <td>{{OldShift1}}</td>
+                    <td>{{NewShift1}}</td>
                 </tr>
             </tbody>
             <tbody>
                 <tr>
-                    <td>{{transaction.11}} {{transaction.12}}</td>
-                    <td>{{transaction.2}}</td>
-                    <td>{{transaction.13}}</td>
-                    <td>{{transaction.14}}</td>
-                    <td><a class="ui red delete-data button {{transaction.0}}">ลบ</a></td>
+                    <td>{{employee_name2}} {{employee_lastname2}}</td>
+                    <td>{{date1}}</td>
+                    <td>{{OldShift2}}</td>
+                    <td>{{NewShift2}}</td>
                 </tr>
             </tbody>
+            {% if employee_name3 != None %}
             <tbody>
                 <tr>
-                    <td>{{transaction.16}} {{transaction.17}}</td>
-                    <td>{{transaction.2}}</td>
-                    <td>{{transaction.18}}</td>
-                    <td>{{transaction.19}}</td>
-                    <td> </td>
+                    <td>{{employee_name3}} {{employee_lastname3}}</td>
+                    <td>{{date1}}</td>
+                    <td>{{OldShift3}}</td>
+                    <td>{{NewShift3}}</td>
                 </tr>
             </tbody>
-            <tbody>
-                <tr>
-                    <td>เหตุผลที่ต้องการเปลี่ยน: {{transaction.6}}</td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                </tr>
-            </tbody>
-            <tbody>
-                <tr>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                </tr>
-            </tbody>
-            {% endfor %}
+            {% endif %}
         </table>
+
+        <h4>เหตุผลที่ต้องการเปลี่ยน: {{reason}}</h4>
+
     </div>
-    {% endif %}
     <br>
     <br>
     <br>
@@ -144,60 +122,10 @@ calendar.render();
         <a class="ui green button confirm-data">ยืนยัน</a>
     </div>
 
-
-    <!-- ส่วนปุ่มยกเลิก -->
-    <div class="ui cancel-data modal">
-        <div class="header">
-            ยกเลิกรายการ
-        </div>
-        <div class="content">
-            <form id="cancel-form" class="ui form" action="{{ url_for('employee.employeeSelfTransaction') }}" method="POST">
-                <div class="field">
-                    <label>ท่านต้องการยกเลิกรายการทั้งหมดหรือไม่ ?</label>
-                    <input type="hidden" name="choose" value="cancel">
-                </div>
-            </form>
-        </div>
-        <div class="actions">
-            <button type="submit" form="cancel-form" class="ui green ok inverted button">ยืนยัน</button>
-            <div class="ui red cancel inverted button">
-                ยกเลิก
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ส่วนปุ่มยืนยัน -->
-    <div class="ui confirm-data modal">
-        <div class="header">
-            ยืนยันรายการ
-        </div>
-        <div class="content">
-            <form id="confirm-form" class="ui form" action="{{ url_for('employee.employeeSelfTransaction') }}" method="POST">
-                <div class="field">
-                    <label>ท่านต้องการยืนยันรายการทั้งหมดหรือไม่ ?</label>
-                    <input type="hidden" name="choose" value="confirm">
-                </div>
-            </form>
-        </div>
-        <div class="actions">
-            <button type="submit" form="confirm-form" class="ui green ok inverted button">ยืนยัน</button>
-            <div class="ui red cancel inverted button">
-                ยกเลิก
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script>
-$('.cancel-data.modal')
-    .modal('attach events', '.cancel-data.button', 'show') //ใช้ปุ่มโดยเรียก cancel-data button
-;
 
-$('.confirm-data.modal')
-    .modal('attach events', '.confirm-data.button', 'show') //ใช้ปุ่มโดยเรียก confirm-data button
-;
 </script>
 
 {% endblock %}
