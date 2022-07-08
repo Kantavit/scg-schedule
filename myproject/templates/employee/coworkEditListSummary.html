@@ -104,6 +104,25 @@ calendar.render();
                 </tr>
             </tbody>
             {% endif %}
+            <!-- {% if employee_name3 != None %}
+            <tbody>
+                <tr>
+                    <td>{{employee_name3}} {{employee_lastname3}}</td>
+                    <td>{{date1}}</td>
+                    <td>{{OldShift3}}</td>
+                    <td>{{NewShift3}}</td>
+                </tr>
+            </tbody>
+            {% else %}
+            <tbody>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+            {% endif %} -->
         </table>
 
         <h4>เหตุผลที่ต้องการเปลี่ยน: {{reason}}</h4>
@@ -117,15 +136,63 @@ calendar.render();
     <br>
     <div id="foot-button" style="width:100%;text-align:center;">
         <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
-        <a href="/employee/edit/shift/self/selflist" class="ui yellow button">แก้ไข</a>
         <a class="ui red button cancel-data">ยกเลิก</a>
         <a class="ui green button confirm-data">ยืนยัน</a>
+    </div>
+
+    <!-- ส่วนปุ่มยกเลิก -->
+    <div class="ui cancel-data modal">
+        <div class="header">
+            ยกเลิกรายการ
+        </div>
+        <div class="content">
+            <form id="cancel-form" class="ui form" action="{{ url_for('employee.employeeCoworkTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยกเลิกรายการหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="cancel">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="cancel-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มยืนยัน -->
+    <div class="ui confirm-data modal">
+        <div class="header">
+            ยืนยันรายการ
+        </div>
+        <div class="content">
+            <form id="confirm-form" class="ui form" action="{{ url_for('employee.employeeCoworkTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยืนยันรายการหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="confirm">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="confirm-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
     </div>
 
 </div>
 
 <script>
+$('.cancel-data.modal')
+    .modal('attach events', '.cancel-data.button', 'show') //ใช้ปุ่มโดยเรียก cancel-data button
+;
 
+$('.confirm-data.modal')
+    .modal('attach events', '.confirm-data.button', 'show') //ใช้ปุ่มโดยเรียก confirm-data button
+;
 </script>
 
 {% endblock %}
