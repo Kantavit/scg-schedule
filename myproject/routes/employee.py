@@ -399,30 +399,32 @@ def chooseEditShiftAndOff():
         employee_count = cur.fetchall()
         count = employee_count[0][0]
 
-        # get employee in same team
-        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s ",[sub_team])
+        # get employee in same team (no logged in user)
+        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
         idSub_team = cur.fetchall()
+
+        # get all employee in same team 
+        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s",[sub_team])
+        idSub_teamAll = cur.fetchall()
         
         transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionChangeWork = cur.fetchall()
-        
-        # cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
-        # idSub_team_data = cur.fetchall()
 
         otherEmployee = [0]*count
         for i in range(count):
             otherEmployee[i] = idSub_team[i][0]
 
-        cur.execute("SELECT Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
+        cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
         workData1 = cur.fetchall()
-        cur.execute("SELECT Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+        cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
         workData2 = cur.fetchall()
-        cur.execute("SELECT Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+        cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
         workData3 = cur.fetchall()
         cur.close()
 
+
         return render_template('employee/editShiftAndOff.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
-                                idSub_team=idSub_team, workData1=workData1, workData2=workData2, workData3=workData3,
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3,
                                 transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork )
 
 

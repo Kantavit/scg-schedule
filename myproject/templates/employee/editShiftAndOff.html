@@ -77,11 +77,11 @@
                 <div class="required field">
                     <label>ชื่อ</label>
                     <div class="ui fluid selection dropdown">
-                        <input name="name" id="name" type="hidden" onchange="queryShift3P2()" required="">
+                        <input name="name" id="name" type="hidden" onchange="queryWorkData()" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
-                            {% for name in idSub_team %}
+                            {% for name in idSub_teamAll %}
                                 <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
                             {% endfor %}
                         </div>
@@ -89,13 +89,13 @@
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
-                    <input type="date" id="datepicker" name="date" required=""/>
+                    <input type="text" id="datepicker" name="date" required=""/>
                 </div>
                 <div class="two fields">
                     <div class="field">
                         <label>รูปแบบการทำงานเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="box" name="Oldwork_type" readonly>
+                            <input type="text" id="Oldwork_type" name="Oldwork_type" readonly>
                         </div>
                     </div>
                     <div class="required field">
@@ -116,7 +116,7 @@
                     <div class="field">
                         <label>วันหยุดเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="box" name="Oldoff_code" readonly>
+                            <input type="text" id="Oldoff_code" name="Oldoff_code" readonly>
                         </div>
                     </div>
                     <div class="required field">
@@ -167,11 +167,11 @@
                 <div class="required field">
                     <label>ชื่อ</label>
                     <div class="ui fluid selection dropdown">
-                        <input name="name" id="name" type="hidden" onchange="queryShift3P2()" required="">
+                        <input name="name" id="name{{transaction.0}}" type="hidden" onchange="queryShift3P2()" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
-                            {% for name in idSub_team %}
+                            {% for name in idSub_teamAll %}
                                 <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
                             {% endfor %}
                         </div>
@@ -179,13 +179,13 @@
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
-                    <input type="date" id="datepicker" name="date" required=""/>
+                    <input type="text" id="datepicker" name="date" required=""/>
                 </div>
                 <div class="two fields">
                     <div class="field">
                         <label>รูปแบบการทำงานเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="box" name="Oldwork_type" readonly>
+                            <input type="text" id="box{{transaction.0}}" name="Oldwork_type" readonly>
                         </div>
                     </div>
                     <div class="required field">
@@ -206,7 +206,7 @@
                     <div class="field">
                         <label>วันหยุดเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="box" name="Oldoff_code" readonly>
+                            <input type="text" id="box{{transaction.0}}" name="Oldoff_code" readonly>
                         </div>
                     </div>
                     <div class="required field">
@@ -341,26 +341,29 @@ $('.{{transaction.0}}.delete-data.modal')
 
 <script>
     const data = [] 
-    data[0] = ['2022-07-30', '1']
-    data[1] = ['2022-07-20', '2']
-    data[2] = ['2022-07-10', '3']
-    function myScript() {
-        var datee = document.getElementById("date").value
+    data[0] = ['{{workData1.0.0}}', '{{workData1.0.1}}', '{{workData1.0.2}}']
+    data[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
+    data[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
+
+    function queryWorkData() {
+        var name = document.getElementById("name").value
         var check = true 
         for (var i = 0; i < data.length; i++) {
-            if (data[i][0] == datee) {
-                document.getElementById("box").value = data[i][1] ;
+            if (data[i][0] == name) {
+                document.getElementById("Oldwork_type").value = data[i][1] ;
+                document.getElementById("Oldoff_code").value = data[i][2] ;
                 check = false 
                 break
             }
         }
         if (check) {
-            document.getElementById("box").value = "ไม่พบข้อมูล" ;
+            document.getElementById("Oldwork_type").value = "ไม่พบข้อมูล" ;
+            document.getElementById("Oldoff_code").value = "ไม่พบข้อมูล" ;
         }
     }
 </script>
 
-{% for transaction in transactionChangeWork %}
+<!-- {% for transaction in transactionChangeWork %}
 <script>
     const data{{transaction.0}} = [] 
     data{{transaction.0}}[0] = ['2022-07-30', '1']
@@ -381,7 +384,7 @@ $('.{{transaction.0}}.delete-data.modal')
         }
     }
 </script>
-{% endfor %}
+{% endfor %} -->
 
 
 {% endblock %}
