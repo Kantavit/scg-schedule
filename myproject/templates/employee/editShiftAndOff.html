@@ -13,125 +13,304 @@
 {% block body %}
 <div class="ui container">
     <h1>เปลี่ยนรูปแบบการทำงานและวันหยุด</h1>
-    <form class="ui form segment" action="/employee/edit/shiftandoff/shiftandoffsummary" method="POST">
-        <h4 style="color: red;">*กรุณาเปลี่ยนรูปแบบกะในวันจันทร์ของสัปดาห์ถัดไปเท่านั้น</h4>
-            <h4 h1 style="font-family: sans-serif; text-align: center;">ไม่มีรายการเปลี่ยนแปลงในขณะนี้</h4>
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>ชื่อ</th>
-                        <th>วันที่มีผล</th>
-                        <th>รูปแบบการทำงานเดิม</th>
-                        <th>รูปแบบการทำงานใหม่</th>
-                        <th>วันหยุดเดิม</th>
-                        <th>วันหยุดใหม่</th>
-                        <th>เลือกรูปแบบกะ</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>15-8-2022</td>
-                            <td>เวลาปกติ</td>
-                            <td>
-                                <div class="field">
-                                    <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" value="11">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">--</div>
-                                        <div class="menu">
-                                            <div class="item" data-value="11">เวลาปกติ</div>
-                                            <div class="item" data-value="22">เวลากะ</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>A</td>
-                            <td>
-                                <div class="field">
-                                    <div class="ui fluid selection dropdown">
-                                        <input name="employee" type="hidden" value="none">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">--</div>
-                                        <div class="menu">
-                                            <div class="item" data-value="none">--</div>
-                                            <div class="item" data-value="a">A</div>
-                                            <div class="item" data-value="b">B</div>
-                                            <div class="item" data-value="c">C</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="/employee/edit/shiftandoff/viewshift">ตรวจสอบ</a>
-                            </td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+    
+    {% if transactionChangeWork_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
 
-        <br>
-        <br>
-        <div>
-            <button class="ui primary button" type="button"><i class="plus add icon"></i>เพิ่มเพื่อนทั้งทีม (ลบออกภายหลังได้)</button>
-        </div>
-        <br>
-        <div>
-            <button class="ui primary button" type="button"><i class="plus add icon"></i>เพิ่มทีละคน</button>
-        </div>
-        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่มีผล</th>
+                <th>รูปแบบการทำงานเดิม</th>
+                <th>รูปแบบการทำงานใหม่</th>
+                <th>วันหยุดเดิม</th>
+                <th>วันหยุดใหม่</th>
+                <th>เลือกรูปแบบกะ</th>
+                <th>เหตุผล</th>
+                <th> </th>
+                <th> </th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionChangeWork %}
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
+                    </td>
+                    <td>
+                        <a class="ui red delete-data button {{transaction.0}}">ลบ</a>
+                    </td>
+                </tr>
+                
 
-        <h3>1.โปรดระบุเหตุผลที่ต้องการเปลี่ยน</h3>
-        <div class="field">
-            <input type="text" name="reason" placeholder="ระบุเหตุผล">
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% endif %}
 
-        <h3>2.โปรดเลือกผู้เห็นชอบและผู้อนุมัติ</h3>
-        <h4>ผู้เห็นชอบ</h4>
-        <div class="field">
-            <div class="ui fluid selection dropdown">
-                <input name="employee" type="hidden" value="1111">
-                <i class="dropdown icon"></i>
-                <div class="default text">--</div>
-                <div class="menu">
-                    <div class="item" data-value="1111">เจม</div>
-                    <div class="item" data-value="2222">จอหน์</div>
-                    <div class="item" data-value="3333">ฌอน</div>
+
+    <button class="ui primary add-data button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
+    <button class="ui primary add-data button" type="button"><i class="plus add icon"></i>เพิ่มเพื่อนทั้งทีม (ลบออกภายหลังได้)</button>
+    
+    <!-- ส่วนปุ่มเพิ่มข้อมูล -->
+    <div class="ui add-data modal">
+        <div class="header">
+            เพิ่มรายการ
+        </div>
+        <div class="content">
+            <!-- add data action -->
+            <form id="add-form" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <input type="hidden" name="choose" value="add">
                 </div>
+                <div class="required field">
+                    <label>ชื่อ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="name" id="name" type="hidden" onchange="queryShift3P2()" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือกชื่อพนักงาน</div>
+                        <div class="menu">
+                            {% for name in idSub_team %}
+                                <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
+                    <input type="date" id="datepicker" name="date" required=""/>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>รูปแบบการทำงานเดิม</label>
+                        <div class="ui input">
+                            <input type="text" id="box" name="Oldwork_type" readonly>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>รูปแบบการทำงานใหม่</label>
+                        <div class="ui fluid selection dropdown">
+                            <input name="Newwork_type" type="hidden" onchange="foo()" required="">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">เลือก</div> 
+                            <div class="menu">
+                                <div class="item" data-value="พนักงานปกติ">พนักงานปกติ</div>
+                                <div class="item" data-value="พนักงานกะ">พนักงานกะ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>วันหยุดเดิม</label>
+                        <div class="ui input">
+                            <input type="text" id="box" name="Oldoff_code" readonly>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>วันหยุดใหม่</label>
+                        <input type="text" name="Newoff_code" placeholder="เลือก" onchange="foo()" required=""> 
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>เลือกรูปแบบกะ</label>
+                    <input type="text" name="section_code" onchange="foo()" required=""> 
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" onchange="foo()" required=""> 
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="add-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
             </div>
         </div>
-        <h4>ผู้อนุมัติ</h4>
-        <div class="field">
-            <div class="ui fluid selection dropdown">
-                <input name="employee" type="hidden" value="11111">
-                <i class="dropdown icon"></i>
-                <div class="default text">--</div>
-                <div class="menu">
-                    <div class="item" data-value="11111">เจฟ</div>
-                    <div class="item" data-value="22222">จอร์จ</div>
-                    <div class="item" data-value="33333">จวน</div>
+    </div>
+
+    
+
+    <!-- ส่วนปุ่มแก้ไข -->
+    {% for transaction in transactionChangeWork %}
+    <div class="ui edit-data modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ชื่อ</label>
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
+                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
                 </div>
+                <div class="required field">
+                    <label>วันที่ขอเปลี่ยน</label>
+                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
+                </div>
+                <div class="field">
+                    <label>กะเดิม/อื่น ๆ</label>
+                    <div class="ui input">
+                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
+                    </div>
+                </div>
+
+                <!-- ////////////////////////////////////////////// -->
+
+                <div class="required field">
+                    <label>กะใหม่/อื่น ๆ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div> 
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="ลา">ลา</div>
+                            <div class="item" data-value="อบรม">อบรม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
+                </div>
+
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
             </div>
         </div>
+    </div>
+    {% endfor %}
 
-        <br>
-        <div id="foot-button">
-            <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
-            <button class="ui green button" type="submit">บันทึก</button>
+
+
+    <!-- ส่วนปุ่มลบข้อมูล -->
+    {% for transaction in transactionChangeWork %}
+    <div class="ui delete-data modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
         </div>
-    </form>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <br>
+    <br>
+    <br>
+    <div id="foot-button">
+        <a href="/employee/edit/shift/self/selflist/selflistsummary" class="ui green button">บันทึก</a>
+    </div>
+
 
 </div>
 
 <script>
+$('.add-data.modal')
+    .modal('attach events', '.add-data.button', 'show') //ใช้ปุ่มโดยเรียก add-data button
+;
 
+$(function () {
+    $("#datepicker").datepicker({
+        beforeShowDay: function (d) {
+            var day = d.getDay();
+            return [day == 1];
+        },
+    });
+});
 </script>
+    
+{% for transaction in transactionChangeWork %}
+<script>
+$('.{{transaction.0}}.edit-data.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionChangeWork %}
+<script>
+$('.{{transaction.0}}.delete-data.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data button
+;
+</script>
+{% endfor %}
+
+<script>
+    const data = [] 
+    data[0] = ['2022-07-30', '1']
+    data[1] = ['2022-07-20', '2']
+    data[2] = ['2022-07-10', '3']
+    function myScript() {
+        var datee = document.getElementById("date").value
+        var check = true 
+        for (var i = 0; i < data.length; i++) {
+            if (data[i][0] == datee) {
+                document.getElementById("box").value = data[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("box").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+
+{% for transaction in transactionChangeWork %}
+<script>
+    const data{{transaction.0}} = [] 
+    data{{transaction.0}}[0] = ['2022-07-30', '1']
+    data{{transaction.0}}[1] = ['2022-07-20', '2']
+    data{{transaction.0}}[2] = ['2022-07-10', '3']
+    function myScript{{transaction.0}}() {
+        var datee = document.getElementById("date{{transaction.0}}").value
+        var check = true 
+        for (var i = 0; i < data{{transaction.0}}.length; i++) {
+            if (data{{transaction.0}}[i][0] == datee) {
+                document.getElementById("box{{transaction.0}}").value = data{{transaction.0}}[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("box{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+{% endfor %}
+
 
 {% endblock %}

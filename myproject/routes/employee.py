@@ -249,30 +249,20 @@ def editCowork():
         cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
         idSub_team = cur.fetchall()
 
-        otherEmployee = [0]*2
+        otherEmployee = [0]*count
         for i in range(count):
             otherEmployee[i] = idSub_team[i][0]
         
-        try:
-            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[employee_id])
-            shifts = cur.fetchall()
-            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
-            shifts2 = cur.fetchall()
-            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
-            shifts3 = cur.fetchall()
-            cur.close()
+        cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[employee_id])
+        shifts = cur.fetchall()
+        cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+        shifts2 = cur.fetchall()
+        cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
+        shifts3 = cur.fetchall()
+        cur.close()
 
-            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
-                                    idSub_team=idSub_team, shifts=shifts, shifts2=shifts2, shifts3=shifts3 )
-        except IndexError:
-            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[employee_id])
-            shifts = cur.fetchall()
-            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
-            shifts2 = cur.fetchall()
-            cur.close()
-
-            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
-                                    idSub_team=idSub_team, shifts=shifts, shifts2=shifts2 )
+        return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_team=idSub_team, shifts=shifts, shifts2=shifts2, shifts3=shifts3 )
 
 
 @employee.route('/employee/edit/shift/addshift', methods=['POST','GET'])
@@ -348,12 +338,93 @@ def editAddShift():
 @employee.route('/employee/edit/shiftandoff', methods=['POST','GET'])
 def chooseEditShiftAndOff():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
+    sub_team = session.get("sub_team")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+    
+    elif request.method == 'POST':
+        if request.form['choose'] == "add":
+            name = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            addShift = request.form['addShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+              
+            cur = db.connection.cursor()
+            query = "SELECT * FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'"
+            cur.execute(query)
+            employeeinfo_db = cur.fetchall()
+            approver_id = employeeinfo_db[0][4]
+
+            cur.execute("INSERT INTO transactionChangeWork (employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editAddShift'))
+
+        elif request.form['choose'] == "update":
+            transactionChangeWork_id = request.form['transactionChangeWork_id']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            addShift = request.form['addShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeWork SET date=%s , OldShift=%s , addShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeWork_id=%s",(date , OldShift , addShift , reason, TimeStamp, transactionChangeWork_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editAddShift'))
+
+        elif request.form['choose'] == "delete":
+            transactionChangeWork_id = request.form['transactionChangeWork_id']
+
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.editAddShift'))
+
     else:
-        return render_template('employee/editShiftAndOff.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/editShiftAndOff.html')
+        cur = db.connection.cursor()
+
+        # count employee
+        cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
+        employee_count = cur.fetchall()
+        count = employee_count[0][0]
+
+        # get employee in same team
+        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s ",[sub_team])
+        idSub_team = cur.fetchall()
+        
+        transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeWork = cur.fetchall()
+        
+        # cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
+        # idSub_team_data = cur.fetchall()
+
+        otherEmployee = [0]*count
+        for i in range(count):
+            otherEmployee[i] = idSub_team[i][0]
+
+        cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
+        workData1 = cur.fetchall()
+        cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+        workData2 = cur.fetchall()
+        cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+        workData3 = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/editShiftAndOff.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_team=idSub_team, workData1=workData1, workData2=workData2, workData3=workData3,
+                                transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork )
+
 
 @employee.route('/employee/edit/shiftandoff/viewshift', methods=['POST','GET']) # แก้เป็นให้เข้าไปแก้ตาม <int:id> 
 def viewShift():
