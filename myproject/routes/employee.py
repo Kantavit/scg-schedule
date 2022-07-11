@@ -413,11 +413,11 @@ def chooseEditShiftAndOff():
         for i in range(count):
             otherEmployee[i] = idSub_team[i][0]
 
-        cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
+        cur.execute("SELECT Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[employee_id])
         workData1 = cur.fetchall()
-        cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+        cur.execute("SELECT Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
         workData2 = cur.fetchall()
-        cur.execute("SELECT employee_type, dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+        cur.execute("SELECT Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
         workData3 = cur.fetchall()
         cur.close()
 

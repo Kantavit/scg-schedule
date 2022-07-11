@@ -70,7 +70,7 @@
         </div>
         <div class="content">
             <!-- add data action -->
-            <form id="add-form" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="add-form" class="ui form" action="{{ url_for('employee.chooseEditShiftAndOff') }}" method="POST">
                 <div class="field">
                     <input type="hidden" name="choose" value="add">
                 </div>
@@ -105,8 +105,9 @@
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
-                                <div class="item" data-value="พนักงานปกติ">พนักงานปกติ</div>
-                                <div class="item" data-value="พนักงานกะ">พนักงานกะ</div>
+                                <div class="item" data-value="ปกติ(STS)">ปกติ(STS)</div>
+                                <div class="item" data-value="ปกติ(CPAC)">ปกติ(CPAC)</div>
+                                <div class="item" data-value="กะ(STS)">กะ(STS)</div>
                             </div>
                         </div>
                     </div>
@@ -120,16 +121,24 @@
                     </div>
                     <div class="required field">
                         <label>วันหยุดใหม่</label>
-                        <input type="text" name="Newoff_code" placeholder="เลือก" onchange="foo()" required=""> 
+                        <div class="ui fluid selection dropdown">
+                            <input name="Newoff_code" type="hidden" onchange="foo()" required="">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">เลือก</div> 
+                            <div class="menu">
+                                <div class="item" data-value="จันทร์-อังคาร">จันทร์-อังคาร</div>
+                                <div class="item" data-value="พุธ-พฤหัสบดี">พุธ-พฤหัสบดี</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="required field">
                     <label>เลือกรูปแบบกะ</label>
-                    <input type="text" name="section_code" onchange="foo()" required=""> 
+                    <input type="text" name="section_code" required=""> 
                 </div>
                 <div class="required field">
                     <label>โปรดระบุเหตุผล</label>
-                    <input type="text" name="reason" onchange="foo()" required=""> 
+                    <input type="text" name="reason" required=""> 
                 </div>
             </form>
         </div>
@@ -150,14 +159,79 @@
             แก้ไขข้อมูล
         </div>
         <div class="content">
-            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.chooseEditShiftAndOff') }}" method="POST">
                 <div class="field">
-                    <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
-                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
                 </div>
                 <div class="required field">
+                    <label>ชื่อ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="name" id="name" type="hidden" onchange="queryShift3P2()" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือกชื่อพนักงาน</div>
+                        <div class="menu">
+                            {% for name in idSub_team %}
+                                <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
+                    <input type="date" id="datepicker" name="date" required=""/>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>รูปแบบการทำงานเดิม</label>
+                        <div class="ui input">
+                            <input type="text" id="box" name="Oldwork_type" readonly>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>รูปแบบการทำงานใหม่</label>
+                        <div class="ui fluid selection dropdown">
+                            <input name="Newwork_type" type="hidden" onchange="foo()" required="">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">เลือก</div> 
+                            <div class="menu">
+                                <div class="item" data-value="ปกติ(STS)">ปกติ(STS)</div>
+                                <div class="item" data-value="ปกติ(CPAC)">ปกติ(CPAC)</div>
+                                <div class="item" data-value="กะ(STS)">กะ(STS)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>วันหยุดเดิม</label>
+                        <div class="ui input">
+                            <input type="text" id="box" name="Oldoff_code" readonly>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>วันหยุดใหม่</label>
+                        <div class="ui fluid selection dropdown">
+                            <input name="Newoff_code" type="hidden" onchange="foo()" required="">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">เลือก</div> 
+                            <div class="menu">
+                                <div class="item" data-value="จันทร์-อังคาร">จันทร์-อังคาร</div>
+                                <div class="item" data-value="พุธ-พฤหัสบดี">พุธ-พฤหัสบดี</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>เลือกรูปแบบกะ</label>
+                    <input type="text" name="section_code" required=""> 
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" required=""> 
+                </div>
+
+                <!-- <div class="required field">
                     <label>วันที่ขอเปลี่ยน</label>
                     <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
                 </div>
@@ -167,9 +241,6 @@
                         <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
                     </div>
                 </div>
-
-                <!-- ////////////////////////////////////////////// -->
-
                 <div class="required field">
                     <label>กะใหม่/อื่น ๆ</label>
                     <div class="ui fluid selection dropdown">
@@ -188,7 +259,7 @@
                 <div class="required field">
                     <label>โปรดระบุเหตุผล</label>
                     <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
-                </div>
+                </div> -->
 
             </form>
         </div>
@@ -210,7 +281,7 @@
             ลบข้อมูล
         </div>
         <div class="content">
-            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.chooseEditShiftAndOff') }}" method="POST">
                 <div class="field">
                     <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
                     <input type="hidden" name="choose" value="delete">
