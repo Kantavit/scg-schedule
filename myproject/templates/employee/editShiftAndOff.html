@@ -383,10 +383,7 @@ function checkDayoff() {
     var employee_type = document.getElementById("Newwork_type").value
     var dayoff = document.getElementById("Newoff_code").value
     var check = true
-    var arr = []
-    while(arr.length > 0){
-        arr.pop()
-    }
+    var arr = []  
     checkWorkType()
     
     for (var i = 0; i < section_code.length; i++) {
@@ -403,16 +400,28 @@ function checkDayoff() {
             document.getElementById("section_code").value = "ไม่พบข้อมูล" ;
         }
     }
+
+    const list = document.getElementById("section_code");
+    while (list.hasChildNodes()) {
+        list.removeChild(list.firstChild);
+    }
+    
+    var option = document.createElement("OPTION");
+    txt = document.createTextNode("รหัสรูปแบบการทำงาน");
+    option.appendChild(txt);
+    option.setAttribute("value"," ");
+    select.insertBefore(option,select.lastChild);
+    // txt = document.createTextNode("รหัสรูปแบบการทำงาน");
+    // list.appendChild(txt);
+    // list.setAttribute("value","");
+    
     for(var j = 0; j < arr.length; j++){
-        var option = document.createElement("OPTION"),
+        var option = document.createElement("OPTION");
         txt = document.createTextNode(arr[j]);
         option.appendChild(txt);
         option.setAttribute("value",arr[i]);
         select.insertBefore(option,select.lastChild);
-    }
-
-    if (list.hasChildNodes()) {
-        list.removeChild(list.children[0]);
+        
     }
 }
 
