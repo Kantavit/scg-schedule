@@ -785,12 +785,37 @@ def employeeAddShiftTransaction():
 @employee.route('/employee/edit/shiftandoff/shiftandoffsummary', methods=['POST','GET'])
 def employeeShiftAndOffTransaction():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionChangeWork WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.chooseEditShiftAndOff'))
+
+        elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeWork SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeShiftAndOffTransactionEnd'))
+
     else:
-        return render_template('employee/shiftAndOffEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/shiftAndOffEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeWork = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/shiftAndOffEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork)
 
 
 @employee.route('/employee/edit/addemployee/addemployeesummary', methods=['POST','GET'])
