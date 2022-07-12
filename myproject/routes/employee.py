@@ -381,15 +381,35 @@ def chooseEditShiftAndOff():
 
         elif request.form['choose'] == "update":
             transactionChangeWork_id = request.form['transactionChangeWork_id']
+            employee_id = request.form['name']
+
+            cur = db.connection.cursor()
+            cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'")
+            employeeinfo_db = cur.fetchone()
+            
+            employee_name = employeeinfo_db[0]
+            employee_lastname = employeeinfo_db[1]
             date = request.form['date']
-            OldShift = request.form['OldShift']
-            addShift = request.form['addShift']
+            Oldwork_type = request.form['Oldwork_type']
+            Newwork_type = request.form['Newwork_type']
+            Oldoff_code = request.form['Oldoff_code']
+            Newoff_code = request.form['Newoff_code']
+            section_code = request.form['section_code']
             reason = request.form['reason']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+            
+            cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'")
+            employeeinfo_db = cur.fetchone()
+            approver_id = employeeinfo_db[0]
 
-            cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeWork SET date=%s , OldShift=%s , addShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeWork_id=%s",(date , OldShift , addShift , reason, TimeStamp, transactionChangeWork_id))
+            cur.execute("SELECT director_id FROM employeeInfo WHERE employee_id = " + "'" + employee_id + "'")
+            employeeinfo_db = cur.fetchone()
+            director_id = employeeinfo_db[0]
+
+            cur.execute("UPDATE transactionChangeWork SET employee_id=%s , employee_name=%s , employee_lastname=%s, date=%s, Oldwork_type=%s, Newwork_type=%s, Oldoff_code=%s, Newoff_code=%s, section_code=%s, reason=%s, TimeStamp=%s, status=%s, approver_id=%s, director_id=%s WHERE transactionChangeWork_id=%s",(employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id, transactionChangeWork_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.chooseEditShiftAndOff'))

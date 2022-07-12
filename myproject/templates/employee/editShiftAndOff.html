@@ -164,7 +164,7 @@
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.chooseEditShiftAndOff') }}" method="POST">
                 <div class="field">
-                    <input type="hidden" name="choose" value="add">
+                    <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
                 </div>
                 <div class="required field">
@@ -183,7 +183,7 @@
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
                     <!-- <input type="text" id="datepicker" name="date" required=""/> -->
-                    <input type="date" id="date{{transaction.0}}" name="date" required=""/>
+                    <input type="date" id="date{{transaction.0}}" name="date" value="{{transaction.4}}" placeholder="dd/mm/YYYY" required=""/>
                 </div>
                 <div class="two fields">
                     <div class="field">
@@ -195,7 +195,7 @@
                     <div class="required field">
                         <label>รูปแบบการทำงานใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newwork_type" id="Newwork_type{{transaction.0}}" type="hidden" onchange="checkWorkType{{transaction.0}}()" required="">
+                            <input name="Newwork_type" id="Newwork_type{{transaction.0}}" type="hidden" value="{{transaction.13}}" onchange="checkWorkType{{transaction.0}}()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -216,7 +216,7 @@
                     <div class="required field">
                         <label>วันหยุดใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newoff_code" id="Newoff_code{{transaction.0}}" type="hidden" onchange="checkDayoff{{transaction.0}}()" required="">
+                            <input name="Newoff_code" id="Newoff_code{{transaction.0}}" type="hidden" value="{{transaction.15}}" onchange="checkDayoff{{transaction.0}}()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -234,7 +234,7 @@
                 </div>
                 <div class="required field">
                     <label>โปรดระบุเหตุผล</label>
-                    <input type="text" name="reason" required=""> 
+                    <input type="text" name="reason" value="{{transaction.6}}" required=""> 
                 </div>
             </form>
         </div>
