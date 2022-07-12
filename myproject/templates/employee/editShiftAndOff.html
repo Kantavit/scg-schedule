@@ -36,13 +36,13 @@
                 {% for transaction in transactionChangeWork %}
                 <tr>
                     <td>{{transaction.2}} {{transaction.3}}</td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.12}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                    <td>{{transaction.15}}</td>
+                    <td>{{transaction.16}}</td>
+                    <td>{{transaction.6}}</td>
                     <td>
                         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
                     </td>
@@ -61,7 +61,7 @@
 
 
     <button class="ui primary add-data button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
-    <button class="ui primary add-data button" type="button"><i class="plus add icon"></i>เพิ่มเพื่อนทั้งทีม (ลบออกภายหลังได้)</button>
+    <!-- <button class="ui primary add-data button" type="button"><i class="plus add icon"></i>เพิ่มเพื่อนทั้งทีม (ลบออกภายหลังได้)</button> -->
     
     <!-- ส่วนปุ่มเพิ่มข้อมูล -->
     <div class="ui add-data modal">
@@ -164,13 +164,13 @@
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.chooseEditShiftAndOff') }}" method="POST">
                 <div class="field">
-                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="choose" value="add">
                     <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
                 </div>
                 <div class="required field">
                     <label>ชื่อ</label>
                     <div class="ui fluid selection dropdown">
-                        <input name="name" id="name{{transaction.0}}" type="hidden" onchange="queryShift3P2()" required="">
+                        <input name="name" id="name{{transaction.0}}" type="hidden" onchange="queryWorkData{{transaction.0}}()" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -182,19 +182,20 @@
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
-                    <input type="text" id="date" name="date" required=""/>
+                    <!-- <input type="text" id="datepicker" name="date" required=""/> -->
+                    <input type="date" id="date{{transaction.0}}" name="date" required=""/>
                 </div>
                 <div class="two fields">
                     <div class="field">
                         <label>รูปแบบการทำงานเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="box{{transaction.0}}" name="Oldwork_type" readonly>
+                            <input type="text" id="Oldwork_type{{transaction.0}}" name="Oldwork_type" readonly>
                         </div>
                     </div>
                     <div class="required field">
                         <label>รูปแบบการทำงานใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newwork_type" type="hidden" onchange="foo()" required="">
+                            <input name="Newwork_type" id="Newwork_type{{transaction.0}}" type="hidden" onchange="checkWorkType{{transaction.0}}()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -209,13 +210,13 @@
                     <div class="field">
                         <label>วันหยุดเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="box{{transaction.0}}" name="Oldoff_code" readonly>
+                            <input type="text" id="Oldoff_code{{transaction.0}}" name="Oldoff_code" readonly>
                         </div>
                     </div>
                     <div class="required field">
                         <label>วันหยุดใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newoff_code" type="hidden" onchange="foo()" required="">
+                            <input name="Newoff_code" id="Newoff_code{{transaction.0}}" type="hidden" onchange="checkDayoff{{transaction.0}}()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -225,45 +226,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="required field">
+                <div class="required field" id="select{{transaction.0}}">
                     <label>เลือกรูปแบบกะ</label>
-                    <input type="text" name="section_code" required=""> 
+                    <select class="ui fluid dropdown" name="section_code" id="section_code{{transaction.0}}">
+                        <option value="">รหัสรูปแบบการทำงาน</option>
+                    </select>
                 </div>
                 <div class="required field">
                     <label>โปรดระบุเหตุผล</label>
                     <input type="text" name="reason" required=""> 
                 </div>
-
-                <!-- <div class="required field">
-                    <label>วันที่ขอเปลี่ยน</label>
-                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
-                </div>
-                <div class="field">
-                    <label>กะเดิม/อื่น ๆ</label>
-                    <div class="ui input">
-                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
-                    </div>
-                </div>
-                <div class="required field">
-                    <label>กะใหม่/อื่น ๆ</label>
-                    <div class="ui fluid selection dropdown">
-                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือก</div> 
-                        <div class="menu">
-                            <div class="item" data-value="1">1</div>
-                            <div class="item" data-value="2">2</div>
-                            <div class="item" data-value="3">3</div>
-                            <div class="item" data-value="ลา">ลา</div>
-                            <div class="item" data-value="อบรม">อบรม</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="required field">
-                    <label>โปรดระบุเหตุผล</label>
-                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
-                </div> -->
-
             </form>
         </div>
         <div class="actions">
@@ -333,6 +305,7 @@ $('.{{transaction.0}}.delete-data.modal')
 </script>
 {% endfor %}
 
+
 <script>
 const picker = document.getElementById('date');  //เลือกวันจันทร์เท่านั้น
 picker.addEventListener('input', function(e){
@@ -344,6 +317,22 @@ if([6,0,2,3,4,5].includes(day)){
 }
 });
 </script>
+
+
+{% for transaction in transactionChangeWork %}
+<script>
+const picker{{transaction.0}} = document.getElementById('date{{transaction.0}}');  //เลือกวันจันทร์เท่านั้น
+picker{{transaction.0}}.addEventListener('input', function(e){
+var day = new Date(this.value).getUTCDay();
+if([6,0,2,3,4,5].includes(day)){
+    e.preventDefault();
+    this.value = '';
+    alert('โปรดเลือกวันจันทร์เท่านั้น');
+}
+});
+</script>
+{% endfor %}
+
 
 <script>
     const data = [] 
@@ -371,6 +360,34 @@ if([6,0,2,3,4,5].includes(day)){
 </script>
 
 
+{% for transaction in transactionChangeWork %}
+<script>
+    const data{{transaction.0}} = [] 
+    //             employee_id           Remark                 dayoff
+    data{{transaction.0}}[0] = ['{{workData1.0.0}}', '{{workData1.0.1}}', '{{workData1.0.2}}']
+    data{{transaction.0}}[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
+    data{{transaction.0}}[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
+
+    function queryWorkData{{transaction.0}}() {
+        var name = document.getElementById("name{{transaction.0}}").value
+        var check = true 
+        for (var i = 0; i < data{{transaction.0}}.length; i++) {
+            if (data{{transaction.0}}[i][0] == name) {
+                document.getElementById("Oldwork_type{{transaction.0}}").value = data{{transaction.0}}[i][1] ;
+                document.getElementById("Oldoff_code{{transaction.0}}").value = data{{transaction.0}}[i][2] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("Oldwork_type{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+            document.getElementById("Oldoff_code{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+{% endfor %}
+
+
 <script>
     const section_code = [] 
     section_code[0] = ['Remark', 'dayoff', 'section_code']
@@ -383,90 +400,139 @@ if([6,0,2,3,4,5].includes(day)){
     section_code[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105']
 
 
-function checkDayoff() {
-    var employee_type = document.getElementById("Newwork_type").value
-    var dayoff = document.getElementById("Newoff_code").value
-    var check = true
-    var arr = []  
-    checkWorkType()
-    
-    for (var i = 0; i < section_code.length; i++) {
-        if (section_code[i][0] == employee_type && section_code[i][1] == dayoff ) {  
-            for(var x = 0 ; true ; x++ ){
-                var select = document.getElementById("section_code"), 
-                data = [section_code[i][2]] ;
-                arr.push(data);
-                check = false ;
-                break
-            } 
-        }
-        if (check){
-            document.getElementById("section_code").value = "ไม่พบข้อมูล" ;
-        }
-    }
-
-    const list = document.getElementById("section_code");
-    while (list.hasChildNodes()) {
-        list.removeChild(list.firstChild);
-    }
-    
-    var option = document.createElement("OPTION");
-    txt = document.createTextNode("รหัสรูปแบบการทำงาน");
-    option.appendChild(txt);
-    option.setAttribute("value"," ");
-    select.insertBefore(option,select.lastChild);
-    // txt = document.createTextNode("รหัสรูปแบบการทำงาน");
-    // list.appendChild(txt);
-    // list.setAttribute("value","");
-    
-    for(var j = 0; j < arr.length; j++){
-        var option = document.createElement("OPTION");
-        txt = document.createTextNode(arr[j]);
-        option.appendChild(txt);
-        option.setAttribute("value",arr[j]);
-        select.insertBefore(option,select.lastChild);
+    function checkDayoff() {
+        var employee_type = document.getElementById("Newwork_type").value
+        var dayoff = document.getElementById("Newoff_code").value
+        var check = true
+        var arr = []  
+        checkWorkType()
         
-    }
-}
-
-function checkWorkType() {  
-    var employee_type = document.getElementById("Newwork_type").value
-    var dayoff = document.getElementById("Newoff_code").value
-
-    if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
-        document.getElementById("select").classList.add("disabled");
-    }
-    else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
-        document.getElementById("select").classList.add("disabled");
-    }
-    else{
-        document.getElementById("select").classList.remove("disabled");
-    }
-}
-</script>
-
-<!-- {% for transaction in transactionChangeWork %}
-<script>
-    const data{{transaction.0}} = [] 
-    data{{transaction.0}}[0] = ['2022-07-30', '1']
-    data{{transaction.0}}[1] = ['2022-07-20', '2']
-    data{{transaction.0}}[2] = ['2022-07-10', '3']
-    function myScript{{transaction.0}}() {
-        var datee = document.getElementById("date{{transaction.0}}").value
-        var check = true 
-        for (var i = 0; i < data{{transaction.0}}.length; i++) {
-            if (data{{transaction.0}}[i][0] == datee) {
-                document.getElementById("box{{transaction.0}}").value = data{{transaction.0}}[i][1] ;
-                check = false 
-                break
+        for (var i = 0; i < section_code.length; i++) {
+            if (section_code[i][0] == employee_type && section_code[i][1] == dayoff ) {  
+                for(var x = 0 ; true ; x++ ){
+                    var select = document.getElementById("section_code"), 
+                    data = [section_code[i][2]] ;
+                    arr.push(data);
+                    check = false ;
+                    break
+                } 
+            }
+            if (check){
+                document.getElementById("section_code").value = "ไม่พบข้อมูล" ;
             }
         }
-        if (check) {
-            document.getElementById("box{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+
+        const list = document.getElementById("section_code");
+        while (list.hasChildNodes()) {
+            list.removeChild(list.firstChild);
+        }
+        
+        var option = document.createElement("OPTION");
+        txt = document.createTextNode("รหัสรูปแบบการทำงาน");
+        option.appendChild(txt);
+        option.setAttribute("value"," ");
+        select.insertBefore(option,select.lastChild);
+        
+        for(var j = 0; j < arr.length; j++){
+            var option = document.createElement("OPTION");
+            txt = document.createTextNode(arr[j]);
+            option.appendChild(txt);
+            option.setAttribute("value",arr[j]);
+            select.insertBefore(option,select.lastChild);
+            
+        }
+    }
+
+    function checkWorkType() {  
+        var employee_type = document.getElementById("Newwork_type").value
+        var dayoff = document.getElementById("Newoff_code").value
+
+        if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
+            document.getElementById("select").classList.add("disabled");
+        }
+        else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
+            document.getElementById("select").classList.add("disabled");
+        }
+        else{
+            document.getElementById("select").classList.remove("disabled");
         }
     }
 </script>
-{% endfor %} -->
+
+
+{% for transaction in transactionChangeWork %}
+<script>
+    const section_code{{transaction.0}} = [] 
+    section_code{{transaction.0}}[0] = ['Remark', 'dayoff', 'section_code']
+    section_code{{transaction.0}}[1] = ['ปกติ(STS)', 'จันทร์-อังคาร', 'DD202103']
+    section_code{{transaction.0}}[2] = ['ปกติ(CPAC)', 'จันทร์-อังคาร', 'DD203103']
+    section_code{{transaction.0}}[3] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK257103']
+    section_code{{transaction.0}}[4] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK258103']
+    section_code{{transaction.0}}[5] = ['กะ(STS)', 'จันทร์-อังคาร', 'DD202103']
+    section_code{{transaction.0}}[6] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK256105']
+    section_code{{transaction.0}}[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105']
+
+
+    function checkDayoff{{transaction.0}}() {
+        var employee_type = document.getElementById("Newwork_type{{transaction.0}}").value
+        var dayoff = document.getElementById("Newoff_code{{transaction.0}}").value
+        var check = true
+        var arr{{transaction.0}} = []  
+        checkWorkType{{transaction.0}}()
+        
+        for (var i = 0; i < section_code{{transaction.0}}.length; i++) {
+            if (section_code{{transaction.0}}[i][0] == employee_type && section_code{{transaction.0}}[i][1] == dayoff ) {  
+                for(var x = 0 ; true ; x++ ){
+                    var select = document.getElementById("section_code{{transaction.0}}"), 
+                    data = [section_code{{transaction.0}}[i][2]] ;
+                    arr{{transaction.0}}.push(data);
+                    check = false ;
+                    break
+                } 
+            }
+            if (check){
+                document.getElementById("section_code{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+            }
+        }
+
+        const list = document.getElementById("section_code{{transaction.0}}");
+        while (list.hasChildNodes()) {
+            list.removeChild(list.firstChild);
+        }
+        
+        var option = document.createElement("OPTION");
+        txt = document.createTextNode("รหัสรูปแบบการทำงาน");
+        option.appendChild(txt);
+        option.setAttribute("value"," ");
+        select.insertBefore(option,select.lastChild);
+        
+        for(var j = 0; j < arr{{transaction.0}}.length; j++){
+            var option = document.createElement("OPTION");
+            txt = document.createTextNode(arr{{transaction.0}}[j]);
+            option.appendChild(txt);
+            option.setAttribute("value",arr{{transaction.0}}[j]);
+            select.insertBefore(option,select.lastChild);
+            
+        }
+    }
+
+    function checkWorkType{{transaction.0}}() {  
+        var employee_type = document.getElementById("Newwork_type{{transaction.0}}").value
+        var dayoff = document.getElementById("Newoff_code{{transaction.0}}").value
+
+        if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
+            document.getElementById("select{{transaction.0}}").classList.add("disabled");
+        }
+        else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
+            document.getElementById("select{{transaction.0}}").classList.add("disabled");
+        }
+        else{
+            document.getElementById("select{{transaction.0}}").classList.remove("disabled");
+        }
+    }
+</script>
+{% endfor %}
+
 
 
 {% endblock %}
