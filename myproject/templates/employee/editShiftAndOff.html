@@ -35,7 +35,7 @@
             <tbody>
                 {% for transaction in transactionChangeWork %}
                 <tr>
-                    <td> </td>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
                     <td> </td>
                     <td> </td>
                     <td> </td>
@@ -89,7 +89,8 @@
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
-                    <input type="text" id="datepicker" name="date" required=""/>
+                    <!-- <input type="text" id="datepicker" name="date" required=""/> -->
+                    <input type="date" id="date" name="date" required=""/>
                 </div>
                 <div class="two fields">
                     <div class="field">
@@ -181,7 +182,7 @@
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
-                    <input type="text" id="datepicker" name="date" required=""/>
+                    <input type="text" id="date" name="date" required=""/>
                 </div>
                 <div class="two fields">
                     <div class="field">
@@ -314,15 +315,6 @@
 $('.add-data.modal')
     .modal('attach events', '.add-data.button', 'show') //ใช้ปุ่มโดยเรียก add-data button
 ;
-
-$(function () {
-    $("#datepicker").datepicker({
-        beforeShowDay: function (d) {
-            var day = d.getDay();
-            return [day == 1];
-        },
-    });
-});
 </script>
     
 {% for transaction in transactionChangeWork %}
@@ -340,6 +332,18 @@ $('.{{transaction.0}}.delete-data.modal')
 ;
 </script>
 {% endfor %}
+
+<script>
+const picker = document.getElementById('date');  //เลือกวันจันทร์เท่านั้น
+picker.addEventListener('input', function(e){
+var day = new Date(this.value).getUTCDay();
+if([6,0,2,3,4,5].includes(day)){
+    e.preventDefault();
+    this.value = '';
+    alert('โปรดเลือกวันจันทร์เท่านั้น');
+}
+});
+</script>
 
 <script>
     const data = [] 
@@ -419,7 +423,7 @@ function checkDayoff() {
         var option = document.createElement("OPTION");
         txt = document.createTextNode(arr[j]);
         option.appendChild(txt);
-        option.setAttribute("value",arr[i]);
+        option.setAttribute("value",arr[j]);
         select.insertBefore(option,select.lastChild);
         
     }
