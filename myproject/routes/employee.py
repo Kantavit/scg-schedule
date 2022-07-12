@@ -420,12 +420,16 @@ def chooseEditShiftAndOff():
         workData2 = cur.fetchall()
         cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
         workData3 = cur.fetchall()
+
+        # get all section_code
+        section_code_element = cur.execute("SELECT Remark, dayoff, section_code FROM filtershift")
+        section_code_data = cur.fetchall()
+
         cur.close()
 
-
         return render_template('employee/editShiftAndOff.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
-                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3,
-                                transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork )
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, section_code_element=section_code_element,
+                                section_code_data=section_code_data, transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork )
 
 
 @employee.route('/employee/edit/shiftandoff/viewshift', methods=['POST','GET']) # แก้เป็นให้เข้าไปแก้ตาม <int:id> 

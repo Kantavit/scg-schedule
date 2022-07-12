@@ -101,7 +101,7 @@
                     <div class="required field">
                         <label>รูปแบบการทำงานใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newwork_type" type="hidden" onchange="foo()" required="">
+                            <input name="Newwork_type" id="Newwork_type" type="hidden" onchange="checkWorkType()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -122,7 +122,7 @@
                     <div class="required field">
                         <label>วันหยุดใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newoff_code" type="hidden" onchange="foo()" required="">
+                            <input name="Newoff_code" id="Newoff_code" type="hidden" onchange="checkDayoff()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -132,9 +132,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="required field">
+                <div class="required field" id="select">
                     <label>เลือกรูปแบบกะ</label>
-                    <input type="text" name="section_code" required=""> 
+                    <select class="ui fluid dropdown" name="section_code" id="section_code">
+                        <option value="">รหัสรูปแบบการทำงาน</option>
+                    </select>
                 </div>
                 <div class="required field">
                     <label>โปรดระบุเหตุผล</label>
@@ -341,6 +343,7 @@ $('.{{transaction.0}}.delete-data.modal')
 
 <script>
     const data = [] 
+    //             employee_id           Remark                 dayoff
     data[0] = ['{{workData1.0.0}}', '{{workData1.0.1}}', '{{workData1.0.2}}']
     data[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
     data[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
@@ -361,6 +364,72 @@ $('.{{transaction.0}}.delete-data.modal')
             document.getElementById("Oldoff_code").value = "ไม่พบข้อมูล" ;
         }
     }
+</script>
+
+
+<script>
+    const section_code = [] 
+    section_code[0] = ['Remark', 'dayoff', 'section_code']
+    section_code[1] = ['ปกติ(STS)', 'จันทร์-อังคาร', 'DD202103']
+    section_code[2] = ['ปกติ(CPAC)', 'จันทร์-อังคาร', 'DD203103']
+    section_code[3] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK257103']
+    section_code[4] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK258103']
+    section_code[5] = ['กะ(STS)', 'จันทร์-อังคาร', 'DD202103']
+    section_code[6] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK256105']
+    section_code[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105']
+
+
+function checkDayoff() {
+    var employee_type = document.getElementById("Newwork_type").value
+    var dayoff = document.getElementById("Newoff_code").value
+    var check = true
+    var arr = []
+    while(arr.length > 0){
+        arr.pop()
+    }
+    checkWorkType()
+    
+    for (var i = 0; i < section_code.length; i++) {
+        if (section_code[i][0] == employee_type && section_code[i][1] == dayoff ) {  
+            for(var x = 0 ; true ; x++ ){
+                var select = document.getElementById("section_code"), 
+                data = [section_code[i][2]] ;
+                arr.push(data);
+                check = false ;
+                break
+            } 
+        }
+        if (check){
+            document.getElementById("section_code").value = "ไม่พบข้อมูล" ;
+        }
+    }
+    for(var j = 0; j < arr.length; j++){
+        var option = document.createElement("OPTION"),
+        txt = document.createTextNode(arr[j]);
+        option.appendChild(txt);
+        option.setAttribute("value",arr[i]);
+        select.insertBefore(option,select.lastChild);
+    }
+
+    if (list.hasChildNodes()) {
+        list.removeChild(list.children[0]);
+    }
+}
+
+function checkWorkType() {  
+    var employee_type = document.getElementById("Newwork_type").value
+    var dayoff = document.getElementById("Newoff_code").value
+
+    if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
+        document.getElementById("select").classList.add("disabled");
+    }
+    else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
+        document.getElementById("select").classList.add("disabled");
+    }
+    else{
+        document.getElementById("select").classList.remove("disabled");
+    }
+}
 </script>
 
 <!-- {% for transaction in transactionChangeWork %}
