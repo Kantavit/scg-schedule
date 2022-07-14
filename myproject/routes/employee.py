@@ -360,6 +360,7 @@ def chooseEditShiftAndOff():
             Oldoff_code = request.form['Oldoff_code']
             Newoff_code = request.form['Newoff_code']
             section_code = request.form['section_code']
+            section_code = section_code.split()[0]
             reason = request.form['reason']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")

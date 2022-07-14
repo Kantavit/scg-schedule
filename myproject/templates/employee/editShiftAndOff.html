@@ -102,7 +102,7 @@
                     <div class="required field">
                         <label>รูปแบบการทำงานใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newwork_type" id="Newwork_type" type="hidden" onchange="checkWorkType()" required="">
+                            <input name="Newwork_type" id="Newwork_type" type="hidden" onchange="checkDayoff()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -136,7 +136,7 @@
                 <div class="required field" id="select">
                     <label>เลือกรูปแบบกะ</label>
                     <select class="ui fluid dropdown" name="section_code" id="section_code">
-                        <option value="">รหัสรูปแบบการทำงาน</option>
+                        <option value="">เลือกรหัสรูปแบบการทำงาน</option>
                     </select>
                 </div>
                 <div class="required field">
@@ -195,7 +195,7 @@
                     <div class="required field">
                         <label>รูปแบบการทำงานใหม่</label>
                         <div class="ui fluid selection dropdown">
-                            <input name="Newwork_type" id="Newwork_type{{transaction.0}}" type="hidden" value="{{transaction.13}}" onchange="checkWorkType{{transaction.0}}()" required="">
+                            <input name="Newwork_type" id="Newwork_type{{transaction.0}}" type="hidden" value="{{transaction.13}}" onchange="checkDayoff{{transaction.0}}()" required="">
                             <i class="dropdown icon"></i>
                             <div class="default text">เลือก</div> 
                             <div class="menu">
@@ -228,8 +228,9 @@
                 </div>
                 <div class="required field" id="select{{transaction.0}}">
                     <label>เลือกรูปแบบกะ</label>
-                    <select class="ui fluid dropdown" name="section_code" id="section_code{{transaction.0}}">
-                        <option value="">รหัสรูปแบบการทำงาน</option>
+                    <select class="ui fluid dropdown" name="section_code" value="{{transaction.16}}" id="section_code{{transaction.0}}">
+                        <!-- <option value="">เลือกรหัสรูปแบบการทำงาน</option> -->
+                        <option value="{{transaction.16}}">{{transaction.16}}</option>
                     </select>
                 </div>
                 <div class="required field">
@@ -390,14 +391,14 @@ if([6,0,2,3,4,5].includes(day)){
 
 <script>
     const section_code = [] 
-    section_code[0] = ['Remark', 'dayoff', 'section_code']
-    section_code[1] = ['ปกติ(STS)', 'จันทร์-อังคาร', 'DD202103']
-    section_code[2] = ['ปกติ(CPAC)', 'จันทร์-อังคาร', 'DD203103']
-    section_code[3] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK257103']
-    section_code[4] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK258103']
-    section_code[5] = ['กะ(STS)', 'จันทร์-อังคาร', 'DD202103']
-    section_code[6] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK256105']
-    section_code[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105']
+    section_code[0] = ['Remark', 'dayoff', 'section_code', 'aaaaaaaa']
+    section_code[1] = ['ปกติ(STS)', 'จันทร์-อังคาร', 'DD202103', 'bbbbbbbb']
+    section_code[2] = ['ปกติ(CPAC)', 'จันทร์-อังคาร', 'DD203103', 'ccccccc']
+    section_code[3] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK257103', 'dddddd']
+    section_code[4] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK258103', 'eeeee']
+    section_code[5] = ['กะ(STS)', 'จันทร์-อังคาร', 'DD202103', 'fffff']
+    section_code[6] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK256105', 'ggggggg']
+    section_code[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105', 'hhhhhh']
 
 
     function checkDayoff() {
@@ -405,13 +406,13 @@ if([6,0,2,3,4,5].includes(day)){
         var dayoff = document.getElementById("Newoff_code").value
         var check = true
         var arr = []  
-        checkWorkType()
+        // checkWorkType()
         
         for (var i = 0; i < section_code.length; i++) {
             if (section_code[i][0] == employee_type && section_code[i][1] == dayoff ) {  
                 for(var x = 0 ; true ; x++ ){
                     var select = document.getElementById("section_code"), 
-                    data = [section_code[i][2]] ;
+                    data = [section_code[i][2] + " " + section_code[i][3]] ;
                     arr.push(data);
                     check = false ;
                     break
@@ -428,9 +429,9 @@ if([6,0,2,3,4,5].includes(day)){
         }
         
         var option = document.createElement("OPTION");
-        txt = document.createTextNode("รหัสรูปแบบการทำงาน");
+        txt = document.createTextNode("เลือกรหัสรูปแบบการทำงาน");
         option.appendChild(txt);
-        option.setAttribute("value"," ");
+        option.setAttribute("value","");
         select.insertBefore(option,select.lastChild);
         
         for(var j = 0; j < arr.length; j++){
@@ -443,34 +444,34 @@ if([6,0,2,3,4,5].includes(day)){
         }
     }
 
-    function checkWorkType() {  
-        var employee_type = document.getElementById("Newwork_type").value
-        var dayoff = document.getElementById("Newoff_code").value
+    // function checkWorkType() {  
+    //     var employee_type = document.getElementById("Newwork_type").value
+    //     var dayoff = document.getElementById("Newoff_code").value
 
-        if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
-            document.getElementById("select").classList.add("disabled");
-        }
-        else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
-            document.getElementById("select").classList.add("disabled");
-        }
-        else{
-            document.getElementById("select").classList.remove("disabled");
-        }
-    }
+    //     if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
+    //         document.getElementById("select").classList.add("disabled");
+    //     }
+    //     else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
+    //         document.getElementById("select").classList.add("disabled");
+    //     }
+    //     else{
+    //         document.getElementById("select").classList.remove("disabled");
+    //     }
+    // }
 </script>
 
 
 {% for transaction in transactionChangeWork %}
 <script>
     const section_code{{transaction.0}} = [] 
-    section_code{{transaction.0}}[0] = ['Remark', 'dayoff', 'section_code']
-    section_code{{transaction.0}}[1] = ['ปกติ(STS)', 'จันทร์-อังคาร', 'DD202103']
-    section_code{{transaction.0}}[2] = ['ปกติ(CPAC)', 'จันทร์-อังคาร', 'DD203103']
-    section_code{{transaction.0}}[3] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK257103']
-    section_code{{transaction.0}}[4] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK258103']
-    section_code{{transaction.0}}[5] = ['กะ(STS)', 'จันทร์-อังคาร', 'DD202103']
-    section_code{{transaction.0}}[6] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK256105']
-    section_code{{transaction.0}}[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105']
+    section_code{{transaction.0}}[0] = ['Remark', 'dayoff', 'section_code', 'aaaaaaaa']
+    section_code{{transaction.0}}[1] = ['ปกติ(STS)', 'จันทร์-อังคาร', 'DD202103', 'bbbbbb']
+    section_code{{transaction.0}}[2] = ['ปกติ(CPAC)', 'จันทร์-อังคาร', 'DD203103', 'ccccccc']
+    section_code{{transaction.0}}[3] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK257103', 'ddddddd']
+    section_code{{transaction.0}}[4] = ['กะ(STS)', 'จันทร์-อังคาร', 'SK258103', 'eeeeee']
+    section_code{{transaction.0}}[5] = ['กะ(STS)', 'จันทร์-อังคาร', 'DD202103', 'ffffff']
+    section_code{{transaction.0}}[6] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK256105', 'gggggg']
+    section_code{{transaction.0}}[7] = ['กะ(STS)', 'พุธ-พฤหัสบดี', 'SK257105', 'hhhhhh']
 
 
     function checkDayoff{{transaction.0}}() {
@@ -478,13 +479,13 @@ if([6,0,2,3,4,5].includes(day)){
         var dayoff = document.getElementById("Newoff_code{{transaction.0}}").value
         var check = true
         var arr{{transaction.0}} = []  
-        checkWorkType{{transaction.0}}()
+        // checkWorkType{{transaction.0}}()
         
         for (var i = 0; i < section_code{{transaction.0}}.length; i++) {
             if (section_code{{transaction.0}}[i][0] == employee_type && section_code{{transaction.0}}[i][1] == dayoff ) {  
                 for(var x = 0 ; true ; x++ ){
                     var select = document.getElementById("section_code{{transaction.0}}"), 
-                    data = [section_code{{transaction.0}}[i][2]] ;
+                    data = [section_code[i][2] + " " + section_code[i][3]] ;
                     arr{{transaction.0}}.push(data);
                     check = false ;
                     break
@@ -501,9 +502,9 @@ if([6,0,2,3,4,5].includes(day)){
         }
         
         var option = document.createElement("OPTION");
-        txt = document.createTextNode("รหัสรูปแบบการทำงาน");
+        txt = document.createTextNode("เลือกรหัสรูปแบบการทำงาน");
         option.appendChild(txt);
-        option.setAttribute("value"," ");
+        option.setAttribute("value","");
         select.insertBefore(option,select.lastChild);
         
         for(var j = 0; j < arr{{transaction.0}}.length; j++){
@@ -516,20 +517,20 @@ if([6,0,2,3,4,5].includes(day)){
         }
     }
 
-    function checkWorkType{{transaction.0}}() {  
-        var employee_type = document.getElementById("Newwork_type{{transaction.0}}").value
-        var dayoff = document.getElementById("Newoff_code{{transaction.0}}").value
+    // function checkWorkType{{transaction.0}}() {  
+    //     var employee_type = document.getElementById("Newwork_type{{transaction.0}}").value
+    //     var dayoff = document.getElementById("Newoff_code{{transaction.0}}").value
 
-        if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
-            document.getElementById("select{{transaction.0}}").classList.add("disabled");
-        }
-        else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
-            document.getElementById("select{{transaction.0}}").classList.add("disabled");
-        }
-        else{
-            document.getElementById("select{{transaction.0}}").classList.remove("disabled");
-        }
-    }
+    //     if (employee_type == "ปกติ(STS)" || employee_type == "ปกติ(CPAC)") {
+    //         document.getElementById("select{{transaction.0}}").classList.add("disabled");
+    //     }
+    //     else if (employee_type == "กะ(STS)" && (dayoff == "A" || dayoff == "B" || dayoff == "C" || dayoff == "D")  ){
+    //         document.getElementById("select{{transaction.0}}").classList.add("disabled");
+    //     }
+    //     else{
+    //         document.getElementById("select{{transaction.0}}").classList.remove("disabled");
+    //     }
+    // }
 </script>
 {% endfor %}
 
