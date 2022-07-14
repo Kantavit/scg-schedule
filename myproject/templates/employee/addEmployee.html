@@ -45,181 +45,274 @@
         <button class="ui primary add-data-section button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
     </div>
 
-    <!-- <form class="ui form segment" action="/employee/edit/addemployee" method="POST">
-        <div class="field">
-            <h3>1.ค้นหาข้อมูลพนักงาน</h3>
-            <div class="ui fluid search selection dropdown">
-                <input type="hidden" name="employee">
-                <i class="dropdown icon"></i>
-                <div class="default text">Select employee</div>
-                <div class="menu">
-                    <div class="item" data-value="af">0150-123457 กฤต</div>
-                    <div class="item" data-value="ax">0150-123456 หวาน</div>
-                    <div class="item" data-value="ax">0150-123458 ตาล</div>
+    
+    <!-- ส่วนปุ่มจัดทีมย่อย -->
+    <div class="ui add-data-team modal">
+        <div class="header">
+            เพิ่มรายการ
+        </div>
+        <div class="content">
+            <!-- add data action -->
+            <form id="add-form" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ชื่อ</label>
+                    <input type="hidden" name="choose" value="add">
+                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
                 </div>
-            </div> 
+                <div class="required field">
+                    <label>วันที่ขอเปลี่ยน</label>
+                    <input type="date" id="date" name="date" placeholder="dd/mm/YYYY" onchange="myScript()" required=""/>
+                </div>
+                <div class="field">
+                    <label>กะเดิม/อื่น ๆ</label>
+                    <div class="ui input">
+                        <input type="text" id="box" name="OldShift" readonly>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>กะใหม่/อื่น ๆ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="NewShift" type="hidden" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div> 
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="ลา">ลา</div>
+                            <div class="item" data-value="อบรม">อบรม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" required=""> 
+                </div>
+            </form>
         </div>
+        <div class="actions">
+            <button type="submit" form="add-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
 
 
-        <div id="center-button">
-            <button class="ui blue button" type="submit">แสดง</button>
+    <!-- ส่วนปุ่มแก้ไขจัดทีมย่อย -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui edit-data-team modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
         </div>
-        <br>
-        <br>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ชื่อ</label>
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
+                </div>
+                <div class="required field">
+                    <label>วันที่ขอเปลี่ยน</label>
+                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
+                </div>
+                <div class="field">
+                    <label>กะเดิม/อื่น ๆ</label>
+                    <div class="ui input">
+                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>กะใหม่/อื่น ๆ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div> 
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="ลา">ลา</div>
+                            <div class="item" data-value="อบรม">อบรม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
+                </div>
 
-        
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>หน่วยงาน</th>
-                        <th>ทีมย่อย</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>TS4</td>
-                            <td> </td>
-                        </tr>
-                    </tbody>
-            </table>
+            </form>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-        <h4>เพิ่มทีมย่อย</h4>
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>วันเริ่มต้น</th>
-                        <th>รูปแบบตารางกะ</th>
-                        <th>เพิ่มทีมย่อย</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>20-06-2022</td>
-                            <td>DD202101</td>
-                            <td>
-                                <div class="field">
-                                    <input type="text" name="หน่วยงาน" placeholder="หน่วยงาน">
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
 
-        <br>
-        <br>
-        <br>
-        <h4>เปลี่ยนหน่วย (ทีมย่อยของท่านจะถูกลบ)</h4>
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>วันเริ่มต้น</th>
-                        <th>รูปแบบตารางกะ</th>
-                        <th>หน่วยงานเดิม</th>
-                        <th>หน่วยงานใหม่</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>20-06-2022</td>
-                            <td>DD202101</td>
-                            <td>TS4</td>
-                            <td>
-                                <div class="field">
-                                    <div class="ui fluid selection dropdown">
-                                        <input type="hidden" name="เลือกเปลี่ยน">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">Select</div>
-                                        <div class="menu">
-                                            <div class="item" data-value="af">TS5</div>
-                                        </div>
-                                    </div> 
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-            </table>
+    <!-- ส่วนปุ่มลบข้อมูลจัดทีมย่อย -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui delete-data-team modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button> -->
-        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-        <!-- <br>
-        <br>
-        <br> -->
-        <!-- <h4>dddd</h4>
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>วันเริ่มต้น</th>
-                        <th>รูปแบบตารางกะ</th>
-                        <th>หน่วยงานเดิม</th>
-                        <th>หน่วยงานใหม่</th>
-                        <th>เพิ่มทีมย่อย</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>20-06-2022</td>
-                            <td>DD202101</td>
-                            <td>TS4</td>
-                            <td>TS5</td>
-                            <td>ฝ่ายต้อนรับ</td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br> -->
 
-        <!-- <div id="foot-button" style="width:100%;text-align:center;"> -->
-            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
-            <!-- <button class="ui green button" formaction="/employee/edit/addemployee/addemployeesummary">บันทึก</button>
+    
+    <!-- ส่วนปุ่มเพิ่มคนในหน่วยงาน -->
+    <div class="ui add-data-section modal">
+        <div class="header">
+            เพิ่มรายการ
         </div>
-    </form> -->
+        <div class="content">
+            <!-- add data action -->
+            <form id="add-form" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ชื่อ</label>
+                    <input type="hidden" name="choose" value="add">
+                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
+                </div>
+                <div class="required field">
+                    <label>วันที่ขอเปลี่ยน</label>
+                    <input type="date" id="date" name="date" placeholder="dd/mm/YYYY" onchange="myScript()" required=""/>
+                </div>
+                <div class="field">
+                    <label>กะเดิม/อื่น ๆ</label>
+                    <div class="ui input">
+                        <input type="text" id="box" name="OldShift" readonly>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>กะใหม่/อื่น ๆ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="NewShift" type="hidden" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div> 
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="ลา">ลา</div>
+                            <div class="item" data-value="อบรม">อบรม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" required=""> 
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="add-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มแก้ไขเพิ่มคนในหน่วยงาน -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui edit-data-section modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ชื่อ</label>
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
+                </div>
+                <div class="required field">
+                    <label>วันที่ขอเปลี่ยน</label>
+                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
+                </div>
+                <div class="field">
+                    <label>กะเดิม/อื่น ๆ</label>
+                    <div class="ui input">
+                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>กะใหม่/อื่น ๆ</label>
+                    <div class="ui fluid selection dropdown">
+                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div> 
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="ลา">ลา</div>
+                            <div class="item" data-value="อบรม">อบรม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="required field">
+                    <label>โปรดระบุเหตุผล</label>
+                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
+                </div>
+
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <!-- ส่วนปุ่มลบข้อมูลเพิ่มคนในหน่วยงาน -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui delete-data-section modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
 </div>
 
@@ -231,23 +324,41 @@ $('.add-data-team.modal')
 </script>
 
 <script>
-$('.add-data-section-team.modal')
-    .modal('attach events', '.add-data-section-team.button', 'show') //ใช้ปุ่มโดยเรียก add-data-section-team button
+$('.add-data-section.modal')
+    .modal('attach events', '.add-data-section.button', 'show') //ใช้ปุ่มโดยเรียก add-data-section button
 ;
 </script>
     
+
 {% for transaction in transactionChangeShift %}
 <script>
-$('.{{transaction.0}}.edit-data.modal')
-    .modal('attach events', '.{{transaction.0}}.edit-data.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data button
+$('.{{transaction.0}}.edit-data-team.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-team.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-team button
 ;
 </script>
 {% endfor %}
 
 {% for transaction in transactionChangeShift %}
 <script>
-$('.{{transaction.0}}.delete-data.modal')
-    .modal('attach events', '.{{transaction.0}}.delete-data.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data button
+$('.{{transaction.0}}.edit-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-section button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.delete-data-team.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-team.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-team button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.delete-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-section button
 ;
 </script>
 {% endfor %}
