@@ -13,7 +13,39 @@
 {% block body %}
 <div class="ui container">
     <h1>เพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่</h1>
-    <form class="ui form segment" action="/employee/edit/addemployee" method="POST">
+
+    <h3>1.โปรดเลือกจัดทีมย่อยหรือเพิ่มคนในหน่วยงาน</h3>
+    <div class="required field">
+        <div class="ui fluid selection dropdown">
+            <input name="choose" type="hidden" value="none" onchange="selectCheck(this);">
+            <i class="dropdown icon"></i>
+            <div class="default text">กรุณาเลือกรายการ</div>
+            <div class="menu">
+                <div class="item" data-value="จัดทีมย่อย">จัดทีมย่อย</div>
+                <div class="item" data-value="เพิ่มคนในหน่วยงาน">เพิ่มคนในหน่วยงาน</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editTeam" style="display: none;">
+        <br>
+        <h3>2.จัดทีมย่อย</h3>
+
+        <br>
+        <br>
+        <button class="ui primary add-data-team button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
+    </div>
+
+    <div id="editSection" style="display: none;">
+        <br>
+        <h3>2.เพิ่มคนในหน่วยงาน</h3>
+
+        <br>
+        <br>
+        <button class="ui primary add-data-section button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
+    </div>
+
+    <!-- <form class="ui form segment" action="/employee/edit/addemployee" method="POST">
         <div class="field">
             <h3>1.ค้นหาข้อมูลพนักงาน</h3>
             <div class="ui fluid search selection dropdown">
@@ -143,12 +175,12 @@
         <br>
         <br>
         <br>
-        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
+        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button> -->
         <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
 
+        <!-- <br>
         <br>
-        <br>
-        <br>
+        <br> -->
         <!-- <h4>dddd</h4>
         <div class="table-scrolling">
             <table class="ui celled unstackable table">
@@ -183,17 +215,62 @@
         <br>
         <br> -->
 
-        <div id="foot-button" style="width:100%;text-align:center;">
+        <!-- <div id="foot-button" style="width:100%;text-align:center;"> -->
             <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
-            <button class="ui green button" formaction="/employee/edit/addemployee/addemployeesummary">บันทึก</button>
+            <!-- <button class="ui green button" formaction="/employee/edit/addemployee/addemployeesummary">บันทึก</button>
         </div>
-    </form>
+    </form> -->
 
 </div>
 
 
 <script>
-
+$('.add-data-team.modal')
+    .modal('attach events', '.add-data-team.button', 'show') //ใช้ปุ่มโดยเรียก add-data-team button
+;
 </script>
+
+<script>
+$('.add-data-section-team.modal')
+    .modal('attach events', '.add-data-section-team.button', 'show') //ใช้ปุ่มโดยเรียก add-data-section-team button
+;
+</script>
+    
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.edit-data.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.delete-data.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data button
+;
+</script>
+{% endfor %}
+
+
+<script>
+    function selectCheck(that){
+        if (that.value == "จัดทีมย่อย") {
+                document.getElementById("editTeam").style.display = "block";
+                document.getElementById("editSection").style.display = "none";
+        }
+        else if (that.value == "เพิ่มคนในหน่วยงาน"){
+            document.getElementById("editSection").style.display = "block";
+            document.getElementById("editTeam").style.display = "none";
+
+        }
+        else {
+            document.getElementById("editTeam").style.display = "none";
+            document.getElementById("editSection").style.display = "none";
+        }
+    }
+</script>
+
+
 
 {% endblock %}

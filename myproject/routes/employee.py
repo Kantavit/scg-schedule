@@ -1,5 +1,3 @@
-from ast import increment_lineno
-from sqlite3 import Timestamp
 from .__init__ import employee
 from ..extensions import db
 from flask import render_template, redirect, url_for, request, session
