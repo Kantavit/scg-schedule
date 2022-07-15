@@ -559,7 +559,7 @@ def addEmployee():
             approver_id = cur.fetchall()
             approver_id = approver_id[0][0]
 
-            cur.execute("INSERT INTO transactionaddemployee (employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
+            cur.execute("INSERT INTO transactionaddemployee (employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.addEmployee'))
@@ -899,12 +899,37 @@ def employeeShiftAndOffTransaction():
 @employee.route('/employee/edit/addemployee/addemployeesummary', methods=['POST','GET'])
 def employeeAddTransaction():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionaddemployee WHERE employee_requestId=%s AND status=%s", [employee_id, "unsuccessful"])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.addEmployee'))
+
+        elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionaddemployee SET status=%s, TimeStamp=%s  WHERE  employee_requestId=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('employee.employeeAddEmployeeTransactionEnd'))
+
     else:
-        return render_template('employee/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/addEmployeeEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE employee_requestId=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddemployee = cur.fetchall()
+        cur.close()
+
+        return render_template('employee/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee)
 
 ####################################################################################################
 
