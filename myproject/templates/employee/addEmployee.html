@@ -145,7 +145,7 @@
             แก้ไขข้อมูล
         </div>
         <div class="content">
-            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
+            <form id="edit-form-team{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="update">
@@ -185,7 +185,7 @@
             </form>
         </div>
         <div class="actions">
-            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <button type="submit" form="edit-form-team{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
             <div class="ui red cancel inverted button">
                 ยกเลิก
             </div>
@@ -285,47 +285,53 @@
             แก้ไขข้อมูล
         </div>
         <div class="content">
-            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
-                <div class="field">
-                    <label>ชื่อ</label>
+            <form id="edit-form-section{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">              
+                <div class="required field">
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
-                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
-                </div>
-                <div class="required field">
-                    <label>วันที่ขอเปลี่ยน</label>
-                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
-                </div>
-                <div class="field">
-                    <label>กะเดิม/อื่น ๆ</label>
-                    <div class="ui input">
-                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
-                    </div>
-                </div>
-                <div class="required field">
-                    <label>กะใหม่/อื่น ๆ</label>
-                    <div class="ui fluid selection dropdown">
-                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
+                    <label>รหัสและชื่อพนักงาน</label>
+                    <div class="ui fluid search selection dropdown" id="search-select">
+                        <input name="name-section" id="name-section{{transaction.0}}" value="{{transaction.1}} {{transaction.2}} {{transaction.3}}" type="hidden" onchange="insertData()" required="">
                         <i class="dropdown icon"></i>
-                        <div class="default text">เลือก</div> 
+                        <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
-                            <div class="item" data-value="1">1</div>
-                            <div class="item" data-value="2">2</div>
-                            <div class="item" data-value="3">3</div>
-                            <div class="item" data-value="ลา">ลา</div>
-                            <div class="item" data-value="อบรม">อบรม</div>
+                                <div class="item" data-value="{{transaction.1}} {{transaction.2}} {{transaction.3}}">{{transaction.1}} {{transaction.2}} {{transaction.3}}</div>
+                            {% for employee in allEmployee %}
+                                <div class="item" data-value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
                 <div class="required field">
-                    <label>โปรดระบุเหตุผล</label>
-                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
+                    <label>วันเริ่มต้น</label>
+                    <input type="date" id="date_start{{transaction.0}}" value="{{transaction.4}}" name="date_start" placeholder="dd/mm/YYYY" required=""/>
                 </div>
-
+                <div class="required field">
+                    <label>วันสิ้นสุด</label>
+                    <input type="date" id="date_end{{transaction.0}}" value="{{transaction.5}}" name="date_end" placeholder="dd/mm/YYYY" required=""/>
+                </div>
+                <div class="field">
+                    <label>หน่วยงานเดิม</label>
+                    <input type="text" id="Oldsection{{transaction.0}}" value="{{transaction.6}}" name="Oldsection" readonly>
+                </div>
+                <div class="required field">
+                    <label>หน่วยงานใหม่</label>
+                    <div class="ui fluid search selection dropdown" id="search-select">
+                        <input name="Newsection" id="Newsection{{transaction.0}}" value="{{transaction.7}}" type="hidden" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือกหน่วยงาน</div>
+                        <div class="menu">
+                            <div class="item" data-value="{{transaction.7}}">{{transaction.7}}</div>
+                            {% for section in employee_section %}
+                                <div class="item" data-value="{{section.0}}">{{section.0}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="actions">
-            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <button type="submit" form="edit-form-section{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
             <div class="ui red cancel inverted button">
                 ยกเลิก
             </div>
