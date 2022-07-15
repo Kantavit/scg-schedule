@@ -39,7 +39,46 @@
     <div id="editSection" style="display: none;">
         <br>
         <h3>2.เพิ่มคนในหน่วยงาน</h3>
+        {% if transactionaddemployee_element < 1 %}
+        <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
 
+        {% else %}
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <th>เลขประจำตัว</th>
+                    <th>ชื่อ-นามสกุล</th>
+                    <th>วันเริ่มต้น</th>
+                    <th>รูปแบบกะ</th>
+                    <th>หน่วยงานเดิม</th>
+                    <th>หน่วยงานใหม่</th>
+                    <th> </th>
+                    <th> </th>
+                </thead>
+                <tbody>
+                    {% for transaction in transactionaddemployee %}
+                    <tr>
+                        <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                        <td>{{transaction.2}}</td>
+                        <td>{{transaction.3}}</td>
+                        <td>{{transaction.4}}</td>
+                        <td>{{transaction.6}}</td>
+                        <td>{{transaction.4}}</td>
+                        <td>
+                            <a class="ui orange edit-data-section button {{transaction.0}}">แก้ไข</a>
+                        </td>
+                        <td>
+                            <a class="ui red delete-data-section button {{transaction.0}}">ลบ</a>
+                        </td>
+                    </tr>
+                    
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% endif %}
         <br>
         <br>
         <button class="ui primary add-data-section button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
@@ -53,7 +92,7 @@
         </div>
         <div class="content">
             <!-- add data action -->
-            <form id="add-form" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="add-form" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="add">
@@ -100,17 +139,17 @@
 
 
     <!-- ส่วนปุ่มแก้ไขจัดทีมย่อย -->
-    {% for transaction in transactionChangeShift %}
+    {% for transaction in transactionaddemployee %}
     <div class="ui edit-data-team modal {{transaction.0}}">
         <div class="header">
             แก้ไขข้อมูล
         </div>
         <div class="content">
-            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="update">
-                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
                     <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
                 </div>
                 <div class="required field">
@@ -156,17 +195,17 @@
 
 
     <!-- ส่วนปุ่มลบข้อมูลจัดทีมย่อย -->
-    {% for transaction in transactionChangeShift %}
+    {% for transaction in transactionaddemployee %}
     <div class="ui delete-data-team modal {{transaction.0}}">
         <div class="header">
             ลบข้อมูล
         </div>
         <div class="content">
-            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
                     <input type="hidden" name="choose" value="delete">
-                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
                 </div>
             </form>
         </div>
@@ -188,40 +227,45 @@
         </div>
         <div class="content">
             <!-- add data action -->
-            <form id="add-form" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
-                <div class="field">
-                    <label>ชื่อ</label>
+            <form id="add-form" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
+                <div class="required field">
                     <input type="hidden" name="choose" value="add">
-                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
-                </div>
-                <div class="required field">
-                    <label>วันที่ขอเปลี่ยน</label>
-                    <input type="date" id="date" name="date" placeholder="dd/mm/YYYY" onchange="myScript()" required=""/>
-                </div>
-                <div class="field">
-                    <label>กะเดิม/อื่น ๆ</label>
-                    <div class="ui input">
-                        <input type="text" id="box" name="OldShift" readonly>
-                    </div>
-                </div>
-                <div class="required field">
-                    <label>กะใหม่/อื่น ๆ</label>
-                    <div class="ui fluid selection dropdown">
-                        <input name="NewShift" type="hidden" required="">
+                    <label>รหัสและชื่อพนักงาน</label>
+                    <div class="ui fluid search selection dropdown" id="search-select">
+                        <input name="name-section" id="name-section" type="hidden" onchange="insertData()" required="">
                         <i class="dropdown icon"></i>
-                        <div class="default text">เลือก</div> 
+                        <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
-                            <div class="item" data-value="1">1</div>
-                            <div class="item" data-value="2">2</div>
-                            <div class="item" data-value="3">3</div>
-                            <div class="item" data-value="ลา">ลา</div>
-                            <div class="item" data-value="อบรม">อบรม</div>
+                            {% for employee in allEmployee %}
+                                <div class="item" data-value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
                 <div class="required field">
-                    <label>โปรดระบุเหตุผล</label>
-                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" required=""> 
+                    <label>วันเริ่มต้น</label>
+                    <input type="date" id="date" name="date" placeholder="dd/mm/YYYY" required=""/>
+                </div>
+                <div class="field">
+                    <label>รูปแบบกะ</label>
+                    <input type="text" id="section_code" name="OldShift" readonly>
+                </div>
+                <div class="field">
+                    <label>หน่วยงานเดิม</label>
+                    <input type="text" id="Oldsection" name="OldShift" readonly>
+                </div>
+                <div class="required field">
+                    <label>หน่วยงานใหม่</label>
+                    <div class="ui fluid search selection dropdown" id="search-select">
+                        <input name="name-section" id="Newsection" type="hidden" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือกชื่อพนักงาน</div>
+                        <div class="menu">
+                            {% for section in employee_section %}
+                                <div class="item" data-value="{{section.0}}">{{section.0}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -235,17 +279,17 @@
 
 
     <!-- ส่วนปุ่มแก้ไขเพิ่มคนในหน่วยงาน -->
-    {% for transaction in transactionChangeShift %}
+    {% for transaction in transactionaddemployee %}
     <div class="ui edit-data-section modal {{transaction.0}}">
         <div class="header">
             แก้ไขข้อมูล
         </div>
         <div class="content">
-            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ชื่อ</label>
                     <input type="hidden" name="choose" value="update">
-                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
                     <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
                 </div>
                 <div class="required field">
@@ -291,17 +335,17 @@
 
 
     <!-- ส่วนปุ่มลบข้อมูลเพิ่มคนในหน่วยงาน -->
-    {% for transaction in transactionChangeShift %}
+    {% for transaction in transactionaddemployee %}
     <div class="ui delete-data-section modal {{transaction.0}}">
         <div class="header">
             ลบข้อมูล
         </div>
         <div class="content">
-            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.editYourselfList') }}" method="POST">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
                     <input type="hidden" name="choose" value="delete">
-                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
                 </div>
             </form>
         </div>
@@ -330,7 +374,7 @@ $('.add-data-section.modal')
 </script>
     
 
-{% for transaction in transactionChangeShift %}
+{% for transaction in transactionaddemployee %}
 <script>
 $('.{{transaction.0}}.edit-data-team.modal')
     .modal('attach events', '.{{transaction.0}}.edit-data-team.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-team button
@@ -338,7 +382,7 @@ $('.{{transaction.0}}.edit-data-team.modal')
 </script>
 {% endfor %}
 
-{% for transaction in transactionChangeShift %}
+{% for transaction in transactionaddemployee %}
 <script>
 $('.{{transaction.0}}.edit-data-section.modal')
     .modal('attach events', '.{{transaction.0}}.edit-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-section button
@@ -347,7 +391,7 @@ $('.{{transaction.0}}.edit-data-section.modal')
 {% endfor %}
 
 
-{% for transaction in transactionChangeShift %}
+{% for transaction in transactionaddemployee %}
 <script>
 $('.{{transaction.0}}.delete-data-team.modal')
     .modal('attach events', '.{{transaction.0}}.delete-data-team.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-team button
@@ -355,7 +399,7 @@ $('.{{transaction.0}}.delete-data-team.modal')
 </script>
 {% endfor %}
 
-{% for transaction in transactionChangeShift %}
+{% for transaction in transactionaddemployee %}
 <script>
 $('.{{transaction.0}}.delete-data-section.modal')
     .modal('attach events', '.{{transaction.0}}.delete-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-section button
@@ -382,6 +426,30 @@ $('.{{transaction.0}}.delete-data-section.modal')
     }
 </script>
 
+
+<script>
+    const data = [] 
+    data[0] = ['0150-123457 KANTAVIT CHENPITTAYA', 'DD202101', 'Digital Transformation']
+    data[1] = ['4', '5', '6']
+    data[2] = ['7', '8', '9']
+
+    function insertData() {
+        var name = document.getElementById("name-section").value
+        var check = true 
+        for (var i = 0; i < data.length; i++) {
+            if (data[i][0] == name) {
+                document.getElementById("section_code").value = data[i][1] ;
+                document.getElementById("Oldsection").value = data[i][2] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("section_code").value = "ไม่พบข้อมูล" ;
+            document.getElementById("Oldsection").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
 
 
 {% endblock %}

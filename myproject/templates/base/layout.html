@@ -115,12 +115,11 @@ $('#button-clear') //clear all data in form .ui.button
   })
 ;
 
-$('#standard_calendar') //date input
-  .calendar({type: 'date', 
-            today: 'true', 
-            showWeekNumbers: 'false'})
-;
-
+$('#search-select') //drop down search
+  .dropdown({
+    fullTextSearch:   true
+  })
+;  
 
 </script>
 </body>
