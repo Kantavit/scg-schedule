@@ -547,7 +547,6 @@ def addEmployee():
             employee_id = employee_id.split()[0]
             date_start = request.form['date_start']
             date_end = request.form['date_end']
-            section_code = request.form['section_code']
             Oldsection = request.form['Oldsection']
             Newsection = request.form['Newsection']
             current_time = datetime.datetime.now()
@@ -560,22 +559,35 @@ def addEmployee():
             approver_id = cur.fetchall()
             approver_id = approver_id[0][0]
 
-            cur.execute("INSERT INTO transactionaddemployee (employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, section_code, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, section_code, Oldsection, Newsection, TimeStamp, status, approver_id))
+            cur.execute("INSERT INTO transactionaddemployee (employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.addEmployee'))
 
         elif request.form['choose'] == "update":
             transactionaddemployee_id = request.form['transactionaddemployee_id']
-            date = request.form['date']
-            OldShift = request.form['OldShift']
-            NewShift = request.form['NewShift']
-            reason = request.form['reason']
+            employee_requestId = employee_id
+            employee_request_name = session.get("first_name")
+            employee_request_lastname = session.get("last_name")
+            employee_id = request.form['name-section']
+            employee_name = employee_id.split()[1]
+            employee_lastname = employee_id.split()[2]
+            employee_id = employee_id.split()[0]
+            date_start = request.form['date_start']
+            date_end = request.form['date_end']
+            Oldsection = request.form['Oldsection']
+            Newsection = request.form['Newsection']
             current_time = datetime.datetime.now()
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionaddemployee SET date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionaddemployee_id=%s",(date , OldShift , NewShift , reason, TimeStamp, transactionaddemployee_id))
+            cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
+            approver_id = cur.fetchall()
+            approver_id = approver_id[0][0]
+
+            cur.execute("UPDATE transactionaddemployee SET employee_requestId=%s, employee_request_name=%s, employee_request_lastname=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s WHERE transactionaddemployee_id=%s",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, transactionaddemployee_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.addEmployee'))
