@@ -539,28 +539,26 @@ def addEmployee():
     elif request.method == 'POST':
         if request.form['select'] == "sub_team":
             if request.form['choose'] == "add":
-                employee_requestId = employee_id
-                employee_request_name = session.get("first_name")
-                employee_request_lastname = session.get("last_name")
-                employee_id = request.form['name-section']
-                employee_name = employee_id.split()[1]
-                employee_lastname = employee_id.split()[2]
-                employee_id = employee_id.split()[0]
-                date_start = request.form['date_start']
-                date_end = request.form['date_end']
-                Oldsection = request.form['Oldsection']
-                Newsection = request.form['Newsection']
-                current_time = datetime.datetime.now()
-                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
-                
-                status = "unsuccessful"
-                
-                cur = db.connection.cursor()
-                cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
-                approver_id = cur.fetchall()
-                approver_id = approver_id[0][0]
+                sub_team = request.form['sub_team']
+                name1 = request.form['name-team1']
+                name2 = request.form['name-team2']
+                name3 = request.form['name-team3']
+                name4 = request.form['name-team4']
+                name5 = request.form['name-team5']
 
-                cur.execute("INSERT INTO transactionaddemployee (employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
+                cur = db.connection.cursor()
+
+                if name1 != "none":
+                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name1))
+                if name2 != "none":
+                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name2))
+                if name3 != "none":
+                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name3))
+                if name4 != "none":
+                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name4))
+                if name5 != "none":
+                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name5))
+                
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.addEmployee'))
