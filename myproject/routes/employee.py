@@ -667,21 +667,26 @@ def addEmployee():
         cur = db.connection.cursor()
         transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE employee_requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddemployee = cur.fetchall()
-        allEmployee_element = cur.execute("SELECT * FROM employeeInfo")
+        cur.execute("SELECT * FROM employeeInfo")
         allEmployee = cur.fetchall()
         cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
         employee_section = cur.fetchall()
         cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s", [employee_id])
         user_section = cur.fetchall()
         user_section = user_section[0][0]
+        cur.execute("SELECT employee_id , employee_name , employee_lastname from employeeInfo WHERE employee_section=%s",[user_section])
+        employeeInsection = cur.fetchall()
         teamInSection_element = cur.execute("SELECT sub_team, COUNT(employee_id) as num FROM employeeInfo WHERE employee_section=%s GROUP BY sub_team",[user_section])
         teamInSection = cur.fetchall()
+        employeeInTeam_element = cur.execute("SELECT sub_team , employee_id, employee_name, employee_lastname  FROM employeeInfo WHERE employee_section=%s",[user_section])
+        employeeInTeam = cur.fetchall()
         cur.close()
 
         return render_template('employee/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee,
-                        allEmployee_element=allEmployee_element, allEmployee=allEmployee, employee_section=employee_section,
-                        teamInSection_element=teamInSection_element, teamInSection=teamInSection)
+                        allEmployee=allEmployee, employeeInsection=employeeInsection, employee_section=employee_section,
+                        teamInSection_element=teamInSection_element, teamInSection=teamInSection, employeeInTeam_element=employeeInTeam_element,
+                        employeeInTeam=employeeInTeam)
 
 ####################################################################################################
 
