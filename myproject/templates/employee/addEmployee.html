@@ -138,7 +138,7 @@
                     <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงานคนที่ 1</label>
                     <div class="ui fluid search selection dropdown" id="search-select">
-                        <input name="name-team1" id="name-section" value="none" type="hidden" required="">
+                        <input name="name-team1" id="name-team1" value="none" type="hidden" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -152,7 +152,7 @@
                     <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงานคนที่ 2</label>
                     <div class="ui fluid search selection dropdown" id="search-select">
-                        <input name="name-team2" id="name-section" value="none" type="hidden" >
+                        <input name="name-team2" id="name-team2" value="none" type="hidden" >
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -166,7 +166,7 @@
                     <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงานคนที่ 3</label>
                     <div class="ui fluid search selection dropdown" id="search-select">
-                        <input name="name-team3" id="name-section" value="none" type="hidden" >
+                        <input name="name-team3" id="name-team3" value="none" type="hidden" >
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -180,7 +180,7 @@
                     <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงานคนที่ 4</label>
                     <div class="ui fluid search selection dropdown" id="search-select">
-                        <input name="name-team4" id="name-section" value="none" type="hidden">
+                        <input name="name-team4" id="name-team4" value="none" type="hidden">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -194,7 +194,7 @@
                     <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงานคนที่ 5 </label>
                     <div class="ui fluid search selection dropdown" id="search-select">
-                        <input name="name-team5" id="name-section" value="none" type="hidden" >
+                        <input name="name-team5" id="name-team5" value="none" type="hidden" >
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -396,7 +396,7 @@
                     <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
                     <label>รหัสและชื่อพนักงาน</label>
                     <div class="ui fluid search selection dropdown" id="search-select">
-                        <input name="name-section" id="name-section{{transaction.0}}" value="{{transaction.1}} {{transaction.2}} {{transaction.3}}" type="hidden" onchange="insertData()" required="">
+                        <input name="name-section" id="name-section{{transaction.0}}" value="{{transaction.1}} {{transaction.2}} {{transaction.3}}" type="hidden" onchange="insertData{{transaction.0}}()" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
@@ -568,6 +568,31 @@ $('.{{transaction.0}}.employee-list.modal')
         }
     }
 </script>
+
+
+{% for transaction in transactionaddemployee %}
+<script>
+    const data{{transaction.0}} = [] 
+    data{{transaction.0}}[0] = ['0150-123457 KANTAVIT CHENPITTAYA', 'Digital Transformation']
+    data{{transaction.0}}[1] = ['4', '5', '6']
+    data{{transaction.0}}[2] = ['7', '8', '9']
+
+    function insertData{{transaction.0}}() {
+        var name = document.getElementById("name-section{{transaction.0}}").value
+        var check = true 
+        for (var i = 0; i < data{{transaction.0}}.length; i++) {
+            if (data{{transaction.0}}[i][0] == name) {
+                document.getElementById("Oldsection{{transaction.0}}").value = data{{transaction.0}}[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("Oldsection{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+{% endfor %}
 
 
 {% endblock %}
