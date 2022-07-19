@@ -192,6 +192,43 @@
 
 
     <!-- ส่วนปุ่มแก้ไขจัดทีมย่อย -->
+
+
+
+
+
+
+
+
+    {% for transaction in teamInSection %}
+    <div class="ui employee-list modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            {% if employeeInTeam_element < 1 %}
+            <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายชื่อ</h4>
+            {% else %}
+                {% for team in employeeInTeam %}
+                    {% if transaction.0 == team.0 %}
+                    <h4>{{team.1}} {{team.2}} {{team.3}}</h4>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+        </div>
+    </div>
+    {% endfor %}
+
+
+
+
+
+
+
+
     {% for transaction in teamInSection %}
     <div class="ui edit-data-team modal {{transaction.0}}">
         <div class="header">
@@ -200,42 +237,37 @@
         <div class="content">
             <form id="edit-form-team{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
-                    <label>ชื่อ</label>
                     <input type="hidden" name="select" value="sub_team">
                     <input type="hidden" name="choose" value="update">
-                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
-                    <input type="text" name="name" value="{{first_name.0.0}} {{last_name.0.0}}" readonly>
+                    <input type="hidden" name="sub_team" value="{{transaction.0}}">
                 </div>
-                <div class="required field">
-                    <label>วันที่ขอเปลี่ยน</label>
-                    <input type="date" id="date{{transaction.0}}" name="date" placeholder="dd/mm/YYYY" value="{{transaction.2}}" onchange="myScript{{transaction.0}}()" required=""/>
-                </div>
-                <div class="field">
-                    <label>กะเดิม/อื่น ๆ</label>
-                    <div class="ui input">
-                        <input type="text" id="box{{transaction.0}}" name="OldShift" value="{{transaction.3}}" readonly>
-                    </div>
-                </div>
-                <div class="required field">
-                    <label>กะใหม่/อื่น ๆ</label>
-                    <div class="ui fluid selection dropdown">
-                        <input name="NewShift" type="hidden" value="{{transaction.4}}" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือก</div> 
-                        <div class="menu">
-                            <div class="item" data-value="1">1</div>
-                            <div class="item" data-value="2">2</div>
-                            <div class="item" data-value="3">3</div>
-                            <div class="item" data-value="ลา">ลา</div>
-                            <div class="item" data-value="อบรม">อบรม</div>
+                {% if employeeInTeam_element < 1 %}
+                <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายชื่อ</h4>
+                {% else %}
+                    
+                        <div class="table-scrolling">
+                            <table class="ui celled unstackable table">
+                                <thead>
+                                    <th>เลขประจำตัว ชื่อ-นามสกุล</th>
+                                    <th> </th>
+                                </thead>
+                                {% for team in employeeInTeam %}
+                                {% if transaction.0 == team.0 %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{team.1}} {{team.2}} {{team.3}}</td>
+                                        <td>
+                                            <button type="submit" value="{{team.1}}" class="ui yellow button">ลบ<i class="eraser icon"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endif %}
+                                {% endfor %}
+                            </table>
                         </div>
-                    </div>
-                </div>
-                <div class="required field">
-                    <label>โปรดระบุเหตุผล</label>
-                    <input type="text" name="reason" placeholder="โปรดระบุเหตุผล" value="{{transaction.6}}" required=""> 
-                </div>
+                        
 
+                {% endif %}
             </form>
         </div>
         <div class="actions">
@@ -246,6 +278,23 @@
         </div>
     </div>
     {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <!-- ส่วนปุ่มลบข้อมูลจัดทีมย่อย -->
