@@ -564,29 +564,10 @@ def addEmployee():
                 return redirect(url_for('employee.addEmployee'))
 
             elif request.form['choose'] == "update":
-                transactionaddemployee_id = request.form['transactionaddemployee_id']
-                employee_requestId = employee_id
-                employee_request_name = session.get("first_name")
-                employee_request_lastname = session.get("last_name")
-                employee_id = request.form['name-section']
-                employee_name = employee_id.split()[1]
-                employee_lastname = employee_id.split()[2]
-                employee_id = employee_id.split()[0]
-                date_start = request.form['date_start']
-                date_end = request.form['date_end']
-                Oldsection = request.form['Oldsection']
-                Newsection = request.form['Newsection']
-                current_time = datetime.datetime.now()
-                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
-                
-                status = "unsuccessful"
+                employeeToDelete = request.form['employeeToDelete']
 
                 cur = db.connection.cursor()
-                cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
-                approver_id = cur.fetchall()
-                approver_id = approver_id[0][0]
-
-                cur.execute("UPDATE transactionaddemployee SET employee_requestId=%s, employee_request_name=%s, employee_request_lastname=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s WHERE transactionaddemployee_id=%s",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, transactionaddemployee_id))
+                cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(" ", employeeToDelete))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.addEmployee'))
@@ -674,7 +655,7 @@ def addEmployee():
         user_section = user_section[0][0]
         cur.execute("SELECT employee_id , employee_name , employee_lastname from employeeInfo WHERE employee_section=%s",[user_section])
         employeeInsection = cur.fetchall()
-        teamInSection_element = cur.execute("SELECT sub_team, COUNT(employee_id) as num FROM employeeInfo WHERE employee_section=%s GROUP BY sub_team",[user_section])
+        teamInSection_element = cur.execute("SELECT sub_team, COUNT(employee_id) as num FROM employeeInfo WHERE employee_section=%s AND sub_team!=%s GROUP BY sub_team",(user_section, " "))
         teamInSection = cur.fetchall()
         employeeInTeam_element = cur.execute("SELECT sub_team , employee_id, employee_name, employee_lastname  FROM employeeInfo WHERE employee_section=%s",[user_section])
         employeeInTeam = cur.fetchall()
