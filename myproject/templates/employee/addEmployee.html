@@ -136,73 +136,49 @@
                 <div class="required field">
                     <input type="hidden" name="select" value="sub_team">
                     <input type="hidden" name="choose" value="add">
-                    <label>รหัสและชื่อพนักงานคนที่ 1</label>
-                    <div class="ui fluid search selection dropdown" id="search-select01">
-                        <input name="name-team1" id="name-team1" value="none" type="hidden" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                            {% for employee in employeeInsection %}
-                                <div class="item" data-value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <label>รหัสและชื่อพนักงานคนที่ 1 </label>
+                    <select name="name-team1" id="name-team1" style="width: 100%;" class="operator" required> 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="field">
-                    <input type="hidden" name="choose" value="add">
-                    <label>รหัสและชื่อพนักงานคนที่ 2</label>
-                    <div class="ui fluid search selection dropdown" id="search-select02">
-                        <input name="name-team2" id="name-team2" value="none" type="hidden" >
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                            {% for employee in employeeInsection %}
-                                <div class="item" data-value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <label>รหัสและชื่อพนักงานคนที่ 2 </label>
+                    <select name="name-team2" id="name-team2" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="field">
-                    <input type="hidden" name="choose" value="add">
-                    <label>รหัสและชื่อพนักงานคนที่ 3</label>
-                    <div class="ui fluid search selection dropdown" id="search-select03">
-                        <input name="name-team3" id="name-team3" value="none" type="hidden" >
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                            {% for employee in employeeInsection %}
-                                <div class="item" data-value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <label>รหัสและชื่อพนักงานคนที่ 3 </label>
+                    <select name="name-team3" id="name-team3" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="field">
-                    <input type="hidden" name="choose" value="add">
-                    <label>รหัสและชื่อพนักงานคนที่ 4</label>
-                    <div class="ui fluid search selection dropdown" id="search-select04">
-                        <input name="name-team4" id="name-team4" value="none" type="hidden">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                            {% for employee in employeeInsection %}
-                                <div class="item" data-value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <label>รหัสและชื่อพนักงานคนที่ 4 </label>
+                    <select name="name-team4" id="name-team4" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="field">
-                    <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงานคนที่ 5 </label>
-                    <div class="ui fluid search selection dropdown" id="search-select05">
-                        <input name="name-team5" id="name-team5" value="none" type="hidden" >
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                            {% for employee in employeeInsection %}
-                                <div class="item" data-value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <select name="name-team5" id="name-team5" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </form>
         </div>
@@ -335,16 +311,12 @@
                     <input type="hidden" name="select" value="section">
                     <input type="hidden" name="choose" value="add">
                     <label>รหัสและชื่อพนักงาน</label>
-                    <div class="ui fluid search selection dropdown" id="search-select06">
-                        <input name="name-section" id="name-section" type="hidden" onchange="insertData()" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                            {% for employee in allEmployee %}
-                                <div class="item" data-value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <select name="name-section" id="name-section" style="width: 100%;" class="operator" onchange="insertData()" required> 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in allEmployee %}
+                            <option value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="required field">
                     <label>วันเริ่มต้น</label>
@@ -360,16 +332,12 @@
                 </div>
                 <div class="required field">
                     <label>หน่วยงานใหม่</label>
-                    <div class="ui fluid search selection dropdown" id="search-select07">
-                        <input name="Newsection" id="Newsection" type="hidden" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกหน่วยงาน</div>
-                        <div class="menu">
-                            {% for section in employee_section %}
-                                <div class="item" data-value="{{section.0}}">{{section.0}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <select name="Newsection" id="Newsection" style="width: 100%;" class="operator" required> 
+                        <option value="">เลือกหน่วยงาน</option>
+                        {% for section in employee_section %}
+                            <option value="{{section.0}}">{{section.0}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </form>
         </div>
@@ -395,17 +363,13 @@
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
                     <label>รหัสและชื่อพนักงาน</label>
-                    <div class="ui fluid search selection dropdown" id="search-select{{transaction.0}}">
-                        <input name="name-section" id="name-section{{transaction.0}}" value="{{transaction.1}} {{transaction.2}} {{transaction.3}}" type="hidden" onchange="insertData{{transaction.0}}()" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกชื่อพนักงาน</div>
-                        <div class="menu">
-                                <div class="item" data-value="{{transaction.1}} {{transaction.2}} {{transaction.3}}">{{transaction.1}} {{transaction.2}} {{transaction.3}}</div>
-                            {% for employee in allEmployee %}
-                                <div class="item" data-value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <select name="name-section" id="name-section{{transaction.0}}" style="width: 100%;" class="operator" onchange="insertData{{transaction.0}}()" required> 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        <option value="{{transaction.1}} {{transaction.2}} {{transaction.3}}" selected>{{transaction.1}} {{transaction.2}} {{transaction.3}}</option>
+                        {% for employee in allEmployee %}
+                            <option value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="required field">
                     <label>วันเริ่มต้น</label>
@@ -421,17 +385,13 @@
                 </div>
                 <div class="required field">
                     <label>หน่วยงานใหม่</label>
-                    <div class="ui fluid search selection dropdown" id="search-select{{transaction.0}}{{transaction.0}}">
-                        <input name="Newsection" id="Newsection{{transaction.0}}" value="{{transaction.7}}" type="hidden" required="">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">เลือกหน่วยงาน</div>
-                        <div class="menu">
-                            <div class="item" data-value="{{transaction.7}}">{{transaction.7}}</div>
-                            {% for section in employee_section %}
-                                <div class="item" data-value="{{section.0}}">{{section.0}}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <select name="Newsection" id="Newsection{{transaction.0}}" style="width: 100%;" class="operator" required> 
+                        <option value="">เลือกหน่วยงาน</option>
+                        <option value="{{transaction.7}}" selected>{{transaction.7}}</option>
+                        {% for section in employee_section %}
+                            <option value="{{section.0}}">{{section.0}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </form>
         </div>
@@ -593,27 +553,6 @@ $('.{{transaction.0}}.employee-list.modal')
     }
 </script>
 {% endfor %}
-
-
-<!-- {% for transaction in transactionaddemployee %}
-<script>
-$('#search-select{{transaction.0}}') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-; 
-</script>
-{% endfor %}
-
-{% for transaction in transactionaddemployee %}
-<script>
-$('#search-select{{transaction.0}}{{transaction.0}}') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-; 
-</script>
-{% endfor %} -->
 
 
 {% endblock %}

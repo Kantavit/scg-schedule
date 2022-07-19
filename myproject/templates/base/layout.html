@@ -26,6 +26,9 @@
     <!-- the rrule-to-fullcalendar connector. must go AFTER the rrule lib -->
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@5.11.0/main.global.min.js'></script>
             
+    <!-- select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
     <div class="ui menu">
         <div class="left menu">
@@ -115,47 +118,11 @@ $('#button-clear') //clear all data in form .ui.button
   })
 ;
 
-$('#search-select01') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
+$(document).ready(function () {  //drop down search
+    //change selectboxes to selectize mode to be searchable
+       $("select").select2();
+});
 
-$('#search-select02') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
-
-$('#search-select03') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
-
-$('#search-select04') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
-
-$('#search-select05') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
-
-$('#search-select06') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
-
-$('#search-select07') //drop down search
-  .dropdown({
-    fullTextSearch: true
-  })
-;  
 </script>
 </body>
 </html>
