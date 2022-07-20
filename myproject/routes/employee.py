@@ -156,9 +156,6 @@ def editCowork():
 
             cur.close()
             return redirect(url_for('employee.employeeCoworkTransaction'))
-            # , date=date,employee_name1=session.get("first_name"),
-            #         employee_lastname1=session.get("last_name"),OldShift=OldShift,NewShift=NewShift,employee_name2=employee_name2,
-            #         employee_lastname2=employee_lastname2,OldShift2=OldShift2,NewShift2=NewShift2,reason=reason
 
         elif request.form['choose'] == "สามคน":
             cur = db.connection.cursor()
@@ -237,10 +234,6 @@ def editCowork():
 
             cur.close()
             return redirect(url_for('employee.employeeCoworkTransaction'))
-            # , date=date,employee_name1=session.get("first_name"),
-            #         employee_lastname1=session.get("last_name"),OldShift=OldShift,NewShift=NewShift,employee_name2=employee_name2,
-            #         employee_lastname2=employee_lastname2,OldShift2=OldShift2,NewShift2=NewShift2,employee_name3=employee_name3,
-            #         employee_lastname3=employee_lastname3,OldShift3=OldShift3,NewShift3=NewShift3,reason=reason
 
     else:
         cur = db.connection.cursor()
@@ -348,7 +341,12 @@ def editAddShift():
 def chooseEditShiftAndOff():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
-    sub_team = session.get("sub_team")
+    
+    # query sub_team
+    cur = db.connection.cursor()
+    cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
+    sub_team = cur.fetchall()
+    cur.close()
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')

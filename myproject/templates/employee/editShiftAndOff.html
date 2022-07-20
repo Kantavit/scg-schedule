@@ -135,7 +135,7 @@
                 </div>
                 <div class="required field" id="select">
                     <label>เลือกรูปแบบกะ</label>
-                    <select class="ui fluid dropdown" name="section_code" id="section_code">
+                    <select name="section_code" id="section_code" style="width: 100%;" class="operator" required> 
                         <option value="">เลือกรหัสรูปแบบการทำงาน</option>
                     </select>
                 </div>
@@ -228,8 +228,7 @@
                 </div>
                 <div class="required field" id="select{{transaction.0}}">
                     <label>เลือกรูปแบบกะ</label>
-                    <select class="ui fluid dropdown" name="section_code" value="{{transaction.16}}" id="section_code{{transaction.0}}">
-                        <!-- <option value="">เลือกรหัสรูปแบบการทำงาน</option> -->
+                    <select name="section_code" id="section_code{{transaction.0}}" value="{{transaction.16}}" style="width: 100%;" class="operator" required> 
                         <option value="{{transaction.16}}">{{transaction.16}}</option>
                     </select>
                 </div>
