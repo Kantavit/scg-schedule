@@ -86,17 +86,19 @@ def editYourself():
 def editCowork():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
-        
+
+    # query sub_team
+    cur = db.connection.cursor()
+    cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
+    sub_team = cur.fetchall()
+    cur.close()
+    
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     
     elif request.method == 'POST':
         if request.form['choose'] == "สองคน":
             cur = db.connection.cursor()
-
-            # query sub_team
-            cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
-            sub_team = cur.fetchall()
 
             # count employee
             cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
@@ -160,10 +162,6 @@ def editCowork():
 
         elif request.form['choose'] == "สามคน":
             cur = db.connection.cursor()
-
-            # query sub_team
-            cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
-            sub_team = cur.fetchall()
 
             # count employee
             cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
