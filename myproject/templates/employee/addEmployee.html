@@ -130,12 +130,41 @@
             <!-- add data action -->
             <form id="add-form-team" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="required field">
-                    <label>ชื่อทีมย่อย</label>
-                    <input type="text" id="sub_team" name="sub_team" required="">
-                </div>
-                <div class="required field">
+                    <label>กรุณาเลือกรายการ</label>
                     <input type="hidden" name="select" value="sub_team">
                     <input type="hidden" name="choose" value="add">
+                    <div class="ui fluid selection dropdown">
+                        <input name="choose2" type="hidden" value="none" onchange="teamOption(this);" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div>
+                        <div class="menu">
+                            <div class="item" data-value="เพิ่มสมาชิก">เพิ่มสมาชิก</div>
+                            <div class="item" data-value="สร้างทีม">สร้างทีม</div>
+                        </div>
+                    </div>                
+                </div>
+
+                <div id="addToTeam" style="display: none;">
+                    <div class="required field">
+                        <label>ชื่อทีมย่อย</label>
+                        <select name="addToTeam" id="sub_team" style="width: 100%;" class="operator" > 
+                            <option value="">เลือกชื่อทีมย่อย</option>
+                            {% for transaction in teamInSection %}
+                                <option value="{{transaction.0}}">{{transaction.0}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div id="createTeam" style="display: none;">
+                    <div class="required field">
+                        <label>ชื่อทีมย่อย</label>
+                        <input type="text" name="createTeam" id="sub_team" >
+                    </div>
+                </div>
+                <br>
+                
+                <div class="required field">
                     <label>รหัสและชื่อพนักงานคนที่ 1 </label>
                     <select name="name-team1" id="name-team1" style="width: 100%;" class="operator" required> 
                         <option value="">เลือกชื่อพนักงาน</option>
@@ -479,6 +508,7 @@ $('.{{transaction.0}}.employee-list.modal')
 </script>
 {% endfor %}
 
+
 <script>
     function selectCheck(that){
         if (that.value == "จัดทีมย่อย") {
@@ -493,6 +523,24 @@ $('.{{transaction.0}}.employee-list.modal')
         else {
             document.getElementById("editTeam").style.display = "none";
             document.getElementById("editSection").style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function teamOption(that){
+        if (that.value == "เพิ่มสมาชิก") {
+                document.getElementById("addToTeam").style.display = "block";
+                document.getElementById("createTeam").style.display = "none";
+        }
+        else if (that.value == "สร้างทีม"){
+            document.getElementById("createTeam").style.display = "block";
+            document.getElementById("addToTeam").style.display = "none";
+
+        }
+        else {
+            document.getElementById("createTeam").style.display = "none";
+            document.getElementById("addToTeam").style.display = "none";
         }
     }
 </script>

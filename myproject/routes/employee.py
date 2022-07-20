@@ -539,7 +539,8 @@ def addEmployee():
     elif request.method == 'POST':
         if request.form['select'] == "sub_team":
             if request.form['choose'] == "add":
-                sub_team = request.form['sub_team']
+                addToTeam = request.form['addToTeam']
+                createTeam = request.form['createTeam']
                 name1 = request.form['name-team1']
                 name2 = request.form['name-team2']
                 name3 = request.form['name-team3']
@@ -548,16 +549,28 @@ def addEmployee():
 
                 cur = db.connection.cursor()
 
-                if name1 != "none":
-                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name1))
-                if name2 != "none":
-                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name2))
-                if name3 != "none":
-                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name3))
-                if name4 != "none":
-                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name4))
-                if name5 != "none":
-                    cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(sub_team, name5))
+                if request.form['choose2'] == "เพิ่มสมาชิก":  
+                    if name1 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name1))
+                    if name2 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name2))
+                    if name3 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name3))
+                    if name4 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name4))
+                    if name5 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name5))
+                elif request.form['choose2'] == "สร้างทีม":
+                    if name1 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name1))
+                    if name2 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name2))
+                    if name3 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name3))
+                    if name4 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name4))
+                    if name5 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name5))
                 
                 db.connection.commit()
                 cur.close()
