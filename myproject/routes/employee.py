@@ -255,16 +255,49 @@ def editCowork():
         for i in range(count):
             otherEmployee[i] = idSub_team[i][0]
         
+        
         cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[employee_id])
         shifts = cur.fetchall()
-        cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
-        shifts2 = cur.fetchall()
-        cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
-        shifts3 = cur.fetchall()
-        cur.close()
 
-        return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+        if count == 1:
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+            shifts2 = cur.fetchall()
+            cur.close()
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_team=idSub_team, shifts=shifts, shifts2=shifts2)
+        elif count == 2:
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+            shifts2 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
+            shifts3 = cur.fetchall()
+            cur.close()
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                                 idSub_team=idSub_team, shifts=shifts, shifts2=shifts2, shifts3=shifts3 )
+        elif count == 3:
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+            shifts2 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
+            shifts3 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[2]])
+            shifts4 = cur.fetchall()
+            cur.close()
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_team=idSub_team, shifts=shifts, shifts2=shifts2, shifts3=shifts3, shifts4=shifts4 )
+        elif count == 4:
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[0]])
+            shifts2 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[1]])
+            shifts3 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[2]])
+            shifts4 = cur.fetchall()
+            cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s ",[otherEmployee[3]])
+            shifts5 = cur.fetchall()
+            cur.close()
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_team=idSub_team, shifts=shifts, shifts2=shifts2, shifts3=shifts3, shifts4=shifts4, shifts5=shifts5 )
+        else:
+            return render_template('employee/coworkEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_team=idSub_team, shifts=shifts )
 
 
 @employee.route('/employee/edit/shift/addshift', methods=['POST','GET'])
