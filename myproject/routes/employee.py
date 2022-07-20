@@ -86,7 +86,6 @@ def editYourself():
 def editCowork():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
-    sub_team = session.get("sub_team")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -94,6 +93,11 @@ def editCowork():
     elif request.method == 'POST':
         if request.form['choose'] == "สองคน":
             cur = db.connection.cursor()
+
+            # query sub_team
+            cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
+            sub_team = cur.fetchall()
+
             # count employee
             cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
             employee_count = cur.fetchall()
@@ -156,6 +160,11 @@ def editCowork():
 
         elif request.form['choose'] == "สามคน":
             cur = db.connection.cursor()
+
+            # query sub_team
+            cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
+            sub_team = cur.fetchall()
+
             # count employee
             cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
             employee_count = cur.fetchall()
@@ -835,7 +844,7 @@ def employeeCoworkTransaction():
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
                 cur = db.connection.cursor()
-                cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_id , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2))
+                cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s)",(name1 , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.employeeCoworkTransactionEnd'))
