@@ -586,8 +586,12 @@ def addEmployee():
                 return redirect(url_for('employee.addEmployee'))
 
             elif request.form['choose'] == "delete":
-                transactionaddemployee_id = request.form['transactionaddemployee_id']
+                sub_team = request.form['sub_team']
 
+                cur = db.connection.cursor()
+                cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE sub_team=%s",(" ", sub_team))
+                db.connection.commit()
+                cur.close()
                 return redirect(url_for('employee.addEmployee'))
 
         elif request.form['select'] == "section":
