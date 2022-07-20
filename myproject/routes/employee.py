@@ -237,6 +237,10 @@ def editCowork():
 
     else:
         cur = db.connection.cursor()
+
+        # query sub_team
+        cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",[employee_id])
+        sub_team = cur.fetchall()
         
         # count employee
         cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s AND employee_id!=%s ",(sub_team, employee_id))
