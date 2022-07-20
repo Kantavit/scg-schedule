@@ -169,7 +169,8 @@
                 </div>
                 <div class="required field">
                     <label>ชื่อ</label>
-                    <div class="ui fluid selection dropdown">
+                    <input type="text" name="name" id="name{{transaction.0}}" value="{{transaction.2}} {{transaction.3}}" onchange="queryWorkData{{transaction.0}}()" readonly>
+                    <!-- <div class="ui fluid selection dropdown">
                         <input name="name" id="name{{transaction.0}}" type="hidden" onchange="queryWorkData{{transaction.0}}()" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
@@ -178,7 +179,7 @@
                                 <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
                             {% endfor %}
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
@@ -189,7 +190,7 @@
                     <div class="field">
                         <label>รูปแบบการทำงานเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="Oldwork_type{{transaction.0}}" name="Oldwork_type" readonly>
+                            <input type="text" id="Oldwork_type{{transaction.0}}" value="{{transaction.12}}" name="Oldwork_type" readonly>
                         </div>
                     </div>
                     <div class="required field">
@@ -210,7 +211,7 @@
                     <div class="field">
                         <label>วันหยุดเดิม</label>
                         <div class="ui input">
-                            <input type="text" id="Oldoff_code{{transaction.0}}" name="Oldoff_code" readonly>
+                            <input type="text" id="Oldoff_code{{transaction.0}}" value="{{transaction.14}}" name="Oldoff_code" readonly>
                         </div>
                     </div>
                     <div class="required field">
@@ -338,8 +339,18 @@ if([6,0,2,3,4,5].includes(day)){
     const data = [] 
     //             employee_id           Remark                 dayoff
     data[0] = ['{{workData1.0.0}}', '{{workData1.0.1}}', '{{workData1.0.2}}']
-    data[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
-    data[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
+    {% if workData2 is defined %}
+        data[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
+    {% endif %}
+    {% if workData2 is defined %}
+        data[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
+    {% endif %}
+    {% if workData2 is defined %}
+        data[3] = ['{{workData4.0.0}}', '{{workData4.0.1}}', '{{workData4.0.2}}']
+    {% endif %}
+    {% if workData2 is defined %}
+        data[4] = ['{{workData5.0.0}}', '{{workData5.0.1}}', '{{workData5.0.2}}']
+    {% endif %}
 
     function queryWorkData() {
         var name = document.getElementById("name").value
@@ -365,8 +376,18 @@ if([6,0,2,3,4,5].includes(day)){
     const data{{transaction.0}} = [] 
     //             employee_id           Remark                 dayoff
     data{{transaction.0}}[0] = ['{{workData1.0.0}}', '{{workData1.0.1}}', '{{workData1.0.2}}']
-    data{{transaction.0}}[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
-    data{{transaction.0}}[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
+    {% if workData2 is defined %}
+        data{{transaction.0}}[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
+    {% endif %}
+    {% if workData2 is defined %}
+        data{{transaction.0}}[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
+    {% endif %}
+    {% if workData2 is defined %}
+        data{{transaction.0}}[3] = ['{{workData4.0.0}}', '{{workData4.0.1}}', '{{workData4.0.2}}']
+    {% endif %}
+    {% if workData2 is defined %}
+        data{{transaction.0}}[4] = ['{{workData5.0.0}}', '{{workData5.0.1}}', '{{workData5.0.2}}']
+    {% endif %}
 
     function queryWorkData{{transaction.0}}() {
         var name = document.getElementById("name{{transaction.0}}").value
