@@ -304,6 +304,7 @@ def editCowork():
 def editAddShift():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    requestId = employee_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -326,7 +327,7 @@ def editAddShift():
             employeeinfo_db = cur.fetchall()
             approver_id = employeeinfo_db[0][4]
 
-            cur.execute("INSERT INTO transactionaddShift (employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id))
+            cur.execute("INSERT INTO transactionaddShift (requestId, employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editAddShift'))
@@ -341,7 +342,7 @@ def editAddShift():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionaddShift SET date=%s , OldShift=%s , addShift=%s , reason=%s , TimeStamp=%s WHERE transactionaddShift_id=%s",(date , OldShift , addShift , reason, TimeStamp, transactionaddShift_id))
+            cur.execute("UPDATE transactionaddShift SET requestId=%s, date=%s , OldShift=%s , addShift=%s , reason=%s , TimeStamp=%s WHERE transactionaddShift_id=%s",(requestId, date , OldShift , addShift , reason, TimeStamp, transactionaddShift_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editAddShift'))
@@ -357,7 +358,7 @@ def editAddShift():
 
     else:
         cur = db.connection.cursor()
-        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddShift = cur.fetchall()
         query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
         cur.execute(query)
@@ -374,6 +375,7 @@ def editAddShift():
 def chooseEditShiftAndOff():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    requestId = employee_id
     
     # query sub_team
     cur = db.connection.cursor()
@@ -415,7 +417,7 @@ def chooseEditShiftAndOff():
             employeeinfo_db = cur.fetchone()
             director_id = employeeinfo_db[0]
 
-            cur.execute("INSERT INTO transactionChangeWork (employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id))
+            cur.execute("INSERT INTO transactionChangeWork (requestId, employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.chooseEditShiftAndOff'))
@@ -450,7 +452,7 @@ def chooseEditShiftAndOff():
             employeeinfo_db = cur.fetchone()
             director_id = employeeinfo_db[0]
 
-            cur.execute("UPDATE transactionChangeWork SET employee_id=%s , employee_name=%s , employee_lastname=%s, date=%s, Oldwork_type=%s, Newwork_type=%s, Oldoff_code=%s, Newoff_code=%s, section_code=%s, reason=%s, TimeStamp=%s, status=%s, approver_id=%s, director_id=%s WHERE transactionChangeWork_id=%s",(employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id, transactionChangeWork_id))
+            cur.execute("UPDATE transactionChangeWork SET requestId=%s, employee_id=%s , employee_name=%s , employee_lastname=%s, date=%s, Oldwork_type=%s, Newwork_type=%s, Oldoff_code=%s, Newoff_code=%s, section_code=%s, reason=%s, TimeStamp=%s, status=%s, approver_id=%s, director_id=%s WHERE transactionChangeWork_id=%s",(requestId, employee_id , employee_name , employee_lastname, date, Oldwork_type, Newwork_type, Oldoff_code, Newoff_code, section_code, reason, TimeStamp, status, approver_id, director_id, transactionChangeWork_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.chooseEditShiftAndOff'))
@@ -484,7 +486,7 @@ def chooseEditShiftAndOff():
         section_code_element = cur.execute("SELECT Remark, dayoff, section_code FROM filtershift")
         section_code_data = cur.fetchall()
         
-        transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionChangeWork = cur.fetchall()
 
         otherEmployee = [0]*count
@@ -610,6 +612,7 @@ def addEmployee():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
     sub_team = session.get("sub_team")
+    requestId = employee_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -674,9 +677,6 @@ def addEmployee():
 
         elif request.form['select'] == "section":
             if request.form['choose'] == "add":
-                employee_requestId = employee_id
-                employee_request_name = session.get("first_name")
-                employee_request_lastname = session.get("last_name")
                 employee_id = request.form['name-section']
                 employee_name = employee_id.split()[1]
                 employee_lastname = employee_id.split()[2]
@@ -695,16 +695,13 @@ def addEmployee():
                 approver_id = cur.fetchall()
                 approver_id = approver_id[0][0]
 
-                cur.execute("INSERT INTO transactionaddemployee (employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
+                cur.execute("INSERT INTO transactionaddemployee (requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.addEmployee'))
 
             elif request.form['choose'] == "update":
                 transactionaddemployee_id = request.form['transactionaddemployee_id']
-                employee_requestId = employee_id
-                employee_request_name = session.get("first_name")
-                employee_request_lastname = session.get("last_name")
                 employee_id = request.form['name-section']
                 employee_name = employee_id.split()[1]
                 employee_lastname = employee_id.split()[2]
@@ -723,7 +720,7 @@ def addEmployee():
                 approver_id = cur.fetchall()
                 approver_id = approver_id[0][0]
 
-                cur.execute("UPDATE transactionaddemployee SET employee_requestId=%s, employee_request_name=%s, employee_request_lastname=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s WHERE transactionaddemployee_id=%s",(employee_requestId, employee_request_name, employee_request_lastname, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, transactionaddemployee_id))
+                cur.execute("UPDATE transactionaddemployee SET requestId=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s WHERE transactionaddemployee_id=%s",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, transactionaddemployee_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.addEmployee'))
@@ -739,7 +736,7 @@ def addEmployee():
 
     else:
         cur = db.connection.cursor()
-        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE employee_requestId=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddemployee = cur.fetchall()
         cur.execute("SELECT * FROM employeeInfo")
         allEmployee = cur.fetchall()
@@ -768,6 +765,7 @@ def addEmployee():
 def editYourselfList():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    requestId = employee_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -790,7 +788,7 @@ def editYourselfList():
             employeeinfo_db = cur.fetchall()
             approver_id = employeeinfo_db[0][4]
 
-            cur.execute("INSERT INTO transactionChangeShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)",(employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id))
+            cur.execute("INSERT INTO transactionChangeShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
@@ -805,7 +803,7 @@ def editYourselfList():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeShift SET date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(date , OldShift , NewShift , reason, TimeStamp, transactionChangeShift_id))
+            cur.execute("UPDATE transactionChangeShift SET requestId=%s, date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(requestId, date , OldShift , NewShift , reason, TimeStamp, transactionChangeShift_id))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
@@ -821,7 +819,7 @@ def editYourselfList():
 
     else:
         cur = db.connection.cursor()
-        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionChangeShift = cur.fetchall()
         query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
         cur.execute(query)
@@ -843,7 +841,7 @@ def employeeSelfTransaction():
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionChangeShift WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
+            cur.execute("DELETE FROM transactionChangeShift WHERE requestId=%s AND status=%s", [employee_id, "unsuccessful"])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editYourselfList'))
@@ -853,14 +851,14 @@ def employeeSelfTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeShift SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            cur.execute("UPDATE transactionChangeShift SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeSelfTransactionEnd'))
 
     else:
         cur = db.connection.cursor()
-        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionChangeShift = cur.fetchall()
         query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
         cur.execute(query)
@@ -875,6 +873,7 @@ def employeeSelfTransaction():
 def employeeCoworkTransaction():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    requestId = employee_id
 
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -909,7 +908,7 @@ def employeeCoworkTransaction():
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
                 cur = db.connection.cursor()
-                cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s)",(name1 , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2))
+                cur.execute("INSERT INTO transactionCoworkShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, name1 , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.employeeCoworkTransactionEnd'))
@@ -952,7 +951,7 @@ def employeeCoworkTransaction():
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
                 cur = db.connection.cursor()
-                cur.execute("INSERT INTO transactionCoworkShift (employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2, employee_id3, employee_name3, employee_lastname3, OldShift3, NewShift3 ) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(employee_id , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2, name3, employee_name3, employee_lastname3, OldShift3, NewShift3))
+                cur.execute("INSERT INTO transactionCoworkShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2, employee_id3, employee_name3, employee_lastname3, OldShift3, NewShift3 ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2, name3, employee_name3, employee_lastname3, OldShift3, NewShift3))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.employeeCoworkTransactionEnd'))
@@ -978,7 +977,7 @@ def employeeAddShiftTransaction():
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionaddShift WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
+            cur.execute("DELETE FROM transactionaddShift WHERE requestId=%s AND status=%s", [employee_id, "unsuccessful"])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.editAddShift'))
@@ -988,14 +987,14 @@ def employeeAddShiftTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionaddShift SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            cur.execute("UPDATE transactionaddShift SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeAddShiftTransactionEnd'))
 
     else:
         cur = db.connection.cursor()
-        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddShift = cur.fetchall()
         query = "SELECT * FROM employeeShift WHERE employeeShift_id = " + "'" + employee_id + "'"
         cur.execute(query)
@@ -1017,7 +1016,7 @@ def employeeShiftAndOffTransaction():
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionChangeWork WHERE employee_id=%s AND status=%s", [employee_id, "unsuccessful"])
+            cur.execute("DELETE FROM transactionChangeWork WHERE requestId=%s AND status=%s", [employee_id, "unsuccessful"])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.chooseEditShiftAndOff'))
@@ -1027,14 +1026,14 @@ def employeeShiftAndOffTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeWork SET status=%s, TimeStamp=%s  WHERE  employee_id=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            cur.execute("UPDATE transactionChangeWork SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeShiftAndOffTransactionEnd'))
 
     else:
         cur = db.connection.cursor()
-        transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE employee_id=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionChangeWork = cur.fetchall()
         cur.close()
 
@@ -1053,7 +1052,7 @@ def employeeAddTransaction():
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
             cur = db.connection.cursor()
-            cur.execute("DELETE FROM transactionaddemployee WHERE employee_requestId=%s AND status=%s", [employee_id, "unsuccessful"])
+            cur.execute("DELETE FROM transactionaddemployee WHERE requestId=%s AND status=%s", [employee_id, "unsuccessful"])
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.addEmployee'))
@@ -1063,14 +1062,14 @@ def employeeAddTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionaddemployee SET status=%s, TimeStamp=%s  WHERE  employee_requestId=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
+            cur.execute("UPDATE transactionaddemployee SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("waiting", TimeStamp, employee_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('employee.employeeAddEmployeeTransactionEnd'))
 
     else:
         cur = db.connection.cursor()
-        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE employee_requestId=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddemployee = cur.fetchall()
         cur.close()
 

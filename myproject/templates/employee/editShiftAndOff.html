@@ -171,10 +171,11 @@
                     <label>ชื่อ</label>
                     <input type="text" name="name" id="name{{transaction.0}}" value="{{transaction.2}} {{transaction.3}}" onchange="queryWorkData{{transaction.0}}()" readonly>
                     <!-- <div class="ui fluid selection dropdown">
-                        <input name="name" id="name{{transaction.0}}" type="hidden" onchange="queryWorkData{{transaction.0}}()" required="">
+                        <input name="name" id="name{{transaction.0}}" type="hidden" value="{{transaction.1}}" onchange="queryWorkData{{transaction.0}}()" required="">
                         <i class="dropdown icon"></i>
                         <div class="default text">เลือกชื่อพนักงาน</div>
                         <div class="menu">
+                                <div class="item" data-value="{{transaction.1}}">{{transaction.2}} {{transaction.3}}</div>
                             {% for name in idSub_teamAll %}
                                 <div class="item" data-value="{{name.0}}">{{name.1}} {{name.2}}</div>
                             {% endfor %}
@@ -183,7 +184,6 @@
                 </div>
                 <div class="required field">
                     <label>วันที่มีผล(โปรดเลือกวันจันทร์เท่านั้น)</label>
-                    <!-- <input type="text" id="datepicker" name="date" required=""/> -->
                     <input type="date" id="date{{transaction.0}}" name="date" value="{{transaction.4}}" placeholder="dd/mm/YYYY" required=""/>
                 </div>
                 <div class="two fields">
@@ -342,13 +342,13 @@ if([6,0,2,3,4,5].includes(day)){
     {% if workData2 is defined %}
         data[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
     {% endif %}
-    {% if workData2 is defined %}
+    {% if workData3 is defined %}
         data[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
     {% endif %}
-    {% if workData2 is defined %}
+    {% if workData4 is defined %}
         data[3] = ['{{workData4.0.0}}', '{{workData4.0.1}}', '{{workData4.0.2}}']
     {% endif %}
-    {% if workData2 is defined %}
+    {% if workData5 is defined %}
         data[4] = ['{{workData5.0.0}}', '{{workData5.0.1}}', '{{workData5.0.2}}']
     {% endif %}
 
@@ -379,13 +379,13 @@ if([6,0,2,3,4,5].includes(day)){
     {% if workData2 is defined %}
         data{{transaction.0}}[1] = ['{{workData2.0.0}}', '{{workData2.0.1}}', '{{workData2.0.2}}']
     {% endif %}
-    {% if workData2 is defined %}
+    {% if workData3 is defined %}
         data{{transaction.0}}[2] = ['{{workData3.0.0}}', '{{workData3.0.1}}', '{{workData3.0.2}}']
     {% endif %}
-    {% if workData2 is defined %}
+    {% if workData4 is defined %}
         data{{transaction.0}}[3] = ['{{workData4.0.0}}', '{{workData4.0.1}}', '{{workData4.0.2}}']
     {% endif %}
-    {% if workData2 is defined %}
+    {% if workData5 is defined %}
         data{{transaction.0}}[4] = ['{{workData5.0.0}}', '{{workData5.0.1}}', '{{workData5.0.2}}']
     {% endif %}
 
