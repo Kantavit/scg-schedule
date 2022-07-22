@@ -568,12 +568,81 @@ def viewShiftOnly():
 @employee.route('/employee/edit/status')
 def chooseCheckStatus():
     line_id = session.get("line_id") # in case for query
-        
+    employee_id = session.get("employee_id")
+
+    waitCount = 0
+    cur = db.connection.cursor()
+    cur.execute("SELECT COUNT(transactionaddemployee_id) FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+    transactionaddemployee_count = cur.fetchall()
+    waitCount = waitCount + transactionaddemployee_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionaddShift_id) FROM transactionaddShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+    transactionaddShift_count = cur.fetchall()
+    waitCount = waitCount + transactionaddShift_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionChangeShift_id) FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+    transactionChangeShift_count = cur.fetchall()
+    waitCount = waitCount + transactionChangeShift_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+    transactionChangeWork_count = cur.fetchall()
+    waitCount = waitCount + transactionChangeWork_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionCoworkShift_id) FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+    transactionCoworkShift_count = cur.fetchall()
+    waitCount = waitCount + transactionCoworkShift_count[0][0]
+
+    approveCount = 0
+    cur = db.connection.cursor()
+    cur.execute("SELECT COUNT(transactionaddemployee_id) FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+    transactionaddemployee_count = cur.fetchall()
+    approveCount = approveCount + transactionaddemployee_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionaddShift_id) FROM transactionaddShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+    transactionaddShift_count = cur.fetchall()
+    approveCount = approveCount + transactionaddShift_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionChangeShift_id) FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+    transactionChangeShift_count = cur.fetchall()
+    approveCount = approveCount + transactionChangeShift_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+    transactionChangeWork_count = cur.fetchall()
+    approveCount = approveCount + transactionChangeWork_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionCoworkShift_id) FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+    transactionCoworkShift_count = cur.fetchall()
+    approveCount = approveCount + transactionCoworkShift_count[0][0]
+
+    rejectCount = 0
+    cur = db.connection.cursor()
+    cur.execute("SELECT COUNT(transactionaddemployee_id) FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+    transactionaddemployee_count = cur.fetchall()
+    rejectCount = rejectCount + transactionaddemployee_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionaddShift_id) FROM transactionaddShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+    transactionaddShift_count = cur.fetchall()
+    rejectCount = rejectCount + transactionaddShift_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionChangeShift_id) FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+    transactionChangeShift_count = cur.fetchall()
+    rejectCount = rejectCount + transactionChangeShift_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+    transactionChangeWork_count = cur.fetchall()
+    rejectCount = rejectCount + transactionChangeWork_count[0][0]
+
+    cur.execute("SELECT COUNT(transactionCoworkShift_id) FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+    transactionCoworkShift_count = cur.fetchall()
+    rejectCount = rejectCount + transactionCoworkShift_count[0][0]
+
+
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
-        return render_template('employee/checkStatus.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/checkStatus.html')
+
+        return render_template('employee/checkStatus.html', first_name=session.get("first_name"), last_name=session.get("last_name"), waitCount=waitCount, approveCount=approveCount, rejectCount=rejectCount)
+
 
 @employee.route('/employee/edit/status/pending')
 def pending():
