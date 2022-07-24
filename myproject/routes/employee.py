@@ -713,11 +713,25 @@ def pending():
                 cur.close()
                 return redirect(url_for('employee.pending'))
 
-        # elif request.form['select'] == "ChangeWork":
-        #     if request.form['choose'] == "update":
-        #         pass
-        #     elif request.form['choose'] == "delete":
-        #         pass
+        elif request.form['select'] == "ChangeWork":
+            if request.form['choose'] == "update":
+                transactionChangeWork_id = request.form['transactionChangeWork_id']
+                status = "unsuccessful"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionChangeWork SET status=%s, requestId=%s WHERE transactionChangeWork_id=%s",(status, employee_id, transactionChangeWork_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.chooseEditShiftAndOff'))
+
+            elif request.form['choose'] == "delete":
+                transactionChangeWork_id = request.form['transactionChangeWork_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.pending'))
 
         # elif request.form['select'] == "CoworkShift":
         #     if request.form['choose'] == "update":

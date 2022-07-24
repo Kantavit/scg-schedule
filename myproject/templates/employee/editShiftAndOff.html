@@ -169,7 +169,8 @@
                 </div>
                 <div class="required field">
                     <label>ชื่อ</label>
-                    <input type="text" name="name" id="name{{transaction.0}}" value="{{transaction.2}} {{transaction.3}}" onchange="queryWorkData{{transaction.0}}()" readonly>
+                    <input type="text" name="name-lastname" id="name{{transaction.0}}" value="{{transaction.2}} {{transaction.3}}" onchange="queryWorkData{{transaction.0}}()" readonly>
+                    <input type="hidden" name="name" value="{{transaction.1}}">
                     <!-- <div class="ui fluid selection dropdown">
                         <input name="name" id="name{{transaction.0}}" type="hidden" value="{{transaction.1}}" onchange="queryWorkData{{transaction.0}}()" required="">
                         <i class="dropdown icon"></i>
