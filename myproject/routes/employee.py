@@ -673,11 +673,25 @@ def pending():
                 cur.close()
                 return redirect(url_for('employee.pending'))
 
-        # elif request.form['select'] == "addShift":
-        #     if request.form['choose'] == "update":
-        #         pass
-        #     elif request.form['choose'] == "delete":
-        #         pass
+        elif request.form['select'] == "addShift":
+            if request.form['choose'] == "update":
+                transactionaddShift_id = request.form['transactionaddShift_id']
+                status = "unsuccessful"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionaddShift SET status=%s, requestId=%s WHERE transactionaddShift_id=%s",(status, employee_id, transactionaddShift_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.editAddShift'))
+
+            elif request.form['choose'] == "delete":
+                transactionaddShift_id = request.form['transactionaddShift_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionaddShift WHERE transactionaddShift_id=%s",[transactionaddShift_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.pending'))
         # elif request.form['select'] == "ChangeShift":
         #     if request.form['choose'] == "update":
         #         pass
@@ -693,6 +707,7 @@ def pending():
         #         pass
         #     elif request.form['choose'] == "delete":
         #         pass
+
     else:
         cur = db.connection.cursor()
         transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
