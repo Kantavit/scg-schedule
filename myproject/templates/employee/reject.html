@@ -13,36 +13,191 @@
 {% block body %}
 <div class="ui container">
     <h1>รายการถูกปฏิเสธ</h1>
+    
+    <h3>รายการเปลี่ยนกะตนเอง</h3>
+    {% if transactionChangeShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
     <div class="table-scrolling">
         <table class="ui celled unstackable table">
             <thead>
-                <tr>
-                    <th>ชื่อ-สกุล</th>
-                    <th>วันที่ยื่นคำขอ</th>
-                    <th>รายการ</th>
-                    <th>สถานะคำขอ</th>
-                    <th> </th>
-                </tr>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม/อื่น ๆ</th>
+                <th>กะใหม่/อื่น ๆ</th>
+                <th>เหตุผล</th>
             </thead>
-                <tbody>
-                    <tr>
-                        <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                        <td>11-11-2011</td>
-                        <td>เปลี่ยนกะตนเอง</td>
-                        <td><button class="ui button red" type="button">ปฏิเสธ</button></td>
-                        <td>
-                            <a href="/employee/edit/shift/self/selflist/selflistsummary">แก้ไข</a>
-                        </td>
-                    </tr>
-                </tbody>
+            <tbody>
+                {% for transaction in transactionChangeShift %}
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
+                </tr>
+                
+
+                {% endfor %}
+            </tbody>
         </table>
     </div>
+    {% endif %}
+
     <br>
+    <hr>
+    
+    <h3>รายการสลับกะกับเพื่อน</h3>
+    {% if transactionCoworkShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        {% for transaction in transactionCoworkShift %}
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม</th>
+                <th>กะใหม่</th>
+            </thead>
+            
+            <tbody>
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>{{transaction.11}} {{transaction.12}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                </tr>
+            </tbody>
+            {% if transaction.15 != None %}
+            <tbody>
+                <tr>
+                    <td>{{transaction.16}} {{transaction.17}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.18}}</td>
+                    <td>{{transaction.19}}</td>
+                </tr>
+            </tbody>
+            {% endif %}
+        </table>
+        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เหตุผลที่ต้องการเปลี่ยน: {{transaction.6}}</h4>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <br>
+    <hr>
+
+    <h3>รายการเพิ่มกะในวันเดียวกัน</h3>
+    {% if transactionaddShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม/อื่น ๆ</th>
+                <th>เพิ่มกะใหม่/อื่น ๆ</th>
+                <th>เหตุผล</th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionaddShift %}
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
     <br>
+    <hr>
+
+    <h3>รายการเปลี่ยนรูปแบบการทำงานและวันหยุด</h3>
+    {% if transactionChangeWork_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่มีผล</th>
+                <th>รูปแบบการทำงานเดิม</th>
+                <th>รูปแบบการทำงานใหม่</th>
+                <th>วันหยุดเดิม</th>
+                <th>วันหยุดใหม่</th>
+                <th>เลือกรูปแบบกะ</th>
+                <th>เหตุผล</th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionChangeWork %}
+                <tr>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.12}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                    <td>{{transaction.15}}</td>
+                    <td>{{transaction.16}}</td>
+                    <td>{{transaction.6}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
     <br>
-    <br>
-    <br>
+    <hr>
+
+    <h3>รายการเปลี่ยนหน่วยงานใหม่</h3>
+    {% if transactionaddemployee_element < 1 %}
+        <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>เลขประจำตัว</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>วันเริ่มต้น</th>
+                <th>วันสิ้นสุด</th>
+                <th>หน่วยงานเดิม</th>
+                <th>หน่วยงานใหม่</th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionaddemployee %}
+                <tr>
+                    <td>{{transaction.1}}</td>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.5}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>{{transaction.7}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
 
 </div>
 
