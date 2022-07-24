@@ -647,32 +647,98 @@ def chooseCheckStatus():
 @employee.route('/employee/edit/status/pending')
 def pending():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
-        return render_template('employee/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/pending.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+        transactionaddemployee = cur.fetchall()
+
+        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+        transactionaddShift = cur.fetchall()
+
+        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+        transactionChangeShift = cur.fetchall()
+
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+        transactionChangeWork = cur.fetchall()
+
+        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+        transactionCoworkShift = cur.fetchall()
+
+        return render_template('employee/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
+                    transactionaddemployee=transactionaddemployee,transactionaddemployee_element=transactionaddemployee_element,
+                    transactionaddShift=transactionaddShift,transactionaddShift_element=transactionaddShift_element,
+                    transactionChangeShift=transactionChangeShift,transactionChangeShift_element=transactionChangeShift_element,
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element,
+                    transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
+
 
 @employee.route('/employee/edit/status/approve')
 def approve():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
-        return render_template('employee/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/approve.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+        transactionaddemployee = cur.fetchall()
+
+        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+        transactionaddShift = cur.fetchall()
+
+        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+        transactionChangeShift = cur.fetchall()
+
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+        transactionChangeWork = cur.fetchall()
+
+        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+        transactionCoworkShift = cur.fetchall()
+
+        return render_template('employee/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
+                    transactionaddemployee=transactionaddemployee,transactionaddemployee_element=transactionaddemployee_element,
+                    transactionaddShift=transactionaddShift,transactionaddShift_element=transactionaddShift_element,
+                    transactionChangeShift=transactionChangeShift,transactionChangeShift_element=transactionChangeShift_element,
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element,
+                    transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
+
 
 @employee.route('/employee/edit/status/reject')
 def reject():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
-        return render_template('employee/reject.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/reject.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+        transactionaddemployee = cur.fetchall()
+
+        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+        transactionaddShift = cur.fetchall()
+
+        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+        transactionChangeShift = cur.fetchall()
+
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+        transactionChangeWork = cur.fetchall()
+
+        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+        transactionCoworkShift = cur.fetchall()
+
+        return render_template('employee/reject.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
+                    transactionaddemployee=transactionaddemployee,transactionaddemployee_element=transactionaddemployee_element,
+                    transactionaddShift=transactionaddShift,transactionaddShift_element=transactionaddShift_element,
+                    transactionChangeShift=transactionChangeShift,transactionChangeShift_element=transactionChangeShift_element,
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element,
+                    transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
+
 
 ####################################################################################################
 
