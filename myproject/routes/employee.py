@@ -692,16 +692,33 @@ def pending():
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.pending'))
-        # elif request.form['select'] == "ChangeShift":
-        #     if request.form['choose'] == "update":
-        #         pass
-        #     elif request.form['choose'] == "delete":
-        #         pass
+
+        elif request.form['select'] == "ChangeShift":
+            if request.form['choose'] == "update":
+                transactionChangeShift_id = request.form['transactionChangeShift_id']
+                status = "unsuccessful"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionChangeShift SET status=%s, requestId=%s WHERE transactionChangeShift_id=%s",(status, employee_id, transactionChangeShift_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.editYourselfList'))
+
+            elif request.form['choose'] == "delete":
+                transactionChangeShift_id = request.form['transactionChangeShift_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",[transactionChangeShift_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.pending'))
+
         # elif request.form['select'] == "ChangeWork":
         #     if request.form['choose'] == "update":
         #         pass
         #     elif request.form['choose'] == "delete":
         #         pass
+
         # elif request.form['select'] == "CoworkShift":
         #     if request.form['choose'] == "update":
         #         pass
