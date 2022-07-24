@@ -644,13 +644,55 @@ def chooseCheckStatus():
         return render_template('employee/checkStatus.html', first_name=session.get("first_name"), last_name=session.get("last_name"), waitCount=waitCount, approveCount=approveCount, rejectCount=rejectCount)
 
 
-@employee.route('/employee/edit/status/pending')
+@employee.route('/employee/edit/status/pending', methods=['POST','GET'])
 def pending():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
+        
+    elif request.method == 'POST':
+        if request.form['select'] == "addemployee":
+            if request.form['choose'] == "update":
+                transactionaddemployee_id = request.form['transactionaddemployee_id']
+                status = "unsuccessful"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionaddemployee SET status=%s, requestId=%s WHERE transactionaddemployee_id=%s",(status, employee_id, transactionaddemployee_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.addEmployee'))
+
+            elif request.form['choose'] == "delete":
+                transactionaddemployee_id = request.form['transactionaddemployee_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionaddemployee WHERE transactionaddemployee_id=%s",[transactionaddemployee_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('employee.pending'))
+
+        # elif request.form['select'] == "addShift":
+        #     if request.form['choose'] == "update":
+        #         pass
+        #     elif request.form['choose'] == "delete":
+        #         pass
+        # elif request.form['select'] == "ChangeShift":
+        #     if request.form['choose'] == "update":
+        #         pass
+        #     elif request.form['choose'] == "delete":
+        #         pass
+        # elif request.form['select'] == "ChangeWork":
+        #     if request.form['choose'] == "update":
+        #         pass
+        #     elif request.form['choose'] == "delete":
+        #         pass
+        # elif request.form['select'] == "CoworkShift":
+        #     if request.form['choose'] == "update":
+        #         pass
+        #     elif request.form['choose'] == "delete":
+        #         pass
     else:
         cur = db.connection.cursor()
         transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s",(employee_id, "waiting"))

@@ -42,7 +42,7 @@
                         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
                     </td>
                     <td>
-                        <a class="ui red delete-data button {{transaction.0}}">ลบ</a>
+                        <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
                     </td>
                 </tr>
                 
@@ -101,7 +101,7 @@
         {% for transaction in transactionCoworkShift %}
         <h4>เหตุผลที่ต้องการเปลี่ยน: {{transaction.6}}</h4>
         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
-        <a class="ui red delete-data button {{transaction.0}}">ลบ</a>
+        <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
         {% endfor %}
     </div>
     {% endif %}
@@ -137,7 +137,7 @@
                         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
                     </td>
                     <td>
-                        <a class="ui red delete-data button {{transaction.0}}">ลบ</a>
+                        <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -183,7 +183,7 @@
                         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
                     </td>
                     <td>
-                        <a class="ui red delete-data button {{transaction.0}}">ลบ</a>
+                        <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -225,7 +225,7 @@
                             <a class="ui orange edit-data-section button {{transaction.0}}">แก้ไข</a>
                         </td>
                         <td>
-                            <a class="ui red delete-data-section button {{transaction.0}}">ลบ</a>
+                            <a class="ui red delete-data-section button {{transaction.0}}">ยกเลิก</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -234,6 +234,64 @@
         </div>
         {% endif %}
 
+
+        <!-- transactionaddemployee edit and delete -->
+        <!-- ส่วนปุ่มแก้ไขเพิ่มคนในหน่วยงาน -->
+        {% for transaction in transactionaddemployee %}
+        <div class="ui edit-data-section modal {{transaction.0}}">
+            <div class="header">
+                แก้ไขข้อมูล
+            </div>
+            <div class="content">
+                <form id="edit-form-section{{transaction.0}}" class="ui form" action="{{ url_for('employee.pending') }}" method="POST">              
+                    <div class="field">
+                        <label>ท่านต้องการแก้ไขข้อมูลหรือไม่ ?</label>
+                        <input type="hidden" name="select" value="addemployee">
+                        <input type="hidden" name="choose" value="update">
+                        <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                    </div>                  
+                </form>
+            </div>
+            <div class="actions">
+                <button type="submit" form="edit-form-section{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+                <div class="ui red cancel inverted button">
+                    ยกเลิก
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- ส่วนปุ่มลบข้อมูลเพิ่มคนในหน่วยงาน -->
+        {% for transaction in transactionaddemployee %}
+        <div class="ui delete-data-section modal {{transaction.0}}">
+            <div class="header">
+                ลบข้อมูล
+            </div>
+            <div class="content">
+                <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.pending') }}" method="POST">
+                    <div class="field">
+                        <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                        <input type="hidden" name="select" value="addemployee">
+                        <input type="hidden" name="choose" value="delete">
+                        <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                    </div>
+                </form>
+            </div>
+            <div class="actions">
+                <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+                <div class="ui red cancel inverted button">
+                    ยกเลิก
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!--  -->
+
+        
+        <!-- transactionaddemployee edit and delete -->
+        
+
+        <!--  -->
 
 </div>
 
@@ -244,9 +302,22 @@ hr.solid {
 }
 </style>
 
-<script>
 
+{% for transaction in transactionaddemployee %}
+<script>
+$('.{{transaction.0}}.edit-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-section button
+;
 </script>
+{% endfor %}
+
+{% for transaction in transactionaddemployee %}
+<script>
+$('.{{transaction.0}}.delete-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-section button
+;
+</script>
+{% endfor %}
 
 
 {% endblock %}
