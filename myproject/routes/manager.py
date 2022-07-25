@@ -1,7 +1,7 @@
 from .__init__ import manager
 from ..extensions import db
 from flask import render_template, redirect, url_for, request, session
-
+import datetime;
 
 
 @manager.route('/manager')
@@ -17,11 +17,17 @@ def managerLoginPage():
     
     cur = db.connection.cursor()
     query = "SELECT approver_name FROM approver inner join approverInfo on approver.approver_id = approverInfo.approver_id WHERE line_id = " + "'" + toString + "'"
-    justQuery = cur.execute(query)
+    cur.execute(query)
     first_name = cur.fetchall()
     query = "SELECT approver_lastname FROM approver inner join approverInfo on approver.approver_id = approverInfo.approver_id WHERE line_id = " + "'" + toString + "'"
-    justQuery = cur.execute(query)
+    cur.execute(query)
     last_name = cur.fetchall()
+    query = "SELECT approver_id FROM approver WHERE line_id = " + "'" + toString + "'"
+    cur.execute(query)
+    approver_id = cur.fetchall() 
+    cur.execute("SELECT approver_section FROM approverInfo WHERE approver_id=%s", [approver_id[0][0]])
+    approver_section = cur.fetchall()
+
     cur.close()
 
     if bool(first_name) == False and bool(last_name) == False:
@@ -30,10 +36,12 @@ def managerLoginPage():
 
     session['first_name'] = first_name # send first_name to other page
     session['last_name'] = last_name # send last_name to other page
+    session['approver_id'] = approver_id[0][0] # send last_name to other page
+    session['approver_section'] = approver_section[0][0]
 
     return render_template('manager/welcome.html')
 
-@manager.route('/manager/home')
+@manager.route('/manager/home', methods=['POST','GET'])
 def managerPage():
     line_id = session.get("line_id") # in case for query
         
@@ -78,12 +86,24 @@ def chooseEditShift():
 @manager.route('/manager/edit', methods=['POST','GET'])
 def employeeShift():
     line_id = session.get("line_id") # in case for query
+    approver_section = session.get("approver_section")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('manager/warning.html')
-    else:
+
+    elif request.method == 'POST':
+        session['sub_team'] = request.form['sub_team']
         return render_template('manager/managerEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/managerEdit.html')
+
+    else:
+        cur = db.connection.cursor()
+        teamInSection_element = cur.execute("SELECT sub_team, COUNT(employee_id) as num FROM employeeInfo WHERE employee_section=%s AND sub_team!=%s GROUP BY sub_team",(approver_section, " "))
+        teamInSection = cur.fetchall()
+    
+        cur.close()
+        
+        return render_template('manager/selectSubteam.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                    teamInSection_element=teamInSection_element, teamInSection=teamInSection)
 
 
 @manager.route('/manager/edit/selflist', methods=['POST','GET'])

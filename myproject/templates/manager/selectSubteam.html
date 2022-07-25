@@ -1,0 +1,39 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+เลือกทีมย่อย
+{% endblock %}
+
+
+{% block head %}
+คุณ {{first_name.0.0}} {{last_name.0.0}}
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>เลือกทีมย่อย</h1>
+
+    <h3>เลือกทีมย่อยที่ต้องการแก้ไข</h3>
+    {% if teamInSection_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+        {% for transaction in teamInSection %}
+        <br>
+        <div>
+            <form id="add-form-section" class="ui form" action="{{ url_for('manager.employeeShift') }}" method="POST">
+                <button type="submit" name="sub_team" value="{{transaction.0}}" class="ui employee-list button {{transaction.0}}" style="width:100%;text-align:center;">{{transaction.0}}</button>
+            </form>
+        </div>
+        <br>
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}
