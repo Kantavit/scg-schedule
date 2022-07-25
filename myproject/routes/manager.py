@@ -241,7 +241,7 @@ def editCowork():
     approver_id = session.get("approver_id")
     
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
     
     elif request.method == 'POST':
         if request.form['choose'] == "สองคน":
@@ -465,7 +465,7 @@ def editAddShift():
     requestId = approver_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
     
     elif request.method == 'POST':
         if request.form['choose'] == "add":
@@ -637,7 +637,7 @@ def employeeSelfTransaction():
     approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
 
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
@@ -674,7 +674,7 @@ def employeeCoworkTransaction():
     requestId = approver_id
 
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
 
     elif session.get("choose") == "สองคน":
         date1 = session.get("date2-1")
@@ -769,7 +769,7 @@ def employeeAddShiftTransaction():
     approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
 
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
