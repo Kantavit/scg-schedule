@@ -109,12 +109,129 @@ def employeeShift():
 @manager.route('/manager/edit/selflist', methods=['POST','GET'])
 def editYourselfList():
     line_id = session.get("line_id") # in case for query
+    sub_team = session.get("sub_team")
+    approver_id = session.get("approver_id")
+    requestId = approver_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('manager/warning.html')
-    else:
-        return render_template('manager/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/selfEditList.html')
+    
+    elif request.method == 'POST':
+        if request.form['choose'] == "add":
+            employee_id = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            NewShift = request.form['NewShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+              
+            cur = db.connection.cursor()
+            cur.execute("INSERT INTO transactionChangeShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editYourselfList'))
+
+        elif request.form['choose'] == "update":
+            transactionChangeShift_id = request.form['transactionChangeShift_id']
+            employee_id = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            NewShift = request.form['NewShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeShift SET requestId=%s, employee_id=%s, date=%s , OldShift=%s , NewShift=%s , reason=%s , TimeStamp=%s WHERE transactionChangeShift_id=%s",(requestId, employee_id, date , OldShift , NewShift , reason, TimeStamp, transactionChangeShift_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editYourselfList'))
+
+        elif request.form['choose'] == "delete":
+            transactionChangeShift_id = request.form['transactionChangeShift_id']
+
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",[transactionChangeShift_id])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editYourselfList'))
+
+    else:     
+        cur = db.connection.cursor()
+
+        # count employee
+        cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s",[sub_team])
+        employee_count = cur.fetchall()
+        count = employee_count[0][0]
+
+        # get all employee in same team 
+        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s",[sub_team])
+        idSub_teamAll = cur.fetchall()
+        
+        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
+        transactionChangeShift = cur.fetchall()
+
+        otherEmployee = [0]*count
+        for i in range(count):
+            otherEmployee[i] = idSub_teamAll[i][0]
+
+        if count == 1:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.close()
+            return render_template('manager/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1,
+                                transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
+        elif count == 2:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.close()
+            return render_template('manager/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, 
+                                transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
+        elif count == 3:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[2]])
+            workData3 = cur.fetchall()
+            cur.close()
+            return render_template('manager/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, 
+                                transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
+        elif count == 4:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[2]])
+            workData3 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[3]])
+            workData4 = cur.fetchall()
+            cur.close()
+            return render_template('manager/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, workData4=workData4,
+                                transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
+        elif count == 5:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[2]])
+            workData3 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[3]])
+            workData4 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[4]])
+            workData5 = cur.fetchall()
+            return render_template('manager/selfEditList.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, workData4=workData4, workData5=workData5,
+                                transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
 
 
 @manager.route('/manager/edit/cowork', methods=['POST','GET'])
@@ -189,12 +306,37 @@ def addEmployee():
 @manager.route('/manager/edit/selflist/selflistsummary', methods=['POST','GET'])
 def employeeSelfTransaction():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
+        return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionChangeShift WHERE requestId=%s AND status=%s", [approver_id, "unsuccessful"])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editYourselfList'))
+
+        elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionChangeShift SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.employeeSelfTransactionEnd'))
+
     else:
-        return render_template('manager/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/selfEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionChangeShift_element = cur.execute(" SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
+        transactionChangeShift = cur.fetchall()
+        cur.close()
+
+        return render_template('manager/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
 
 
 @manager.route('/manager/edit/cowork/coworksummary', methods=['POST','GET'])
@@ -259,7 +401,7 @@ def employeeSelfTransactionEnd():
     line_id = session.get("line_id") # in case for query
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        render_template('manager/warning.html')
+        return render_template('manager/warning.html')
     else:
         return render_template('manager/selfTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
     # return render_template('manager/selfTransactionEnd.html')
