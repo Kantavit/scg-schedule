@@ -71,7 +71,7 @@ def approve():
         return render_template('manager/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
     # return render_template('manager/approve.html')
 
-@manager.route('/manager/shift')
+@manager.route('/manager/shift', methods=['POST','GET'])
 def chooseEditShift():
     line_id = session.get("line_id") # in case for query
         
@@ -79,7 +79,7 @@ def chooseEditShift():
         return render_template('manager/warning.html')
     else:
         return render_template('manager/editShift.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/editShift.html')
+
 
 ####################################################################################################
 

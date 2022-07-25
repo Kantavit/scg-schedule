@@ -13,7 +13,7 @@
 {% block body %}
 <div class="ui container">
     <h1>ตารางกะการทำงานในปัจจุบัน</h1>
-    <form class="ui form segment" action="/employee" method="POST">
+    <form class="ui form segment" action="/manager/edit" method="POST">
         <div class="field">
             <h3>โปรดเลือกหน่วยงาน</h3>
             <div class="ui fluid selection dropdown">
@@ -92,12 +92,22 @@
         <!-- <div class="ui error message"></div> จาก script ข้างล่าง-->
         <br>
         <br>
-        <div id="foot-button">
-            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
-            <button class="ui yellow button" formaction="/manager/edit">แก้ไข</button>
-        </div>
+        <!-- <div id="foot-button">
+            <a href="/manager/edit">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <button class="ui yellow button">แก้ไข</button>
+                </div>
+            </a>
+        </div> -->
     </form>
 
+    <div id="foot-button">
+        <a href="/manager/edit">
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <button class="ui yellow button">แก้ไข</button>
+            </div>
+        </a>
+    </div>
 
 </div>
 
