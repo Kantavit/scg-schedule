@@ -249,12 +249,129 @@ def editCowork():
 @manager.route('/manager/edit/addshift', methods=['POST','GET'])
 def editAddShift():
     line_id = session.get("line_id") # in case for query
+    sub_team = session.get("sub_team")
+    approver_id = session.get("approver_id")
+    requestId = approver_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
-    else:
-        return render_template('manager/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/addshiftEdit.html')
+        return render_template('employee/warning.html')
+    
+    elif request.method == 'POST':
+        if request.form['choose'] == "add":
+            employee_id = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            addShift = request.form['addShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            status = "unsuccessful"
+              
+            cur = db.connection.cursor()
+            cur.execute("INSERT INTO transactionaddShift (requestId, employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id , date , OldShift , addShift , TimeStamp ,  reason , status , approver_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editAddShift'))
+
+        elif request.form['choose'] == "update":
+            transactionaddShift_id = request.form['transactionaddShift_id']
+            employee_id = request.form['name']
+            date = request.form['date']
+            OldShift = request.form['OldShift']
+            addShift = request.form['addShift']
+            reason = request.form['reason']
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionaddShift SET requestId=%s, employee_id=%s, date=%s , OldShift=%s , addShift=%s , reason=%s , TimeStamp=%s WHERE transactionaddShift_id=%s",(requestId, employee_id, date , OldShift , addShift , reason, TimeStamp, transactionaddShift_id))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editAddShift'))
+
+        elif request.form['choose'] == "delete":
+            transactionaddShift_id = request.form['transactionaddShift_id']
+
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionaddShift WHERE transactionaddShift_id=%s",[transactionaddShift_id])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editAddShift'))
+
+    else:     
+        cur = db.connection.cursor()
+
+        # count employee
+        cur.execute("SELECT COUNT(employee_id) FROM employeeInfo WHERE sub_team=%s",[sub_team])
+        employee_count = cur.fetchall()
+        count = employee_count[0][0]
+
+        # get all employee in same team 
+        cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s",[sub_team])
+        idSub_teamAll = cur.fetchall()
+        
+        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
+        transactionaddShift = cur.fetchall()
+
+        otherEmployee = [0]*count
+        for i in range(count):
+            otherEmployee[i] = idSub_teamAll[i][0]
+
+        if count == 1:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.close()
+            return render_template('manager/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1,
+                                transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
+        elif count == 2:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.close()
+            return render_template('manager/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, 
+                                transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
+        elif count == 3:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[2]])
+            workData3 = cur.fetchall()
+            cur.close()
+            return render_template('manager/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, 
+                                transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
+        elif count == 4:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[2]])
+            workData3 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[3]])
+            workData4 = cur.fetchall()
+            cur.close()
+            return render_template('manager/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, workData4=workData4,
+                                transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
+        elif count == 5:
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[0]])
+            workData1 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[1]])
+            workData2 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[2]])
+            workData3 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[3]])
+            workData4 = cur.fetchall()
+            cur.execute("SELECT employee_id,Remark , dayoff FROM filtershift INNER JOIN employeeInfo ON filtershift.section_code = employeeInfo.section_code WHERE employee_id=%s",[otherEmployee[4]])
+            workData5 = cur.fetchall()
+            return render_template('manager/addshiftEdit.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                                idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, workData4=workData4, workData5=workData5,
+                                transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
 
 
 @manager.route('/manager/edit/shiftandoff', methods=['POST','GET'])
@@ -353,12 +470,37 @@ def employeeCoworkTransaction():
 @manager.route('/manager/edit/addshift/addshiftsummary', methods=['POST','GET'])
 def employeeAddShiftTransaction():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
+        return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionaddShift WHERE requestId=%s AND status=%s", [approver_id, "unsuccessful"])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.editAddShift'))
+
+        elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionaddShift SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.employeeAddShiftTransactionEnd'))
+
     else:
-        return render_template('manager/addShiftEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/addShiftEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionaddShift_element = cur.execute(" SELECT * FROM transactionaddShift WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
+        transactionaddShift = cur.fetchall()
+        cur.close()
+
+        return render_template('manager/addShiftEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
 
 
 @manager.route('/manager/edit/shiftandoff/shiftandoffsummary', methods=['POST','GET'])
