@@ -352,8 +352,7 @@ def editYourselfList():
         cur.execute("SELECT employee_id, employee_name, employee_lastname FROM employeeInfo WHERE sub_team=%s",[sub_team])
         idSub_teamAll = cur.fetchall()
         
-        
-        transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id=%s WHERE requestId=%s AND status=%s", ("employeeInfo.employee_id", approver_id, "unsuccessful"))
+        transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id = employeeInfo.employee_id WHERE requestId = " + "'" + approver_id + "'" + " AND status='unsuccessful'")
         transactionChangeShift = cur.fetchall()
 
         otherEmployee = [0]*count
@@ -1141,7 +1140,7 @@ def employeeSelfTransaction():
 
     else:
         cur = db.connection.cursor()
-        transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id=%s WHERE requestId=%s AND status=%s", ("employeeInfo.employee_id", approver_id, "unsuccessful"))
+        transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id = employeeInfo.employee_id WHERE requestId = " + "'" + approver_id + "'" + " AND status='unsuccessful'")
         transactionChangeShift = cur.fetchall()
         cur.close()
 
