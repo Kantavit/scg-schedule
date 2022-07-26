@@ -200,16 +200,16 @@ def pending():
         transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
         transactionaddemployee = cur.fetchall()
 
-        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionaddShift_element = cur.execute("SELECT transactionaddShift_id ,transactionaddShift.employee_id ,date ,OldShift ,addShift ,TimeStamp ,reason ,Status ,transactionaddShift.approver_id ,consider_time ,requestId , employee_name , employee_lastname FROM transactionaddShift INNER JOIN employeeInfo on transactionaddShift.employee_id = employeeInfo.employee_id WHERE transactionaddShift.approver_id = " + "'" + approver_id + "'" + " AND status='waiting'")
         transactionaddShift = cur.fetchall()
 
-        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id = employeeInfo.employee_id WHERE transactionChangeShift.approver_id = " + "'" + approver_id + "'" + " AND status='waiting'")
         transactionChangeShift = cur.fetchall()
 
         transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
         transactionChangeWork = cur.fetchall()
 
-        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionCoworkShift_element = cur.execute("SELECT transactionCoworkShift_id,transactionCoworkShift.employee_id,date,OldShift,NewShift,TimeStamp,reason,Status,transactionCoworkShift.approver_id,consider_time ,employee_id2 ,employee_name2 ,employee_lastname2 ,OldShift2 ,NewShift2 ,employee_id3 ,employee_name3 ,employee_lastname3 ,OldShift3 ,NewShift3 ,requestId,employee_name , employee_lastname FROM `transactionCoworkShift` INNER JOIN employeeInfo on transactionCoworkShift.employee_id = employeeInfo.employee_id WHERE transactionCoworkShift.approver_id = " + "'" + approver_id + "'" + " AND status='waiting'")
         transactionCoworkShift = cur.fetchall()
 
         return render_template('manager/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
@@ -232,16 +232,16 @@ def approve():
         transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
         transactionaddemployee = cur.fetchall()
 
-        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionaddShift_element = cur.execute("SELECT transactionaddShift_id ,transactionaddShift.employee_id ,date ,OldShift ,addShift ,TimeStamp ,reason ,Status ,transactionaddShift.approver_id ,consider_time ,requestId , employee_name , employee_lastname FROM transactionaddShift INNER JOIN employeeInfo on transactionaddShift.employee_id = employeeInfo.employee_id WHERE transactionaddShift.approver_id = " + "'" + approver_id + "'" + " AND status='approve'")
         transactionaddShift = cur.fetchall()
 
-        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id = employeeInfo.employee_id WHERE transactionChangeShift.approver_id = " + "'" + approver_id + "'" + " AND status='approve'")
         transactionChangeShift = cur.fetchall()
 
         transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
         transactionChangeWork = cur.fetchall()
 
-        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionCoworkShift_element = cur.execute("SELECT transactionCoworkShift_id,transactionCoworkShift.employee_id,date,OldShift,NewShift,TimeStamp,reason,Status,transactionCoworkShift.approver_id,consider_time ,employee_id2 ,employee_name2 ,employee_lastname2 ,OldShift2 ,NewShift2 ,employee_id3 ,employee_name3 ,employee_lastname3 ,OldShift3 ,NewShift3 ,requestId,employee_name , employee_lastname FROM `transactionCoworkShift` INNER JOIN employeeInfo on transactionCoworkShift.employee_id = employeeInfo.employee_id WHERE transactionCoworkShift.approver_id = " + "'" + approver_id + "'" + " AND status='approve'")
         transactionCoworkShift = cur.fetchall()
 
         return render_template('manager/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
