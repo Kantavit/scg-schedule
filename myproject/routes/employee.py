@@ -585,7 +585,7 @@ def chooseCheckStatus():
     transactionChangeShift_count = cur.fetchall()
     waitCount = waitCount + transactionChangeShift_count[0][0]
 
-    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2 IS NULL",(employee_id, "waiting"))
     transactionChangeWork_count = cur.fetchall()
     waitCount = waitCount + transactionChangeWork_count[0][0]
 
@@ -607,7 +607,7 @@ def chooseCheckStatus():
     transactionChangeShift_count = cur.fetchall()
     approveCount = approveCount + transactionChangeShift_count[0][0]
 
-    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2=%s",(employee_id, "approve", "approve"))
     transactionChangeWork_count = cur.fetchall()
     approveCount = approveCount + transactionChangeWork_count[0][0]
 
@@ -629,7 +629,7 @@ def chooseCheckStatus():
     transactionChangeShift_count = cur.fetchall()
     rejectCount = rejectCount + transactionChangeShift_count[0][0]
 
-    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+    cur.execute("SELECT COUNT(transactionChangeWork_id) FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2=%s",(employee_id, "reject", "reject"))
     transactionChangeWork_count = cur.fetchall()
     rejectCount = rejectCount + transactionChangeWork_count[0][0]
 
@@ -755,7 +755,7 @@ def pending():
         transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
         transactionChangeShift = cur.fetchall()
 
-        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2 IS NULL",(employee_id, "waiting"))
         transactionChangeWork = cur.fetchall()
 
         transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
@@ -787,7 +787,7 @@ def approve():
         transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
         transactionChangeShift = cur.fetchall()
 
-        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "approve"))
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2=%s",(employee_id, "approve", "approve"))
         transactionChangeWork = cur.fetchall()
 
         transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "approve"))
@@ -819,7 +819,7 @@ def reject():
         transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
         transactionChangeShift = cur.fetchall()
 
-        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s",(employee_id, "reject"))
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2=%s",(employee_id, "reject", "reject"))
         transactionChangeWork = cur.fetchall()
 
         transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "reject"))
@@ -971,7 +971,7 @@ def addEmployee():
         cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
         employee_section = cur.fetchall()
         cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s", [employee_id])
-        cur.fetchall()
+        user_section = cur.fetchall()
         user_section = user_section[0][0]
         cur.execute("SELECT employee_id , employee_name , employee_lastname from employeeInfo WHERE employee_section=%s",[user_section])
         employeeInsection = cur.fetchall()

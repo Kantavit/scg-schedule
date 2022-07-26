@@ -143,7 +143,7 @@ def pending():
                 status = "approve"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
+                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
@@ -155,7 +155,7 @@ def pending():
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
+                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
@@ -1291,7 +1291,7 @@ def employeeShiftAndOffTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('manager.employeeShiftAndOffTransactionEnd'))
