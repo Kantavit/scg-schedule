@@ -63,24 +63,26 @@ def pending():
         if request.form['select'] == "addemployee":
             if request.form['choose'] == "update":
                 transactionaddemployee_id = request.form['transactionaddemployee_id']
+                transactionaddemployee_TimeStamp = request.form['transactionaddemployee_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "approve"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionaddemployee SET status=%s, consider_time=%s WHERE transactionaddemployee_id=%s",(status, TimeStamp, transactionaddemployee_id))
+                cur.execute("UPDATE transactionaddemployee SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionaddemployee_id=%s",(status, TimeStamp, transactionaddemployee_TimeStamp, transactionaddemployee_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
 
             elif request.form['choose'] == "delete":
                 transactionaddemployee_id = request.form['transactionaddemployee_id']
+                transactionaddemployee_TimeStamp = request.form['transactionaddemployee_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionaddemployee SET status=%s, consider_time=%s WHERE transactionaddemployee_id=%s",(status, TimeStamp, transactionaddemployee_id))
+                cur.execute("UPDATE transactionaddemployee SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionaddemployee_id=%s",(status, TimeStamp, transactionaddemployee_TimeStamp, transactionaddemployee_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
@@ -88,24 +90,26 @@ def pending():
         elif request.form['select'] == "addShift":
             if request.form['choose'] == "update":
                 transactionaddShift_id = request.form['transactionaddShift_id']
+                transactionaddShift_TimeStamp = request.form['transactionaddShift_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "approve"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionaddShift SET status=%s, consider_time=%s WHERE transactionaddShift_id=%s",(status, TimeStamp, transactionaddShift_id))
+                cur.execute("UPDATE transactionaddShift SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionaddShift_id=%s",(status, TimeStamp, transactionaddShift_TimeStamp, transactionaddShift_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
 
             elif request.form['choose'] == "delete":
                 transactionaddShift_id = request.form['transactionaddShift_id']
+                transactionaddShift_TimeStamp = request.form['transactionaddShift_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionaddShift SET status=%s, consider_time=%s WHERE transactionaddShift_id=%s",(status, TimeStamp, transactionaddShift_id))
+                cur.execute("UPDATE transactionaddShift SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionaddShift_id=%s",(status, TimeStamp, transactionaddShift_TimeStamp, transactionaddShift_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
@@ -113,24 +117,26 @@ def pending():
         elif request.form['select'] == "ChangeShift":
             if request.form['choose'] == "update":
                 transactionChangeShift_id = request.form['transactionChangeShift_id']
+                transactionChangeShift_TimeStamp = request.form['transactionChangeShift_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "approve"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeShift SET status=%s, consider_time=%s WHERE transactionChangeShift_id=%s",(status, TimeStamp, transactionChangeShift_id))
+                cur.execute("UPDATE transactionChangeShift SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionChangeShift_id=%s",(status, TimeStamp, transactionChangeShift_TimeStamp, transactionChangeShift_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
 
             elif request.form['choose'] == "delete":
                 transactionChangeShift_id = request.form['transactionChangeShift_id']
+                transactionChangeShift_TimeStamp = request.form['transactionChangeShift_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeShift SET status=%s, consider_time=%s WHERE transactionChangeShift_id=%s",(status, TimeStamp, transactionChangeShift_id))
+                cur.execute("UPDATE transactionChangeShift SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionChangeShift_id=%s",(status, TimeStamp, transactionChangeShift_TimeStamp, transactionChangeShift_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
@@ -138,24 +144,26 @@ def pending():
         elif request.form['select'] == "ChangeWork":
             if request.form['choose'] == "update":
                 transactionChangeWork_id = request.form['transactionChangeWork_id']
+                transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "approve"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
+                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_TimeStamp, transactionChangeWork_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
 
             elif request.form['choose'] == "delete":
                 transactionChangeWork_id = request.form['transactionChangeWork_id']
+                transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
+                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_TimeStamp, transactionChangeWork_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
@@ -163,24 +171,26 @@ def pending():
         elif request.form['select'] == "CoworkShift":
             if request.form['choose'] == "update":
                 transactionCoworkShift_id = request.form['transactionCoworkShift_id']
+                transactionCoworkShift_TimeStamp = request.form['transactionCoworkShift_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "approve"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionCoworkShift SET status=%s, consider_time=%s WHERE transactionCoworkShift_id=%s",(status, TimeStamp, transactionCoworkShift_id))
+                cur.execute("UPDATE transactionCoworkShift SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionCoworkShift_id=%s",(status, TimeStamp, transactionCoworkShift_TimeStamp, transactionCoworkShift_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
 
             elif request.form['choose'] == "delete":
                 transactionCoworkShift_id = request.form['transactionCoworkShift_id']
+                transactionCoworkShift_TimeStamp = request.form['transactionCoworkShift_TimeStamp']
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionCoworkShift SET status=%s, consider_time=%s WHERE transactionCoworkShift_id=%s",(status, TimeStamp, transactionCoworkShift_id))
+                cur.execute("UPDATE transactionCoworkShift SET status=%s, consider_time=%s, TimeStamp=%s WHERE transactionCoworkShift_id=%s",(status, TimeStamp, transactionCoworkShift_TimeStamp, transactionCoworkShift_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))

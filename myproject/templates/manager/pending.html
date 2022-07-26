@@ -241,7 +241,7 @@
     {% for transaction in transactionaddemployee %}
     <div class="ui edit-data-section modal {{transaction.0}}">
         <div class="header">
-            แก้ไขข้อมูล
+          อนุมัติรายการ
         </div>
         <div class="content">
             <form id="edit-form-section{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">              
@@ -250,6 +250,7 @@
                     <input type="hidden" name="select" value="addemployee">
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddemployee_TimeStamp" value="{{transaction.8}}">
                 </div>                  
             </form>
         </div>
@@ -266,7 +267,7 @@
     {% for transaction in transactionaddemployee %}
     <div class="ui delete-data-section modal {{transaction.0}}">
         <div class="header">
-            ลบข้อมูล
+          ยกเลิกรายการ
         </div>
         <div class="content">
             <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -275,6 +276,7 @@
                     <input type="hidden" name="select" value="addemployee">
                     <input type="hidden" name="choose" value="delete">
                     <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddemployee_TimeStamp" value="{{transaction.8}}">
                 </div>
             </form>
         </div>
@@ -294,7 +296,7 @@
     {% for transaction in transactionaddShift %}
     <div class="ui edit-data-addShift modal {{transaction.0}}">
         <div class="header">
-            แก้ไขข้อมูล
+          อนุมัติรายการ
         </div>
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -303,6 +305,7 @@
                     <input type="hidden" name="select" value="addShift">
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionaddShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddShift_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -319,7 +322,7 @@
     {% for transaction in transactionaddShift %}
     <div class="ui delete-data-addShift modal {{transaction.0}}">
         <div class="header">
-            ลบข้อมูล
+          ยกเลิกรายการ
         </div>
         <div class="content">
             <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -328,6 +331,7 @@
                     <input type="hidden" name="select" value="addShift">
                     <input type="hidden" name="choose" value="delete">
                     <input type="hidden" name="transactionaddShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionaddShift_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -347,7 +351,7 @@
     {% for transaction in transactionChangeShift %}
     <div class="ui edit-data-ChangeShift modal {{transaction.0}}">
         <div class="header">
-            แก้ไขข้อมูล
+          อนุมัติรายการ
         </div>
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -356,6 +360,7 @@
                     <input type="hidden" name="select" value="ChangeShift">
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionChangeShift_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -372,7 +377,7 @@
     {% for transaction in transactionChangeShift %}
     <div class="ui delete-data-ChangeShift modal {{transaction.0}}">
         <div class="header">
-            ลบข้อมูล
+          ยกเลิกรายการ
         </div>
         <div class="content">
             <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -381,6 +386,7 @@
                     <input type="hidden" name="select" value="ChangeShift">
                     <input type="hidden" name="choose" value="delete">
                     <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionChangeShift_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -400,7 +406,7 @@
     {% for transaction in transactionChangeWork %}
     <div class="ui edit-data-ChangeWork modal {{transaction.0}}">
         <div class="header">
-            แก้ไขข้อมูล
+          อนุมัติรายการ
         </div>
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -409,6 +415,7 @@
                     <input type="hidden" name="select" value="ChangeWork">
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionChangeWork_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -425,7 +432,7 @@
     {% for transaction in transactionChangeWork %}
     <div class="ui delete-data-ChangeWork modal {{transaction.0}}">
         <div class="header">
-            ลบข้อมูล
+          ยกเลิกรายการ
         </div>
         <div class="content">
             <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -434,6 +441,7 @@
                     <input type="hidden" name="select" value="ChangeWork">
                     <input type="hidden" name="choose" value="delete">
                     <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionChangeWork_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -452,7 +460,7 @@
     {% for transaction in transactionCoworkShift %}
     <div class="ui edit-data-CoworkShift modal {{transaction.0}}">
         <div class="header">
-            แก้ไขข้อมูล
+          อนุมัติรายการ
         </div>
         <div class="content">
             <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -461,6 +469,7 @@
                     <input type="hidden" name="select" value="CoworkShift">
                     <input type="hidden" name="choose" value="update">
                     <input type="hidden" name="transactionCoworkShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionCoworkShift_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
@@ -477,7 +486,7 @@
     {% for transaction in transactionCoworkShift %}
     <div class="ui delete-data-CoworkShift modal {{transaction.0}}">
         <div class="header">
-            ลบข้อมูล
+          ยกเลิกรายการ
         </div>
         <div class="content">
             <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
@@ -486,6 +495,7 @@
                     <input type="hidden" name="select" value="CoworkShift">
                     <input type="hidden" name="choose" value="delete">
                     <input type="hidden" name="transactionCoworkShift_id" value="{{transaction.0}}">
+                    <input type="hidden" name="transactionCoworkShift_TimeStamp" value="{{transaction.5}}">
                 </div>
             </form>
         </div>
