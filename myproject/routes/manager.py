@@ -201,7 +201,7 @@ def approve():
     approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
     else:
         cur = db.connection.cursor()
         transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
