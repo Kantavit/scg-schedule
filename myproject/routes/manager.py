@@ -1133,7 +1133,7 @@ def employeeSelfTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeShift SET status=%s, consider_time=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            cur.execute("UPDATE transactionChangeShift SET status=%s, consider_time=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, TimeStamp, approver_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('manager.employeeSelfTransactionEnd'))
@@ -1187,7 +1187,7 @@ def employeeCoworkTransaction():
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
                 cur = db.connection.cursor()
-                cur.execute("INSERT INTO transactionCoworkShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, name1 , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2))
+                cur.execute("INSERT INTO transactionCoworkShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp, consider_time ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2 ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, name1 , date1 , OldShift1 , NewShift1 , TimeStamp, TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.employeeCoworkTransactionEnd'))
@@ -1230,7 +1230,7 @@ def employeeCoworkTransaction():
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
                 cur = db.connection.cursor()
-                cur.execute("INSERT INTO transactionCoworkShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2, employee_id3, employee_name3, employee_lastname3, OldShift3, NewShift3 ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, name1 , date1 , OldShift1 , NewShift1 , TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2, name3, employee_name3, employee_lastname3, OldShift3, NewShift3))
+                cur.execute("INSERT INTO transactionCoworkShift (requestId, employee_id , date , OldShift , NewShift , TimeStamp, consider_time ,  reason , status , approver_id, employee_id2, employee_name2, employee_lastname2, OldShift2, NewShift2, employee_id3, employee_name3, employee_lastname3, OldShift3, NewShift3 ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, name1 , date1 , OldShift1 , NewShift1 , TimeStamp, TimeStamp ,  reason , status , approver_id, name2, employee_name2, employee_lastname2, OldShift2, NewShift2, name3, employee_name3, employee_lastname3, OldShift3, NewShift3))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.employeeCoworkTransactionEnd'))
@@ -1265,7 +1265,7 @@ def employeeAddShiftTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionaddShift SET status=%s, consider_time=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            cur.execute("UPDATE transactionaddShift SET status=%s, consider_time=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, TimeStamp, approver_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('manager.employeeAddShiftTransactionEnd'))
@@ -1301,7 +1301,7 @@ def employeeShiftAndOffTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, TimeStamp, approver_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('manager.employeeShiftAndOffTransactionEnd'))
@@ -1337,7 +1337,7 @@ def employeeAddTransaction():
             TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
             cur = db.connection.cursor()
-            cur.execute("UPDATE transactionaddemployee SET status=%s, consider_time=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            cur.execute("UPDATE transactionaddemployee SET status=%s, consider_time=%s, TimeStamp=%s WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, TimeStamp, approver_id, "unsuccessful"))
             db.connection.commit()
             cur.close()
             return redirect(url_for('manager.employeeAddEmployeeTransactionEnd'))
