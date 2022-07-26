@@ -13,167 +13,585 @@
 {% block body %}
 <div class="ui container">
     <h1>รายการรออนุมัติ</h1>
+    
+    <h3>รายการเปลี่ยนกะตนเอง</h3>
+    {% if transactionChangeShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
     <div class="table-scrolling">
-      <table class="ui celled unstackable table">
-          <thead>
-              <tr>
-                  <th>
-                      <input type="checkbox" name="fruits">
-                      <label>All อนุมัติ</label>
-                  </th>
-                  <th>วันที่ยื่นคำขอ</th>
-                  <th>รายการ</th>
-                  <th>ชื่อ-สกุล</th>
-                  <th> </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>
-                      <input type="checkbox" name="fruits">
-                      <a href="/employee/edit/shift/self/selflist/selflistsummary">อนุมัติ</a>
-                  </td>
-                  <td>11-11-2011</td>
-                  <td>เปลี่ยนกะตนเอง</td>
-                  <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                  <td><a href="/employee/edit/shift/self/selflist/selflistsummary">แก้ไข</a>
-                    /<a href="/employee/edit/shift/self/selflist/selflistsummary" style="color: red">ยกเลิก</a></td>
-              </tr>
-          </tbody> 
-      </table>
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม/อื่น ๆ</th>
+                <th>กะใหม่/อื่น ๆ</th>
+                <th>เหตุผล</th>
+                <th> </th>
+                <th> </th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionChangeShift %}
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>
+                        <a class="ui green edit-data-ChangeShift button {{transaction.0}}">อนุมัติ</a>
+                    </td>
+                    <td>
+                        <a class="ui red delete-data-ChangeShift button {{transaction.0}}">ยกเลิก</a>
+                    </td>
+                </tr>
+                
+
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    {% endif %}
 
-    <div id="foot-button" style="width:100%;text-align:center;">
-        <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
-        <a href="/manager/status/pending/approvetransactionend">
-          <button class="ui green button" type="button">อนุมัติทั้งหมด</button>
-        </a>
+    <br>
+    <hr>
+    
+    <h3>รายการสลับกะกับเพื่อน</h3>
+    {% if transactionCoworkShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        {% for transaction in transactionCoworkShift %}
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม</th>
+                <th>กะใหม่</th>
+                <th> </th>
+            </thead>
+            
+            <tbody>
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td><a class="ui green edit-data-CoworkShift button {{transaction.0}}">อนุมัติ</a></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>{{transaction.11}} {{transaction.12}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                    <td><a class="ui red delete-data-CoworkShift button {{transaction.0}}">ยกเลิก</a></td>
+                </tr>
+            </tbody>
+            {% if transaction.15 != None %}
+            <tbody>
+                <tr>
+                    <td>{{transaction.16}} {{transaction.17}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.18}}</td>
+                    <td>{{transaction.19}}</td>
+                    <td> </td>
+                </tr>
+            </tbody>
+            {% endif %}
+        </table>
+        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เหตุผลที่ต้องการเปลี่ยน: {{transaction.6}}</h4>
+        {% endfor %}
     </div>
+    {% endif %}
+
+    <br>
+    <hr>
+
+    <h3>รายการเพิ่มกะในวันเดียวกัน</h3>
+    {% if transactionaddShift_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่ขอเปลี่ยน</th>
+                <th>กะเดิม/อื่น ๆ</th>
+                <th>เพิ่มกะใหม่/อื่น ๆ</th>
+                <th>เหตุผล</th>
+                <th> </th>
+                <th> </th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionaddShift %}
+                <tr>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>
+                        <a class="ui green edit-data-addShift button {{transaction.0}}">อนุมัติ</a>
+                    </td>
+                    <td>
+                        <a class="ui red delete-data-addShift button {{transaction.0}}">ยกเลิก</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <br>
+    <hr>
+
+    <h3>รายการเปลี่ยนรูปแบบการทำงานและวันหยุด</h3>
+    {% if transactionChangeWork_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่มีผล</th>
+                <th>รูปแบบการทำงานเดิม</th>
+                <th>รูปแบบการทำงานใหม่</th>
+                <th>วันหยุดเดิม</th>
+                <th>วันหยุดใหม่</th>
+                <th>เลือกรูปแบบกะ</th>
+                <th>เหตุผล</th>
+                <th> </th>
+                <th> </th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionChangeWork %}
+                <tr>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.12}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                    <td>{{transaction.15}}</td>
+                    <td>{{transaction.16}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>
+                        <a class="ui green edit-data-ChangeWork button {{transaction.0}}">อนุมัติ</a>
+                    </td>
+                    <td>
+                        <a class="ui red delete-data-ChangeWork button {{transaction.0}}">ยกเลิก</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <br>
+    <hr>
+
+    <h3>รายการเปลี่ยนหน่วยงานใหม่</h3>
+    {% if transactionaddemployee_element < 1 %}
+        <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>เลขประจำตัว</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>วันเริ่มต้น</th>
+                <th>วันสิ้นสุด</th>
+                <th>หน่วยงานเดิม</th>
+                <th>หน่วยงานใหม่</th>
+                <th> </th>
+                <th> </th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionaddemployee %}
+                <tr>
+                    <td>{{transaction.1}}</td>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.5}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>{{transaction.7}}</td>
+                    <td>
+                        <a class="ui green edit-data-section button {{transaction.0}}">อนุมัติ</a>
+                    </td>
+                    <td>
+                        <a class="ui red delete-data-section button {{transaction.0}}">ยกเลิก</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
 
 
-    <!-- <div class="ui celled relaxed list">
-        <div class="item">
-            <div class="ui master checkbox">
-                <input type="checkbox" name="fruits">
-                <label>Fruits</label>
-            </div>
-            <div class="list">
-                <div class="item">
-                <div class="ui child checkbox">
-                    <input type="checkbox" name="apple">
-                    <label>Apple</label>
-                </div>
-                </div>
-                <div class="item">
-                    <div class="ui child checkbox">
-                        <input type="checkbox" name="orange">
-                        <label>Orange</label>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ui child checkbox">
-                        <input type="checkbox" name="pear">
-                        <label>Pear</label>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="ui master checkbox">
-                    <input type="checkbox" name="vegetables">
-                    <label>Vegetables</label>
-                </div>
-                <div class="list">
-                    <div class="item">
-                    <div class="ui child checkbox">
-                        <input type="checkbox" name="lettuce">
-                        <label>Lettuce</label>
-                    </div>
-                    </div>
-                    <div class="item">
-                    <div class="ui child checkbox">
-                        <input type="checkbox" name="carrot">
-                        <label>Carrot</label>
-                    </div>
-                    </div>
-                    <div class="item">
-                    <div class="ui child checkbox">
-                        <input type="checkbox" name="spinach">
-                        <label>Spinach</label>
-                    </div>
-                </div>
+    <!-- transactionaddemployee edit and delete -->
+    <!-- ส่วนปุ่มแก้ไขเพิ่มคนในหน่วยงาน -->
+    {% for transaction in transactionaddemployee %}
+    <div class="ui edit-data-section modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form-section{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">              
+                <div class="field">
+                    <label>ท่านต้องการอนุมัติรายการนี้หรือไม่ ?</label>
+                    <input type="hidden" name="select" value="addemployee">
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                </div>                  
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form-section{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
             </div>
         </div>
-    </div> -->
-        
-            
-            
-        <!-- </div>
-    </div> -->
+    </div>
+    {% endfor %}
+
+    <!-- ส่วนปุ่มลบข้อมูลเพิ่มคนในหน่วยงาน -->
+    {% for transaction in transactionaddemployee %}
+    <div class="ui delete-data-section modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="addemployee">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!--  -->
+
+    
+    <!-- transactionaddShift edit and delete -->
+    <!-- ส่วนปุ่มแก้ไขเพิ่มกะในวันเดียวกัน -->
+    {% for transaction in transactionaddShift %}
+    <div class="ui edit-data-addShift modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการอนุมัติรายการนี้หรือไม่ ?</label>
+                    <input type="hidden" name="select" value="addShift">
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionaddShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- ส่วนปุ่มลบข้อมูลเพิ่มกะในวันเดียวกัน -->
+    {% for transaction in transactionaddShift %}
+    <div class="ui delete-data-addShift modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="addShift">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionaddShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!--  -->
+
+
+    <!-- transactionChangeShift edit and delete -->
+    <!-- ส่วนปุ่มแก้ไขเปลี่ยนกะตนเอง -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui edit-data-ChangeShift modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการอนุมัติรายการนี้หรือไม่ ?</label>
+                    <input type="hidden" name="select" value="ChangeShift">
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <!-- ส่วนปุ่มลบข้อมูลเปลี่ยนกะตนเอง -->
+    {% for transaction in transactionChangeShift %}
+    <div class="ui delete-data-ChangeShift modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="ChangeShift">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionChangeShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!--  -->
+
+
+    <!-- transactionChangeWork edit and delete -->
+    <!-- ส่วนปุ่มแก้ไขเปลี่ยนรูปแบบการทำงานและวันหยุด -->
+    {% for transaction in transactionChangeWork %}
+    <div class="ui edit-data-ChangeWork modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการอนุมัติรายการนี้หรือไม่ ?</label>
+                    <input type="hidden" name="select" value="ChangeWork">
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- ส่วนปุ่มลบข้อมูลเปลี่ยนรูปแบบการทำงานและวันหยุด -->
+    {% for transaction in transactionChangeWork %}
+    <div class="ui delete-data-ChangeWork modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="ChangeWork">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!--  -->
+
+    <!-- transactionCoworkShift edit and delete -->
+    <!-- ส่วนปุ่มแก้ไขข้อมูลสลับกะกับเพื่อน -->
+    {% for transaction in transactionCoworkShift %}
+    <div class="ui edit-data-CoworkShift modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการอนุมัติรายการนี้หรือไม่ ?</label>
+                    <input type="hidden" name="select" value="CoworkShift">
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionCoworkShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- ส่วนปุ่มลบข้อมูลสลับกะกับเพื่อน -->
+    {% for transaction in transactionCoworkShift %}
+    <div class="ui delete-data-CoworkShift modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.pending') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="CoworkShift">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionCoworkShift_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!--  -->
 
 </div>
 
-<script>
-$('.list .master.checkbox')
-  .checkbox({
-    // check all children
-    onChecked: function() {
-      var
-        $childCheckbox  = $(this).closest('.checkbox').siblings('.list').find('.checkbox')
-      ;
-      $childCheckbox.checkbox('check');
-    },
-    // uncheck all children
-    onUnchecked: function() {
-      var
-        $childCheckbox  = $(this).closest('.checkbox').siblings('.list').find('.checkbox')
-      ;
-      $childCheckbox.checkbox('uncheck');
-    }
-  })
-;
+<style>
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #bbb;
+}
+</style>
 
-$('.list .child.checkbox')
-  .checkbox({
-    // Fire on load to set parent value
-    fireOnInit : true,
-    // Change parent state on each child checkbox change
-    onChange   : function() {
-      var
-        $listGroup      = $(this).closest('.list'),
-        $parentCheckbox = $listGroup.closest('.item').children('.checkbox'),
-        $checkbox       = $listGroup.find('.checkbox'),
-        allChecked      = true,
-        allUnchecked    = true
-      ;
-      // check to see if all other siblings are checked or unchecked
-      $checkbox.each(function() {
-        if( $(this).checkbox('is checked') ) {
-          allUnchecked = false;
-        }
-        else {
-          allChecked = false;
-        }
-      });
-      // set parent checkbox state, but don't trigger its onChange callback
-      if(allChecked) {
-        $parentCheckbox.checkbox('set checked');
-      }
-      else if(allUnchecked) {
-        $parentCheckbox.checkbox('set unchecked');
-      }
-      else {
-        $parentCheckbox.checkbox('set indeterminate');
-      }
-    }
-  })
+
+{% for transaction in transactionaddemployee %}
+<script>
+$('.{{transaction.0}}.edit-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-section button
 ;
 </script>
+{% endfor %}
+
+{% for transaction in transactionaddemployee %}
+<script>
+$('.{{transaction.0}}.delete-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-section button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in transactionaddShift %}
+<script>
+$('.{{transaction.0}}.edit-data-addShift.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-addShift.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-addShift button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionaddShift %}
+<script>
+$('.{{transaction.0}}.delete-data-addShift.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-addShift.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-addShift button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.edit-data-ChangeShift.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-ChangeShift.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-ChangeShift button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionChangeShift %}
+<script>
+$('.{{transaction.0}}.delete-data-ChangeShift.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-ChangeShift.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-ChangeShift button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in transactionChangeWork %}
+<script>
+$('.{{transaction.0}}.edit-data-ChangeWork.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-ChangeWork.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-ChangeWork button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionChangeWork %}
+<script>
+$('.{{transaction.0}}.delete-data.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-ChangeWork.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-ChangeWork button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in transactionCoworkShift %}
+<script>
+$('.{{transaction.0}}.edit-data-CoworkShift.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-CoworkShift.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-CoworkShift button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionCoworkShift %}
+<script>
+$('.{{transaction.0}}.delete-data-CoworkShift.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-CoworkShift.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-CoworkShift button
+;
+</script>
+{% endfor %}
+
 
 {% endblock %}

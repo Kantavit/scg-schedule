@@ -54,12 +54,146 @@ def managerPage():
 @manager.route('/manager/status/pending', methods=['POST','GET'])
 def pending():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('manager/warning.html')
+        
+    elif request.method == 'POST':
+        if request.form['select'] == "addemployee":
+            if request.form['choose'] == "update":
+                transactionaddemployee_id = request.form['transactionaddemployee_id']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "approve"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionaddemployee SET status=%s, TimeStamp=%s WHERE transactionaddemployee_id=%s",(status, TimeStamp, transactionaddemployee_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+            elif request.form['choose'] == "delete":
+                transactionaddemployee_id = request.form['transactionaddemployee_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionaddemployee WHERE transactionaddemployee_id=%s",[transactionaddemployee_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+        elif request.form['select'] == "addShift":
+            if request.form['choose'] == "update":
+                transactionaddShift_id = request.form['transactionaddShift_id']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "approve"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionaddShift SET status=%s, TimeStamp=%s WHERE transactionaddShift_id=%s",(status, TimeStamp, transactionaddShift_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+            elif request.form['choose'] == "delete":
+                transactionaddShift_id = request.form['transactionaddShift_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionaddShift WHERE transactionaddShift_id=%s",[transactionaddShift_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+        elif request.form['select'] == "ChangeShift":
+            if request.form['choose'] == "update":
+                transactionChangeShift_id = request.form['transactionChangeShift_id']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "approve"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionChangeShift SET status=%s, TimeStamp=%s WHERE transactionChangeShift_id=%s",(status, TimeStamp, transactionChangeShift_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+            elif request.form['choose'] == "delete":
+                transactionChangeShift_id = request.form['transactionChangeShift_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionChangeShift WHERE transactionChangeShift_id=%s",[transactionChangeShift_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+        elif request.form['select'] == "ChangeWork":
+            if request.form['choose'] == "update":
+                transactionChangeWork_id = request.form['transactionChangeWork_id']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "approve"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionChangeWork SET status=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+            elif request.form['choose'] == "delete":
+                transactionChangeWork_id = request.form['transactionChangeWork_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+        elif request.form['select'] == "CoworkShift":
+            if request.form['choose'] == "update":
+                transactionCoworkShift_id = request.form['transactionCoworkShift_id']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "approve"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionCoworkShift SET status=%s, TimeStamp=%s WHERE transactionCoworkShift_id=%s",(status, TimeStamp, transactionCoworkShift_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
+            elif request.form['choose'] == "delete":
+                transactionCoworkShift_id = request.form['transactionCoworkShift_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionCoworkShift WHERE transactionCoworkShift_id=%s",[transactionCoworkShift_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.pending'))
+
     else:
-        return render_template('manager/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/pending.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionaddemployee = cur.fetchall()
+
+        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionaddShift = cur.fetchall()
+
+        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionChangeShift = cur.fetchall()
+
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionChangeWork = cur.fetchall()
+
+        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionCoworkShift = cur.fetchall()
+
+        return render_template('manager/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
+                    transactionaddemployee=transactionaddemployee,transactionaddemployee_element=transactionaddemployee_element,
+                    transactionaddShift=transactionaddShift,transactionaddShift_element=transactionaddShift_element,
+                    transactionChangeShift=transactionChangeShift,transactionChangeShift_element=transactionChangeShift_element,
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element,
+                    transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
+
 
 @manager.route('/manager/status/approve', methods=['POST','GET'])
 def approve():
@@ -786,7 +920,7 @@ def addEmployee():
     requestId = approver_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
     
     elif request.method == 'POST':
         if request.form['select'] == "sub_team":
@@ -1105,7 +1239,7 @@ def employeeShiftAndOffTransaction():
     approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
 
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
@@ -1141,7 +1275,7 @@ def employeeAddTransaction():
     approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('employee/warning.html')
+        return render_template('manager/warning.html')
 
     elif request.method == 'POST':
         if request.form['choose'] == "cancel":
