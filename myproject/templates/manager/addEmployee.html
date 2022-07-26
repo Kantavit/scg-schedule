@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-เพิ่มพนักงานในหน่วยงาน
+เพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่
 {% endblock %}
 
 
@@ -12,103 +12,586 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>เพิ่มพนักงานในหน่วยงาน</h1>
-    <form class="ui form segment" action="/manager/edit/addemployee" method="POST">
-        <div class="field">
-            <h3>1.เลขประจำตัวพนักงาน</h3>
-            <input type="text" name="content">
-            <h4 style="text-align: center;">หรือระบุข้อมูล</h4>
-        </div>
-        <div class="two fields">
-            <div class="field">
-                <h3>1.ชื่อจริง</h3>
-                <input type="text" name="content">
-            </div>
-            <div class="field">
-                <h3>2.นามสกุล</h3>
-                <input type="text" name="content">
+    <h1>เพิ่มทีมย่อย/เปลี่ยนหน่วยงานใหม่</h1>
+
+    <h3>1.โปรดเลือกจัดทีมย่อยหรือเพิ่มคนในหน่วยงาน</h3>
+    <div class="required field">
+        <div class="ui fluid selection dropdown">
+            <input name="choose" type="hidden" value="none" onchange="selectCheck(this);">
+            <i class="dropdown icon"></i>
+            <div class="default text">กรุณาเลือกรายการ</div>
+            <div class="menu">
+                <div class="item" data-value="จัดทีมย่อย">จัดทีมย่อย</div>
+                <div class="item" data-value="เพิ่มคนในหน่วยงาน">เพิ่มคนในหน่วยงาน</div>
             </div>
         </div>
+    </div>
 
-        <div id="center-button">
-            <button class="ui blue button" type="submit">แสดง</button>
+    <div id="editTeam" style="display: none;">
+        <br>
+        <h3>2.จัดทีมย่อย</h3>
+        {% if teamInSection_element < 1 %}
+        <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+        {% else %}
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <th>ชื่อทีมย่อย</th>
+                    <th>จำนวนคน</th>
+                    <th> </th>
+                    <th> </th>
+                </thead>
+                <tbody>
+                    {% for transaction in teamInSection %}
+                    <tr>
+                        <td>{{transaction.0}}</td>
+                        <td>
+                            <a class="ui employee-list button {{transaction.0}}">{{transaction.1}}</a>
+                        </td>
+                        <td>
+                            <a class="ui orange edit-data-team button {{transaction.0}}">แก้ไข</a>
+                        </td>
+                        <td>
+                            <a class="ui red delete-data-team button {{transaction.0}}">ลบ</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <br>
-        <br>
+        {% endif %}
 
+        <br>
+        <br>
+        <button class="ui primary add-data-team button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
+    </div>
+
+    <div id="editSection" style="display: none;">
+        <br>
+        <h3>2.เพิ่มคนในหน่วยงาน</h3>
+        {% if transactionaddemployee_element < 1 %}
+        <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+        {% else %}
+        <div class="table-scrolling">
+            <table class="ui celled unstackable table">
+                <thead>
+                    <th>เลขประจำตัว</th>
+                    <th>ชื่อ-นามสกุล</th>
+                    <th>วันเริ่มต้น</th>
+                    <th>วันสิ้นสุด</th>
+                    <th>หน่วยงานเดิม</th>
+                    <th>หน่วยงานใหม่</th>
+                    <th> </th>
+                    <th> </th>
+                </thead>
+                <tbody>
+                    {% for transaction in transactionaddemployee %}
+                    <tr>
+                        <td>{{transaction.1}}</td>
+                        <td>{{transaction.2}} {{transaction.3}}</td>
+                        <td>{{transaction.4}}</td>
+                        <td>{{transaction.5}}</td>
+                        <td>{{transaction.6}}</td>
+                        <td>{{transaction.7}}</td>
+                        <td>
+                            <a class="ui orange edit-data-section button {{transaction.0}}">แก้ไข</a>
+                        </td>
+                        <td>
+                            <a class="ui red delete-data-section button {{transaction.0}}">ลบ</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>หน่วยงานเดิม</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>TS4</td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
+        {% endif %}
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <button class="ui primary add-data-section button" type="button"><i class="plus add icon"></i>เพิ่มรายการ</button>
 
-        <h4>รายละเอียดการเพิ่มชื่อพนักงาน</h4>
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>วันเริ่มต้น</th>
-                        <th>หน่วยงานเดิม</th>
-                        <th>หน่วยงานใหม่</th>
-                        <th>รูปแบบตารางกะ</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>20-06-2022</td>
-                            <td>TS4</td>
-                            <td>TS5</td>
-                            <td>DD202101</td>
-                        </tr>
-                    </tbody>
-            </table>
-        </div>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-        <button class="ui primary button" type="submit"><i class="plus add icon"></i>เพิ่มรายการ</button>
-        <!-- ทำหน้าหรือช่องพิมพ์เพิ่มข้อมูลในตารางคล้ายๆ flaskintroduction -->
         <br>
         <br>
         <div id="foot-button">
-            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
-            <button class="ui green button" formaction="/manager/edit/addemployee/addemployeesummary">บันทึก</button>
+            <a href="/manager/edit/addemployee/addemployeesummary" class="ui green button">บันทึก</a>
         </div>
-    </form>
+    </div>
+
+    
+    <!-- ส่วนปุ่มจัดทีมย่อย -->
+    <div class="ui add-data-team modal">
+        <div class="header">
+            เพิ่มรายการ
+        </div>
+        <div class="content">
+            <!-- add data action -->
+            <form id="add-form-team" class="ui form" action="{{ url_for('manager.addEmployee') }}" method="POST">
+                <div class="required field">
+                    <label>กรุณาเลือกรายการ</label>
+                    <input type="hidden" name="select" value="sub_team">
+                    <input type="hidden" name="choose" value="add">
+                    <div class="ui fluid selection dropdown">
+                        <input name="choose2" type="hidden" value="none" onchange="teamOption(this);" required="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">เลือก</div>
+                        <div class="menu">
+                            <div class="item" data-value="เพิ่มสมาชิก">เพิ่มสมาชิก</div>
+                            <div class="item" data-value="สร้างทีม">สร้างทีม</div>
+                        </div>
+                    </div>                
+                </div>
+
+                <div id="addToTeam" style="display: none;">
+                    <div class="required field">
+                        <label>ชื่อทีมย่อย</label>
+                        <select name="addToTeam" id="sub_team" style="width: 100%;" class="operator" > 
+                            <option value="">เลือกชื่อทีมย่อย</option>
+                            {% for transaction in teamInSection %}
+                                <option value="{{transaction.0}}">{{transaction.0}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div id="createTeam" style="display: none;">
+                    <div class="required field">
+                        <label>ชื่อทีมย่อย</label>
+                        <input type="text" name="createTeam" id="sub_team" >
+                    </div>
+                </div>
+                <br>
+                
+                <div class="required field">
+                    <label>รหัสและชื่อพนักงานคนที่ 1 </label>
+                    <select name="name-team1" id="name-team1" style="width: 100%;" class="operator" required> 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>รหัสและชื่อพนักงานคนที่ 2 </label>
+                    <select name="name-team2" id="name-team2" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>รหัสและชื่อพนักงานคนที่ 3 </label>
+                    <select name="name-team3" id="name-team3" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>รหัสและชื่อพนักงานคนที่ 4 </label>
+                    <select name="name-team4" id="name-team4" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>รหัสและชื่อพนักงานคนที่ 5 </label>
+                    <select name="name-team5" id="name-team5" style="width: 100%;" class="operator" > 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in employeeInsection %}
+                            <option value="{{employee.0}}">{{employee.0}} {{employee.1}} {{employee.2}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="add-form-team" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มแก้ไขจัดทีมย่อย -->
+    {% for transaction in teamInSection %}
+    <div class="ui edit-data-team modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูลในทีม {{transaction.0}}
+        </div>
+        <div class="content">
+            <form id="edit-form-team{{transaction.0}}" class="ui form" action="{{ url_for('manager.addEmployee') }}" method="POST">
+                <div class="field">
+                    <input type="hidden" name="select" value="sub_team">
+                    <input type="hidden" name="choose" value="update">
+                </div>
+                {% if employeeInTeam_element < 1 %}
+                <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายชื่อ</h4>
+                {% else %}
+                    <div class="table-scrolling">
+                        <table class="ui celled unstackable table">
+                            <thead>
+                                <th>เลขประจำตัว ชื่อ-นามสกุล</th>
+                                <th> </th>
+                            </thead>
+                            {% for team in employeeInTeam %}
+                                {% if transaction.0 == team.0 %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{team.1}} {{team.2}} {{team.3}}</td>
+                                        <td>
+                                            <button name="employeeToDelete" type="submit" value="{{team.1}}" class="ui yellow button">ลบ<i class="eraser icon"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+        <div class="actions">
+            <!-- <button type="submit" form="edit-form-team{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button> -->
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <!-- ส่วนปุ่มลบข้อมูลจัดทีมย่อย -->
+    {% for transaction in teamInSection %}
+    <div class="ui delete-data-team modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.addEmployee') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="sub_team">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="sub_team" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <!-- ส่วนปุ่มแสดงจำนวนพนักงานในทีมย่อย -->
+    {% for transaction in teamInSection %}
+    <div class="ui employee-list modal {{transaction.0}}">
+        <div class="header">
+            สมาชิกในทีม {{transaction.0}}
+        </div>
+        <div class="content">
+            {% if employeeInTeam_element < 1 %}
+            <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายชื่อ</h4>
+            {% else %}
+                {% for team in employeeInTeam %}
+                    {% if transaction.0 == team.0 %}
+                    <h4>{{team.1}} {{team.2}} {{team.3}}</h4>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    
+    <!-- ส่วนปุ่มเพิ่มคนในหน่วยงาน -->
+    <div class="ui add-data-section modal">
+        <div class="header">
+            เพิ่มรายการ
+        </div>
+        <div class="content">
+            <!-- add data action -->
+            <form id="add-form-section" class="ui form" action="{{ url_for('manager.addEmployee') }}" method="POST">
+                <div class="required field">
+                    <input type="hidden" name="select" value="section">
+                    <input type="hidden" name="choose" value="add">
+                    <label>รหัสและชื่อพนักงาน</label>
+                    <select name="name-section" id="name-section" style="width: 100%;" class="operator" onchange="insertData()" required> 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        {% for employee in allEmployee %}
+                            <option value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="required field">
+                    <label>วันเริ่มต้น</label>
+                    <input type="date" id="date_start" name="date_start" placeholder="dd/mm/YYYY" required=""/>
+                </div>
+                <div class="required field">
+                    <label>วันสิ้นสุด</label>
+                    <input type="date" id="date_end" name="date_end" placeholder="dd/mm/YYYY" required=""/>
+                </div>
+                <div class="field">
+                    <label>หน่วยงานเดิม</label>
+                    <input type="text" id="Oldsection" name="Oldsection" readonly>
+                </div>
+                <div class="required field">
+                    <label>หน่วยงานใหม่</label>
+                    <select name="Newsection" id="Newsection" style="width: 100%;" class="operator" required> 
+                        <option value="">เลือกหน่วยงาน</option>
+                        {% for section in employee_section %}
+                            <option value="{{section.0}}">{{section.0}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="add-form-section" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มแก้ไขเพิ่มคนในหน่วยงาน -->
+    {% for transaction in transactionaddemployee %}
+    <div class="ui edit-data-section modal {{transaction.0}}">
+        <div class="header">
+            แก้ไขข้อมูล
+        </div>
+        <div class="content">
+            <form id="edit-form-section{{transaction.0}}" class="ui form" action="{{ url_for('manager.addEmployee') }}" method="POST">              
+                <div class="required field">
+                    <input type="hidden" name="select" value="section">
+                    <input type="hidden" name="choose" value="update">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                    <label>รหัสและชื่อพนักงาน</label>
+                    <select name="name-section" id="name-section{{transaction.0}}" style="width: 100%;" class="operator" onchange="insertData{{transaction.0}}()" required> 
+                        <option value="">เลือกชื่อพนักงาน</option>
+                        <option value="{{transaction.1}} {{transaction.2}} {{transaction.3}}" selected>{{transaction.1}} {{transaction.2}} {{transaction.3}}</option>
+                        {% for employee in allEmployee %}
+                            <option value="{{employee.0}} {{employee.2}} {{employee.3}}">{{employee.0}} {{employee.2}} {{employee.3}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="required field">
+                    <label>วันเริ่มต้น</label>
+                    <input type="date" id="date_start{{transaction.0}}" value="{{transaction.4}}" name="date_start" placeholder="dd/mm/YYYY" required=""/>
+                </div>
+                <div class="required field">
+                    <label>วันสิ้นสุด</label>
+                    <input type="date" id="date_end{{transaction.0}}" value="{{transaction.5}}" name="date_end" placeholder="dd/mm/YYYY" required=""/>
+                </div>
+                <div class="field">
+                    <label>หน่วยงานเดิม</label>
+                    <input type="text" id="Oldsection{{transaction.0}}" value="{{transaction.6}}" name="Oldsection" readonly>
+                </div>
+                <div class="required field">
+                    <label>หน่วยงานใหม่</label>
+                    <select name="Newsection" id="Newsection{{transaction.0}}" style="width: 100%;" class="operator" required> 
+                        <option value="">เลือกหน่วยงาน</option>
+                        <option value="{{transaction.7}}" selected>{{transaction.7}}</option>
+                        {% for section in employee_section %}
+                            <option value="{{section.0}}">{{section.0}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="edit-form-section{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <!-- ส่วนปุ่มลบข้อมูลเพิ่มคนในหน่วยงาน -->
+    {% for transaction in transactionaddemployee %}
+    <div class="ui delete-data-section modal {{transaction.0}}">
+        <div class="header">
+            ลบข้อมูล
+        </div>
+        <div class="content">
+            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('manager.addEmployee') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <input type="hidden" name="select" value="section">
+                    <input type="hidden" name="choose" value="delete">
+                    <input type="hidden" name="transactionaddemployee_id" value="{{transaction.0}}">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
 </div>
 
 
 <script>
-
+$('.add-data-team.modal')
+    .modal('attach events', '.add-data-team.button', 'show') //ใช้ปุ่มโดยเรียก add-data-team button
+;
 </script>
+
+<script>
+$('.add-data-section.modal')
+    .modal('attach events', '.add-data-section.button', 'show') //ใช้ปุ่มโดยเรียก add-data-section button
+;
+</script>
+    
+
+{% for transaction in teamInSection %}
+<script>
+$('.{{transaction.0}}.edit-data-team.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-team.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-team button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionaddemployee %}
+<script>
+$('.{{transaction.0}}.edit-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.edit-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก edit-data-section button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in teamInSection %}
+<script>
+$('.{{transaction.0}}.delete-data-team.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-team.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-team button
+;
+</script>
+{% endfor %}
+
+{% for transaction in transactionaddemployee %}
+<script>
+$('.{{transaction.0}}.delete-data-section.modal')
+    .modal('attach events', '.{{transaction.0}}.delete-data-section.button', 'set active') //ใช้ปุ่มโดยเรียก delete-data-section button
+;
+</script>
+{% endfor %}
+
+
+{% for transaction in teamInSection %}
+<script>
+$('.{{transaction.0}}.employee-list.modal')
+    .modal('attach events', '.{{transaction.0}}.employee-list.button', 'set active') //ใช้ปุ่มโดยเรียก employee-list button
+;
+</script>
+{% endfor %}
+
+
+<script>
+    function selectCheck(that){
+        if (that.value == "จัดทีมย่อย") {
+                document.getElementById("editTeam").style.display = "block";
+                document.getElementById("editSection").style.display = "none";
+        }
+        else if (that.value == "เพิ่มคนในหน่วยงาน"){
+            document.getElementById("editSection").style.display = "block";
+            document.getElementById("editTeam").style.display = "none";
+
+        }
+        else {
+            document.getElementById("editTeam").style.display = "none";
+            document.getElementById("editSection").style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function teamOption(that){
+        if (that.value == "เพิ่มสมาชิก") {
+                document.getElementById("addToTeam").style.display = "block";
+                document.getElementById("createTeam").style.display = "none";
+        }
+        else if (that.value == "สร้างทีม"){
+            document.getElementById("createTeam").style.display = "block";
+            document.getElementById("addToTeam").style.display = "none";
+
+        }
+        else {
+            document.getElementById("createTeam").style.display = "none";
+            document.getElementById("addToTeam").style.display = "none";
+        }
+    }
+</script>
+
+
+<script>
+    const data = [] 
+    data[0] = ['0150-123457 KANTAVIT CHENPITTAYA', 'Digital Transformation']
+    data[1] = ['4', '5', '6']
+    data[2] = ['7', '8', '9']
+
+    function insertData() {
+        var name = document.getElementById("name-section").value
+        var check = true 
+        for (var i = 0; i < data.length; i++) {
+            if (data[i][0] == name) {
+                document.getElementById("Oldsection").value = data[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("Oldsection").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+
+
+{% for transaction in transactionaddemployee %}
+<script>
+    const data{{transaction.0}} = [] 
+    data{{transaction.0}}[0] = ['0150-123457 KANTAVIT CHENPITTAYA', 'Digital Transformation']
+    data{{transaction.0}}[1] = ['4', '5', '6']
+    data{{transaction.0}}[2] = ['7', '8', '9']
+
+    function insertData{{transaction.0}}() {
+        var name = document.getElementById("name-section{{transaction.0}}").value
+        var check = true 
+        for (var i = 0; i < data{{transaction.0}}.length; i++) {
+            if (data{{transaction.0}}[i][0] == name) {
+                document.getElementById("Oldsection{{transaction.0}}").value = data{{transaction.0}}[i][1] ;
+                check = false 
+                break
+            }
+        }
+        if (check) {
+            document.getElementById("Oldsection{{transaction.0}}").value = "ไม่พบข้อมูล" ;
+        }
+    }
+</script>
+{% endfor %}
+
 
 {% endblock %}

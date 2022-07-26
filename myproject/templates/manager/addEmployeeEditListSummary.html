@@ -1,7 +1,7 @@
 {% extends './base/layout.html' %}
 
 {% block title %}
-สรุปการเพิ่มพนักงานในหน่วยงาน
+สรุปการเปลี่ยนหน่วยงานใหม่
 {% endblock %}
 
 
@@ -12,56 +12,104 @@
 
 {% block body %}
 <div class="ui container">
-    <h1>สรุปการเพิ่มพนักงานในหน่วยงาน</h1>
-    <form class="ui form segment" action="/manager/edit/addemployee/addemployeesummary/addemployeetransactionend" method="POST">
-        <h3>จำนวน ## คน</h3>
-        
-        <div class="table-scrolling">
-            <table class="ui celled unstackable table">
-                <thead>
-                    <tr>
-                        <th>เลขประจำตัว</th>
-                        <th>ชื่อ</th>
-                        <th>วันเริ่มต้น</th>
-                        <th>หน่วยงานเดิม</th>
-                        <th>หน่วยงานใหม่</th>
-                        <th>รูปแบบตารางกะ</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>0150-696969</td>
-                            <td>สิบเอ็ดสิบเอ็ด สองศูนย์หนึ่งๆ</td>
-                            <td>20-06-2022</td>
-                            <td>TS4</td>
-                            <td>TS5</td>
-                            <td>DD202101</td>
-                        </tr>
-                    </tbody>
-            </table>
+    <h1>สรุปการเปลี่ยนหน่วยงานใหม่</h1>
+    
+    {% if transactionaddemployee_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>เลขประจำตัว</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>วันเริ่มต้น</th>
+                <th>วันสิ้นสุด</th>
+                <th>หน่วยงานเดิม</th>
+                <th>หน่วยงานใหม่</th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionaddemployee %}
+                <tr>
+                    <td>{{transaction.1}}</td>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.5}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>{{transaction.7}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <br>
+    <br>
+    <br>
+    <h4 h1 style="font-family: sans-serif; text-align: center; color: red;">กรุณาตรวจสอบรายการของท่านและลบรายการที่ท่านไม่ต้องการก่อนกดยืนยัน</h4>
+    <!-- <h4 h1 style="font-family: sans-serif; text-align: center;">ข้อมูลตารางใหม่ พ.ศ.:  เดือน:  สัปดาห์: </h4> -->
+    <br>
+    <div id="foot-button" style="width:100%;text-align:center;">
+        <!-- <button class="ui inverted red button" formaction="/employee/edit/shift">กลับ</button> -->
+        <a href="/manager/edit/addemployee" class="ui yellow button">แก้ไข</a>
+        <a class="ui red button cancel-data">ยกเลิก</a>
+        <a class="ui green button confirm-data">ยืนยัน</a>
+    </div>
+
+    <!-- ส่วนปุ่มยกเลิก -->
+    <div class="ui cancel-data modal">
+        <div class="header">
+            ยกเลิกรายการ
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        
-        <br>
-        <br>
-        <div id="foot-button" style="width:100%;text-align:center;">
-            <!-- <button class="ui inverted red button" formaction="/">ปิด</button> -->
-            <button class="ui yellow button" formaction="/manager/edit/addemployee">แก้ไข</button>
-            <button class="ui button red" type="button">ยกเลิก</button>
-            <button class="ui green button" type="submit">ขออนุมัติ</button>
+        <div class="content">
+            <form id="cancel-form" class="ui form" action="{{ url_for('manager.employeeAddTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยกเลิกรายการทั้งหมดหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="cancel">
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="actions">
+            <button type="submit" form="cancel-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ส่วนปุ่มยืนยัน -->
+    <div class="ui confirm-data modal">
+        <div class="header">
+            ยืนยันรายการ
+        </div>
+        <div class="content">
+            <form id="confirm-form" class="ui form" action="{{ url_for('manager.employeeAddTransaction') }}" method="POST">
+                <div class="field">
+                    <label>ท่านต้องการยืนยันรายการทั้งหมดหรือไม่ ?</label>
+                    <input type="hidden" name="choose" value="confirm">
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button type="submit" form="confirm-form" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
+        </div>
+    </div>
 
 </div>
 
-
 <script>
+$('.cancel-data.modal')
+    .modal('attach events', '.cancel-data.button', 'show') //ใช้ปุ่มโดยเรียก cancel-data button
+;
 
+$('.confirm-data.modal')
+    .modal('attach events', '.confirm-data.button', 'show') //ใช้ปุ่มโดยเรียก confirm-data button
+;
 </script>
 
 {% endblock %}

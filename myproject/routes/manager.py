@@ -780,12 +780,153 @@ def viewShiftOnly():
 @manager.route('/manager/edit/addemployee', methods=['POST','GET'])
 def addEmployee():
     line_id = session.get("line_id") # in case for query
+    sub_team = session.get("sub_team")
+    approver_id = session.get("approver_id")
+    approver_section = session.get("approver_section")
+    requestId = approver_id
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
+        return render_template('employee/warning.html')
+    
+    elif request.method == 'POST':
+        if request.form['select'] == "sub_team":
+            if request.form['choose'] == "add":
+                addToTeam = request.form['addToTeam']
+                createTeam = request.form['createTeam']
+                name1 = request.form['name-team1']
+                name2 = request.form['name-team2']
+                name3 = request.form['name-team3']
+                name4 = request.form['name-team4']
+                name5 = request.form['name-team5']
+
+                cur = db.connection.cursor()
+
+                if request.form['choose2'] == "เพิ่มสมาชิก":  
+                    if name1 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name1))
+                    if name2 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name2))
+                    if name3 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name3))
+                    if name4 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name4))
+                    if name5 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name5))
+                elif request.form['choose2'] == "สร้างทีม":
+                    if name1 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name1))
+                    if name2 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name2))
+                    if name3 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name3))
+                    if name4 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name4))
+                    if name5 != "none":
+                        cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name5))
+                
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.addEmployee'))
+
+            elif request.form['choose'] == "update":
+                employeeToDelete = request.form['employeeToDelete']
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(" ", employeeToDelete))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.addEmployee'))
+
+            elif request.form['choose'] == "delete":
+                sub_team = request.form['sub_team']
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE sub_team=%s",(" ", sub_team))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.addEmployee'))
+
+        elif request.form['select'] == "section":
+            if request.form['choose'] == "add":
+                employee_id = request.form['name-section']
+                employee_name = employee_id.split()[1]
+                employee_lastname = employee_id.split()[2]
+                employee_id = employee_id.split()[0]
+                date_start = request.form['date_start']
+                date_end = request.form['date_end']
+                Oldsection = request.form['Oldsection']
+                Newsection = request.form['Newsection']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                
+                status = "unsuccessful"
+                
+                cur = db.connection.cursor()
+                cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
+                approver_id = cur.fetchall()
+                approver_id = approver_id[0][0]
+
+                cur.execute("INSERT INTO transactionaddemployee (requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.addEmployee'))
+
+            elif request.form['choose'] == "update":
+                transactionaddemployee_id = request.form['transactionaddemployee_id']
+                employee_id = request.form['name-section']
+                employee_name = employee_id.split()[1]
+                employee_lastname = employee_id.split()[2]
+                employee_id = employee_id.split()[0]
+                date_start = request.form['date_start']
+                date_end = request.form['date_end']
+                Oldsection = request.form['Oldsection']
+                Newsection = request.form['Newsection']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                
+                status = "unsuccessful"
+
+                cur = db.connection.cursor()
+                cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
+                approver_id = cur.fetchall()
+                approver_id = approver_id[0][0]
+
+                cur.execute("UPDATE transactionaddemployee SET requestId=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s WHERE transactionaddemployee_id=%s",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, transactionaddemployee_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.addEmployee'))
+
+            elif request.form['choose'] == "delete":
+                transactionaddemployee_id = request.form['transactionaddemployee_id']
+
+                cur = db.connection.cursor()
+                cur.execute("DELETE FROM transactionaddemployee WHERE transactionaddemployee_id=%s",[transactionaddemployee_id])
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('manager.addEmployee'))
+
     else:
-        return render_template('manager/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/addEmployee.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
+        transactionaddemployee = cur.fetchall()
+        cur.execute("SELECT * FROM employeeInfo")
+        allEmployee = cur.fetchall()
+        cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
+        employee_section = cur.fetchall()
+        user_section = approver_section
+        cur.execute("SELECT employee_id , employee_name , employee_lastname FROM employeeInfo WHERE employee_section=%s",[user_section])
+        employeeInsection = cur.fetchall()
+        teamInSection_element = cur.execute("SELECT sub_team, COUNT(employee_id) as num FROM employeeInfo WHERE employee_section=%s AND sub_team!=%s GROUP BY sub_team",(user_section, " "))
+        teamInSection = cur.fetchall()
+        employeeInTeam_element = cur.execute("SELECT sub_team , employee_id, employee_name, employee_lastname  FROM employeeInfo WHERE employee_section=%s",[user_section])
+        employeeInTeam = cur.fetchall()
+        cur.close()
+
+        return render_template('manager/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee,
+                        allEmployee=allEmployee, employeeInsection=employeeInsection, employee_section=employee_section,
+                        teamInSection_element=teamInSection_element, teamInSection=teamInSection, employeeInTeam_element=employeeInTeam_element,
+                        employeeInTeam=employeeInTeam)
 
 
 ####################################################################################################
@@ -997,12 +1138,37 @@ def employeeShiftAndOffTransaction():
 @manager.route('/manager/edit/addemployee/addemployeesummary', methods=['POST','GET'])
 def employeeAddTransaction():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
+        return render_template('employee/warning.html')
+
+    elif request.method == 'POST':
+        if request.form['choose'] == "cancel":
+            cur = db.connection.cursor()
+            cur.execute("DELETE FROM transactionaddemployee WHERE requestId=%s AND status=%s", [approver_id, "unsuccessful"])
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.addEmployee'))
+
+        elif request.form['choose'] == "confirm":
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+            cur = db.connection.cursor()
+            cur.execute("UPDATE transactionaddemployee SET status=%s, TimeStamp=%s  WHERE  requestId=%s AND status=%s", ("approve", TimeStamp, approver_id, "unsuccessful"))
+            db.connection.commit()
+            cur.close()
+            return redirect(url_for('manager.employeeAddEmployeeTransactionEnd'))
+
     else:
-        return render_template('manager/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/addEmployeeEditListSummary.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
+        transactionaddemployee = cur.fetchall()
+        cur.close()
+
+        return render_template('manager/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                        transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee)
 
 
 ####################################################################################################

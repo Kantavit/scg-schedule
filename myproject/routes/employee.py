@@ -971,7 +971,7 @@ def addEmployee():
         cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
         employee_section = cur.fetchall()
         cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s", [employee_id])
-        user_section = cur.fetchall()
+        cur.fetchall()
         user_section = user_section[0][0]
         cur.execute("SELECT employee_id , employee_name , employee_lastname from employeeInfo WHERE employee_section=%s",[user_section])
         employeeInsection = cur.fetchall()
