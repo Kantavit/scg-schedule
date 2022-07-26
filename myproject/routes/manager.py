@@ -198,12 +198,34 @@ def pending():
 @manager.route('/manager/status/approve', methods=['POST','GET'])
 def approve():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
+        return render_template('employee/warning.html')
     else:
-        return render_template('manager/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/approve.html')
+        cur = db.connection.cursor()
+        transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionaddemployee = cur.fetchall()
+
+        transactionaddShift_element = cur.execute("SELECT * FROM transactionaddShift WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionaddShift = cur.fetchall()
+
+        transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionChangeShift = cur.fetchall()
+
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionChangeWork = cur.fetchall()
+
+        transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE approver_id=%s AND status=%s",(approver_id, "approve"))
+        transactionCoworkShift = cur.fetchall()
+
+        return render_template('manager/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"), 
+                    transactionaddemployee=transactionaddemployee,transactionaddemployee_element=transactionaddemployee_element,
+                    transactionaddShift=transactionaddShift,transactionaddShift_element=transactionaddShift_element,
+                    transactionChangeShift=transactionChangeShift,transactionChangeShift_element=transactionChangeShift_element,
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element,
+                    transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
+                    
 
 @manager.route('/manager/shift', methods=['POST','GET'])
 def chooseEditShift():
