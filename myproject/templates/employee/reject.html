@@ -27,6 +27,7 @@
                 <th>กะเดิม/อื่น ๆ</th>
                 <th>กะใหม่/อื่น ๆ</th>
                 <th>เหตุผล</th>
+                <th>ผู้อนุมัติ</th>
             </thead>
             <tbody>
                 {% for transaction in transactionChangeShift %}
@@ -36,6 +37,7 @@
                     <td>{{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
                     <td>{{transaction.6}}</td>
+                    <td>{{transaction.13}} {{transaction.14}}</td>
                 </tr>
                 
 
@@ -61,6 +63,7 @@
                 <th>วันที่ขอเปลี่ยน</th>
                 <th>กะเดิม</th>
                 <th>กะใหม่</th>
+                <th>ผู้อนุมัติ</th>
             </thead>
             
             <tbody>
@@ -69,6 +72,7 @@
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
+                    <td>{{transaction.23}} {{transaction.24}}</td>
                 </tr>
             </tbody>
             <tbody>
@@ -77,6 +81,7 @@
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.13}}</td>
                     <td>{{transaction.14}}</td>
+                    <td> </td>
                 </tr>
             </tbody>
             {% if transaction.15 != None %}
@@ -86,6 +91,7 @@
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.18}}</td>
                     <td>{{transaction.19}}</td>
+                    <td> </td>
                 </tr>
             </tbody>
             {% endif %}
@@ -111,6 +117,7 @@
                 <th>กะเดิม/อื่น ๆ</th>
                 <th>เพิ่มกะใหม่/อื่น ๆ</th>
                 <th>เหตุผล</th>
+                <th>ผู้อนุมัติ</th>
             </thead>
             <tbody>
                 {% for transaction in transactionaddShift %}
@@ -120,6 +127,7 @@
                     <td>{{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
                     <td>{{transaction.6}}</td>
+                    <td>{{transaction.13}} {{transaction.14}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -182,6 +190,7 @@
                 <th>วันสิ้นสุด</th>
                 <th>หน่วยงานเดิม</th>
                 <th>หน่วยงานใหม่</th>
+                <th>ผู้อนุมัติ</th>
             </thead>
             <tbody>
                 {% for transaction in transactionaddemployee %}
@@ -192,6 +201,7 @@
                     <td>{{transaction.5}}</td>
                     <td>{{transaction.6}}</td>
                     <td>{{transaction.7}}</td>
+                    <td>{{transaction.14}} {{transaction.15}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
