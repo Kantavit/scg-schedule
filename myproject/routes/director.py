@@ -11,3 +11,42 @@ def directorLoginPage():
     if line_id is None:
         session['line_id'] = None
         return render_template('director/welcome.html')
+
+    toString = str(line_id)
+    session['line_id'] = toString # send line_id to other page
+    
+    cur = db.connection.cursor()
+    query = "SELECT director_name FROM director inner join directorInfo on director.director_id = directorInfo.director_id WHERE line_id = " + "'" + toString + "'"
+    cur.execute(query)
+    first_name = cur.fetchall()
+    query = "SELECT director_lastname FROM director inner join directorInfo on director.director_id = directorInfo.director_id WHERE line_id = " + "'" + toString + "'"
+    cur.execute(query)
+    last_name = cur.fetchall()
+    query = "SELECT director_id FROM director WHERE line_id = " + "'" + toString + "'"
+    cur.execute(query)
+    director_id = cur.fetchall() 
+    cur.execute("SELECT director_section FROM directorInfo WHERE director_id=%s", [director_id[0][0]])
+    director_section = cur.fetchall()
+
+    cur.close()
+
+    if bool(first_name) == False and bool(last_name) == False:
+        session['first_name'] = "userNotFound" # send first_name to other page
+        return render_template('director/welcome.html')
+
+    session['first_name'] = first_name # send first_name to other page
+    session['last_name'] = last_name # send last_name to other page
+    session['director_id'] = director_id[0][0] # send last_name to other page
+    session['director_section'] = director_section[0][0]
+
+    return render_template('director/welcome.html')
+
+@director.route('/director/home', methods=['POST','GET'])
+def directorPage():
+    line_id = session.get("line_id") # in case for query
+        
+    if line_id is None or session.get("first_name") == "userNotFound":
+        return render_template('director/warning.html')
+    else:
+        return render_template('director/director.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+    # return render_template('director/director.html')

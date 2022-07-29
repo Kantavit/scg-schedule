@@ -1,0 +1,39 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+ตัวเลือกของผู้จัดการ
+{% endblock %}
+
+
+{% block head %}
+คุณ {{first_name.0.0}} {{last_name.0.0}}
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>ตัวเลือกของผู้จัดการ</h1>
+    <br>
+    <br>
+    <br>
+    <a href="/director/status/pending">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">รายการรออนุมัติ</button>
+        </div>
+    </a>
+    <br>
+    <br>
+    <a href="/director/status/approve">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="ui button fluid">รายการที่อนุมัติแล้ว</button>
+        </div>
+    </a>
+
+</div>
+
+
+<script>
+
+</script>
+
+{% endblock %}
