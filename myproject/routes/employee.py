@@ -755,7 +755,7 @@ def pending():
         transactionChangeShift_element = cur.execute("SELECT * FROM transactionChangeShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
         transactionChangeShift = cur.fetchall()
 
-        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s AND status2 IS NULL",(employee_id, "waiting"))
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=!%s AND status2=!%s",(employee_id, "approve", "approve"))
         transactionChangeWork = cur.fetchall()
 
         transactionCoworkShift_element = cur.execute("SELECT * FROM transactionCoworkShift WHERE requestId=%s AND status=%s",(employee_id, "waiting"))
