@@ -50,3 +50,50 @@ def directorPage():
     else:
         return render_template('director/director.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
     # return render_template('director/director.html')
+
+
+@director.route('/director/status/pending', methods=['POST','GET'])
+def pending():
+    line_id = session.get("line_id") # in case for query
+    director_id = session.get("director_id")
+        
+    if line_id is None or session.get("first_name") == "userNotFound":
+        return render_template('director/warning.html')
+        
+    elif request.method == 'POST':
+        if request.form['select'] == "ChangeWork":
+            if request.form['choose'] == "update":
+                transactionChangeWork_id = request.form['transactionChangeWork_id']
+                transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "approve"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionChangeWork SET status2=%s, consider_time2=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_TimeStamp, transactionChangeWork_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('director.pending'))
+
+            elif request.form['choose'] == "delete":
+                transactionChangeWork_id = request.form['transactionChangeWork_id']
+                transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                status = "reject"
+
+                cur = db.connection.cursor()
+                cur.execute("UPDATE transactionChangeWork SET status2=%s, consider_time2=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_TimeStamp, transactionChangeWork_id))
+                db.connection.commit()
+                cur.close()
+                return redirect(url_for('director.pending'))
+
+    else:
+        cur = db.connection.cursor()
+        transactionChangeWork_element = cur.execute("SELECT * FROM transactionChangeWork WHERE director_id=%s AND status2 IS NULL",[director_id])
+        transactionChangeWork = cur.fetchall()
+
+        return render_template('director/pending.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element)
+
+
