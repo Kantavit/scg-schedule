@@ -1,0 +1,62 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+รายการอนุมัติแล้ว
+{% endblock %}
+
+
+{% block head %}
+คุณ {{first_name.0.0}} {{last_name.0.0}}
+{% endblock %}
+
+
+{% block body %}
+<div class="ui container">
+    <h1>รายการอนุมัติแล้ว</h1>
+
+    <h3>รายการเปลี่ยนรูปแบบการทำงานและวันหยุด</h3>
+    {% if transactionChangeWork_element < 1 %}
+    <h4 style="font-family: sans-serif; text-align: center;">ไม่มีรายการในปัจจุบัน</h4>
+
+    {% else %}
+    <div class="table-scrolling">
+        <table class="ui celled unstackable table">
+            <thead>
+                <th>ชื่อ</th>
+                <th>วันที่มีผล</th>
+                <th>รูปแบบการทำงานเดิม</th>
+                <th>รูปแบบการทำงานใหม่</th>
+                <th>วันหยุดเดิม</th>
+                <th>วันหยุดใหม่</th>
+                <th>เลือกรูปแบบกะ</th>
+                <th>เหตุผล</th>
+                <th>ผู้เห็นชอบ</th>
+                <th>ผู้อนุมัติ</th>
+            </thead>
+            <tbody>
+                {% for transaction in transactionChangeWork %}
+                <tr>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.12}}</td>
+                    <td>{{transaction.13}}</td>
+                    <td>{{transaction.14}}</td>
+                    <td>{{transaction.15}}</td>
+                    <td>{{transaction.16}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>{{transaction.19}} {{transaction.20}}</td>
+                    <td>{{transaction.21}} {{transaction.22}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

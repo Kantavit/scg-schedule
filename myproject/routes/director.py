@@ -97,3 +97,17 @@ def pending():
                     transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element)
 
 
+@director.route('/director/status/approve', methods=['POST','GET'])
+def approve():
+    line_id = session.get("line_id") # in case for query
+    director_id = session.get("director_id")
+        
+    if line_id is None or session.get("first_name") == "userNotFound":
+        return render_template('director/warning.html')
+    else:
+        cur = db.connection.cursor()
+        transactionChangeWork_element = cur.execute("SELECT transactionChangeWork_id ,employee_id,employee_name ,employee_lastname ,date ,TimeStamp ,reason ,Status ,transactionChangeWork.approver_id ,consider_time1 ,consider_time2 ,transactionChangeWork.director_id ,Oldwork_type ,Newwork_type ,Oldoff_code ,Newoff_code ,section_code ,requestId ,status2, approver_name, approver_lastname, director_name, director_lastname FROM transactionChangeWork INNER JOIN approverInfo on transactionChangeWork.approver_id = approverInfo.approver_id INNER JOIN directorInfo on transactionChangeWork.director_id = directorInfo.director_id WHERE transactionChangeWork.director_id = " + "'" + director_id + "'" + " AND status2='approve'")
+        transactionChangeWork = cur.fetchall()
+
+        return render_template('director/approve.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
+                    transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element)
