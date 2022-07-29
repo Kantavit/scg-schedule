@@ -154,6 +154,8 @@
                 <th>วันหยุดใหม่</th>
                 <th>เลือกรูปแบบกะ</th>
                 <th>เหตุผล</th>
+                <th>ผู้เห็นชอบ</th>
+                <th>ผู้อนุมัติ</th>
             </thead>
             <tbody>
                 {% for transaction in transactionChangeWork %}
@@ -166,6 +168,8 @@
                     <td>{{transaction.15}}</td>
                     <td>{{transaction.16}}</td>
                     <td>{{transaction.6}}</td>
+                    <td>{{transaction.19}} {{transaction.20}}</td>
+                    <td>{{transaction.21}} {{transaction.22}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
