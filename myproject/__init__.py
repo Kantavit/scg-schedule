@@ -2,6 +2,7 @@ from flask import Flask
 from .extensions import db, migrate, sess
 from .routes.employee import employee
 from .routes.manager import manager
+from .routes.director import director
 from .config import MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, secret_key
 
 # Database from Hostinger 
@@ -21,5 +22,6 @@ def create_app():
 
     app.register_blueprint(employee)
     app.register_blueprint(manager)
+    app.register_blueprint(director)
     
     return app
