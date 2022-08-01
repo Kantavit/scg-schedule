@@ -94,7 +94,7 @@
         <div class="content">
             <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('director.pending') }}" method="POST">
                 <div class="field">
-                    <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
+                    <label>ท่านต้องการยกเลิกรายการนี้หรือไม่ ?</label>
                     <input type="hidden" name="select" value="ChangeWork">
                     <input type="hidden" name="choose" value="delete">
                     <input type="hidden" name="transactionChangeWork_id" value="{{transaction.0}}">
