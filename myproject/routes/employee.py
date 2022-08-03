@@ -1331,25 +1331,48 @@ def employeeSelfTransactionEnd():
         TimeStamp = current_time.strftime("%Y-%m-%d")
 
         recipients = [approver_email]
-        subject = 'Test ตารางกะ'
-        body = f'เรียน {approver_name} {approver_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบการขออนุมัติ (จากคุณ {employee_name} {employee_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+        subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนกะตนเองจากพนักงาน'
+        body = f'เรียน {approver_name} {approver_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบการขออนุมัติเปลี่ยนกะตนเอง (จากคุณ {employee_name} {employee_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
         yag.useralias = 'testbyNamhvam'
         yag.send(to=recipients,subject=subject,contents=[body])
         print ('ส่ง Email สำเร็จ')
-        
+
         return render_template('employee/selfTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 
 @employee.route('/employee/edit/shift/cowork/coworksummary/coworktransactionend', methods=['POST','GET'])
 def employeeCoworkTransactionEnd():
     line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
+        cur = db.connection.cursor()
+        cur.execute("SELECT approver_name,approver_lastname,approver_email FROM `approverInfo` INNER JOIN employeeInfo ON approverInfo.approver_id = employeeInfo.approver_id WHERE employeeInfo.employee_id=%s",[employee_id])
+        approver_data = cur.fetchall()
+        approver_name = approver_data[0][0]
+        approver_lastname = approver_data[0][1]
+        approver_email = approver_data[0][2]
+
+        cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_id=%s",[employee_id])
+        employee_data = cur.fetchall()
+        employee_name = employee_data[0][0]
+        employee_lastname = employee_data[0][1]
+        cur.close()
+
+        current_time = datetime.datetime.now()
+        TimeStamp = current_time.strftime("%Y-%m-%d")
+
+        recipients = [approver_email]
+        subject = 'ระบบมีการรออนุมัติรายการสลับกะกับเพื่อนจากพนักงาน'
+        body = f'เรียน {approver_name} {approver_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบการขออนุมัติสลับกะกับเพื่อน (จากคุณ {employee_name} {employee_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+        yag.useralias = 'testbyNamhvam'
+        yag.send(to=recipients,subject=subject,contents=[body])
+        print ('ส่ง Email สำเร็จ')
+
         return render_template('employee/coworkTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('employee/coworkTransactionEnd.html')
-    # บันทึกลง table transaction
+
 
 @employee.route('/employee/edit/shift/addshift/addshiftsummary/addshifttransactionend', methods=['POST','GET'])
 def employeeAddShiftTransactionEnd():
