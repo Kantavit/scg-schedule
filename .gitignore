@@ -12,3 +12,4 @@ package-lock.json
 *.egg-info/
 
 config.py
+client_secret.com
