@@ -1310,7 +1310,16 @@ def employeeShiftAndOffTransaction():
         cur = db.connection.cursor()
         transactionChangeWork_element = cur.execute(" SELECT * FROM transactionChangeWork WHERE requestId=%s AND status=%s", (approver_id, "unsuccessful"))
         transactionChangeWork = cur.fetchall()
+        
+        email_count = cur.execute("SELECT DISTINCT employee_email FROM `transactionChangeWork` INNER JOIN employeeInfo on transactionChangeWork.employee_id = employeeInfo.employee_id WHERE transactionChangeWork.requestId=%s and status=%s",(approver_id, 'unsuccessful'))
+        email_query = cur.fetchall()
         cur.close()
+        
+        email_list = []
+        for i in range(email_count):
+            email_list.append(email_query[i][0])
+
+        session['email_list'] = email_list
 
         return render_template('manager/shiftAndOffEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork)
@@ -1410,12 +1419,37 @@ def employeeAddShiftTransactionEnd():
 @manager.route('/manager/edit/shiftandoff/shiftandoffsummary/shiftandofftransactionend', methods=['POST','GET'])
 def employeeShiftAndOffTransactionEnd():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
+    email_list = session.get("email_list")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('manager/warning.html')
     else:
+        cur = db.connection.cursor()
+
+        for email in email_list:
+            cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_email=%s",[email])
+            employee_data = cur.fetchall()
+            employee_name = employee_data[0][0]
+            employee_lastname = employee_data[0][1]
+
+            cur.execute("SELECT approver_name, approver_lastname FROM approverInfo WHERE approver_id=%s",[approver_id])
+            approver_data = cur.fetchall()
+            approver_name = approver_data[0][0]
+            approver_lastname = approver_data[0][1]
+
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+            recipients = [email]
+            subject = 'ระบบมีการขอและอนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุดจากหัวหน้า'
+            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000 หากไม่พบรายการท่านอาจต้องรอการอนุมัติจากผู้จัดการก่อน'
+            yag.useralias = 'testbyNamhvam'
+            yag.send(to=recipients,subject=subject,contents=[body])
+            print ('ส่ง Email สำเร็จ')
+
+        cur.close()
         return render_template('manager/shiftAndOffTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/shiftAndOffTransactionEnd.html')
 
 
 @manager.route('/manager/edit/addemployee/addemployeesummary/addemployeetransactionend', methods=['POST','GET'])
