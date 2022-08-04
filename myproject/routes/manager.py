@@ -1142,7 +1142,17 @@ def employeeSelfTransaction():
         cur = db.connection.cursor()
         transactionChangeShift_element = cur.execute("SELECT transactionChangeShift_id,transactionChangeShift.employee_id,date,OldShift,NewShift,TimeStamp,reason ,Status ,transactionChangeShift.approver_id,consider_time,requestId,employee_name , employee_lastname FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id = employeeInfo.employee_id WHERE requestId = " + "'" + approver_id + "'" + " AND status='unsuccessful'")
         transactionChangeShift = cur.fetchall()
+        
+        email_count = cur.execute("SELECT DISTINCT employee_email FROM `transactionChangeShift` INNER JOIN employeeInfo on transactionChangeShift.employee_id = employeeInfo.employee_id WHERE transactionChangeShift.requestId=%s and status=%s",(approver_id, 'unsuccessful'))
+        email_query = cur.fetchall()
         cur.close()
+        
+        email_list = []
+        for i in range(email_count):
+            email_list.append(email_query[i][0])
+
+        session['email_list'] = email_list
+
 
         return render_template('manager/selfEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
@@ -1396,10 +1406,36 @@ def managerApproveTransactionEnd():
 @manager.route('/manager/edit/selflist/selflistsummary/selftransactionend', methods=['POST','GET'])
 def employeeSelfTransactionEnd():
     line_id = session.get("line_id") # in case for query
+    approver_id = session.get("approver_id")
+    email_list = session.get("email_list")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('manager/warning.html')
     else:
+        cur = db.connection.cursor()
+
+        for email in email_list:
+            cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_email=%s",[email])
+            employee_data = cur.fetchall()
+            employee_name = employee_data[0][0]
+            employee_lastname = employee_data[0][1]
+
+            cur.execute("SELECT approver_name, approver_lastname FROM approverInfo WHERE approver_id=%s",[approver_id])
+            approver_data = cur.fetchall()
+            approver_name = approver_data[0][0]
+            approver_lastname = approver_data[0][1]
+
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+            recipients = [email]
+            subject = 'ระบบมีการขอและอนุมัติรายการเปลี่ยนกะตนเองจากหัวหน้า'
+            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการเปลี่ยนกะตนเอง (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
+            yag.useralias = 'testbyNamhvam'
+            yag.send(to=recipients,subject=subject,contents=[body])
+            print ('ส่ง Email สำเร็จ')
+
+        cur.close()
         return render_template('manager/selfTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
     # return render_template('manager/selfTransactionEnd.html')
 
