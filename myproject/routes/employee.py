@@ -1126,6 +1126,16 @@ def employeeCoworkTransaction():
         reason = session.get("reason2p")
         approver_id = session.get("approver_id2p")
         status = "waiting"
+
+        cur = db.connection.cursor()
+        email_list = []
+        cur.execute("SELECT employee_email FROM employeeInfo WHERE employee_id=%s",[name2])
+        email_query = cur.fetchall()
+        email_query = email_query[0][0]
+        email_list.append(email_query)
+        cur.close()
+
+        session['email_list'] = email_list
         
         if request.method == 'POST':
             if request.form['choose'] == "cancel":
@@ -1170,6 +1180,20 @@ def employeeCoworkTransaction():
         approver_id = session.get("approver_id3p")
         status = "waiting"
         
+        cur = db.connection.cursor()
+        email_list = []
+        cur.execute("SELECT employee_email FROM employeeInfo WHERE employee_id=%s",[name2])
+        email_query = cur.fetchall()
+        email_query = email_query[0][0]
+        email_list.append(email_query)
+        cur.execute("SELECT employee_email FROM employeeInfo WHERE employee_id=%s",[name3])
+        email_query = cur.fetchall()
+        email_query = email_query[0][0]
+        email_list.append(email_query)
+        cur.close()
+        
+        session['email_list'] = email_list
+
         if request.method == 'POST':
             if request.form['choose'] == "cancel":
                 return redirect(url_for('employee.editCowork'))
@@ -1362,11 +1386,34 @@ def employeeSelfTransactionEnd():
 def employeeCoworkTransactionEnd():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    email_list = session.get("email_list")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         cur = db.connection.cursor()
+
+        cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_id=%s",[employee_id])
+        request_data = cur.fetchall()
+        request_name = request_data[0][0]
+        request_lastname = request_data[0][1]
+
+        for email in email_list:
+            cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_email=%s",[email])
+            employee_data = cur.fetchall()
+            employee_name = employee_data[0][0]
+            employee_lastname = employee_data[0][1]
+
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+            recipients = [email]
+            subject = 'ระบบมีการรออนุมัติรายการสลับกะกับเพื่อนจากเพื่อนร่วมงาน'
+            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการสลับกะกับเพื่อนซึ่งเกี่ยวข้องกับท่าน \nโปรดสอบถามเพื่อนร่วมงานหากเกิดข้อสงสัย (จากคุณ {request_name} {request_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
+            yag.useralias = 'testbyNamhvam'
+            yag.send(to=recipients,subject=subject,contents=[body])
+            print ('ส่ง Email สำเร็จ')
+
         cur.execute("SELECT approver_name,approver_lastname,approver_email FROM `approverInfo` INNER JOIN employeeInfo ON approverInfo.approver_id = employeeInfo.approver_id WHERE employeeInfo.employee_id=%s",[employee_id])
         approver_data = cur.fetchall()
         approver_name = approver_data[0][0]
@@ -1452,7 +1499,7 @@ def employeeShiftAndOffTransactionEnd():
             TimeStamp = current_time.strftime("%Y-%m-%d")
 
             recipients = [email]
-            subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุดจากพนักงาน'
+            subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุดจากเพื่อนร่วมงาน'
             body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนรูปแบบการทำงานและวันหยุดซึ่งเกี่ยวข้องกับท่าน \nโปรดสอบถามเพื่อนร่วมงานหากเกิดข้อสงสัย (จากคุณ {request_name} {request_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
             yag.useralias = 'testbyNamhvam'
             yag.send(to=recipients,subject=subject,contents=[body])
@@ -1509,7 +1556,7 @@ def employeeAddEmployeeTransactionEnd():
             TimeStamp = current_time.strftime("%Y-%m-%d")
 
             recipients = [email]
-            subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนหน่วยงานใหม่จากพนักงาน'
+            subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนหน่วยงานใหม่จากเพื่อนร่วมงาน'
             body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนหน่วยงานใหม่ซึ่งเกี่ยวข้องกับท่าน \nโปรดสอบถามเพื่อนร่วมงานหากเกิดข้อสงสัย (จากคุณ {request_name} {request_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
             yag.useralias = 'testbyNamhvam'
             yag.send(to=recipients,subject=subject,contents=[body])
