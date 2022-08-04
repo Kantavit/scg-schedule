@@ -1487,11 +1487,34 @@ def employeeShiftAndOffTransactionEnd():
 def employeeAddEmployeeTransactionEnd():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
+    email_list = session.get("email_list")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
     else:
         cur = db.connection.cursor()
+
+        cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_id=%s",[employee_id])
+        request_data = cur.fetchall()
+        request_name = request_data[0][0]
+        request_lastname = request_data[0][1]
+
+        for email in email_list:
+            cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_email=%s",[email])
+            employee_data = cur.fetchall()
+            employee_name = employee_data[0][0]
+            employee_lastname = employee_data[0][1]
+
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+            recipients = [email]
+            subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนหน่วยงานใหม่จากพนักงาน'
+            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนหน่วยงานใหม่ซึ่งเกี่ยวข้องกับท่าน \nโปรดสอบถามเพื่อนร่วมงานหากเกิดข้อสงสัย (จากคุณ {request_name} {request_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
+            yag.useralias = 'testbyNamhvam'
+            yag.send(to=recipients,subject=subject,contents=[body])
+            print ('ส่ง Email สำเร็จ')
+
         cur.execute("SELECT approver_name,approver_lastname,approver_email FROM `approverInfo` INNER JOIN employeeInfo ON approverInfo.approver_id = employeeInfo.approver_id WHERE employeeInfo.employee_id=%s",[employee_id])
         approver_data = cur.fetchall()
         approver_name = approver_data[0][0]
