@@ -330,13 +330,13 @@ def pending():
                 approver_data = cur.fetchall()
                 approver_name = approver_data[0][0]
                 approver_lastname = approver_data[0][1]
-                cur.close()
-
+                
                 cur.execute("SELECT director_name, director_lastname, director_email FROM directorInfo WHERE director_id=%s",[director_id])
                 director_data = cur.fetchall()
                 director_name = director_data[0][0]
                 director_lastname = director_data[0][1]
                 director_email = director_data[0][2]
+                cur.close()
 
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d")
@@ -350,7 +350,7 @@ def pending():
 
                 recipients = [director_email]
                 subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {director_name} {director_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จาก manager คุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {director_name} {director_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุดของ employee คุณ {employee_name} {employee_lastname} (จาก manager คุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
