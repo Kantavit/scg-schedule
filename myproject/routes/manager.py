@@ -315,9 +315,10 @@ def pending():
                 transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
                 
                 cur = db.connection.cursor()
-                cur.execute("SELECT requestId FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
+                cur.execute("SELECT requestId, director_id FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
                 request_data = cur.fetchall()
                 request_id = request_data[0][0]
+                director_id = request_data[0][1]
 
                 cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[request_id])
                 employee_data = cur.fetchall()
@@ -331,12 +332,25 @@ def pending():
                 approver_lastname = approver_data[0][1]
                 cur.close()
 
+                cur.execute("SELECT director_name, director_lastname, director_email FROM directorInfo WHERE director_id=%s",[director_id])
+                director_data = cur.fetchall()
+                director_name = director_data[0][0]
+                director_lastname = director_data[0][1]
+                director_email = director_data[0][2]
+
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d")
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager หากไม่พบรายการท่านอาจต้องรอการอนุมัติจากผู้จัดการก่อน'
+                yag.useralias = 'testbyNamhvam'
+                yag.send(to=recipients,subject=subject,contents=[body])
+                print ('ส่ง Email สำเร็จ')
+
+                recipients = [director_email]
+                subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
+                body = f'เรียน {director_name} {director_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จาก manager คุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
