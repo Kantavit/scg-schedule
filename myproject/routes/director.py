@@ -1,5 +1,5 @@
 from .__init__ import director
-from ..extensions import db
+from ..extensions import db, yag
 from flask import render_template, redirect, url_for, request, session
 import datetime;
 
@@ -65,6 +65,34 @@ def pending():
             if request.form['choose'] == "update":
                 transactionChangeWork_id = request.form['transactionChangeWork_id']
                 transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
+                
+                cur = db.connection.cursor()
+                cur.execute("SELECT requestId FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
+                request_data = cur.fetchall()
+                request_id = request_data[0][0]
+
+                cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[request_id])
+                employee_data = cur.fetchall()
+                employee_name = employee_data[0][0]
+                employee_lastname = employee_data[0][1]
+                employee_email = employee_data[0][2]
+
+                cur.execute("SELECT director_name, director_lastname FROM directorInfo WHERE director_id=%s",[director_id])
+                director_data = cur.fetchall()
+                director_name = director_data[0][0]
+                director_lastname = director_data[0][1]
+                cur.close()
+
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                recipients = [employee_email]
+                subject = 'ระบบมีการอนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {director_name} {director_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                yag.useralias = 'testbyNamhvam'
+                yag.send(to=recipients,subject=subject,contents=[body])
+                print ('ส่ง Email สำเร็จ')
+
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "approve"
@@ -78,6 +106,34 @@ def pending():
             elif request.form['choose'] == "delete":
                 transactionChangeWork_id = request.form['transactionChangeWork_id']
                 transactionChangeWork_TimeStamp = request.form['transactionChangeWork_TimeStamp']
+                
+                cur = db.connection.cursor()
+                cur.execute("SELECT requestId FROM transactionChangeWork WHERE transactionChangeWork_id=%s",[transactionChangeWork_id])
+                request_data = cur.fetchall()
+                request_id = request_data[0][0]
+
+                cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[request_id])
+                employee_data = cur.fetchall()
+                employee_name = employee_data[0][0]
+                employee_lastname = employee_data[0][1]
+                employee_email = employee_data[0][2]
+
+                cur.execute("SELECT director_name, director_lastname FROM directorInfo WHERE director_id=%s",[director_id])
+                director_data = cur.fetchall()
+                director_name = director_data[0][0]
+                director_lastname = director_data[0][1]
+                cur.close()
+
+                current_time = datetime.datetime.now()
+                TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                recipients = [employee_email]
+                subject = 'ระบบมีการปฏิเสธรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {director_name} {director_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                yag.useralias = 'testbyNamhvam'
+                yag.send(to=recipients,subject=subject,contents=[body])
+                print ('ส่ง Email สำเร็จ')
+
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 status = "reject"
