@@ -275,7 +275,7 @@
             ลบข้อมูล
         </div>
         <div class="content">
-            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
+            <form id="delete-form-team{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
                     <input type="hidden" name="select" value="sub_team">
@@ -285,7 +285,7 @@
             </form>
         </div>
         <div class="actions">
-            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <button type="submit" form="delete-form-team{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
             <div class="ui red cancel inverted button">
                 ยกเลิก
             </div>
@@ -312,7 +312,9 @@
             {% endif %}
         </div>
         <div class="actions">
-            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <div class="ui red cancel inverted button">
+                ยกเลิก
+            </div>
         </div>
     </div>
     {% endfor %}
@@ -432,7 +434,7 @@
             ลบข้อมูล
         </div>
         <div class="content">
-            <form id="delete-form{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
+            <form id="delete-form-section{{transaction.0}}" class="ui form" action="{{ url_for('employee.addEmployee') }}" method="POST">
                 <div class="field">
                     <label>ท่านต้องการลบข้อมูลหรือไม่ ?</label>
                     <input type="hidden" name="select" value="section">
@@ -442,7 +444,7 @@
             </form>
         </div>
         <div class="actions">
-            <button type="submit" form="delete-form{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
+            <button type="submit" form="delete-form-section{{transaction.0}}" class="ui green ok inverted button">ยืนยัน</button>
             <div class="ui red cancel inverted button">
                 ยกเลิก
             </div>
