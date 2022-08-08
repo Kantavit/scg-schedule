@@ -88,7 +88,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {director_name} {director_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {director_name} {director_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -129,7 +129,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการปฏิเสธรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {director_name} {director_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {director_name} {director_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
