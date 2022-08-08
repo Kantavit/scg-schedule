@@ -401,7 +401,7 @@ def pending():
                 status = "reject"
 
                 cur = db.connection.cursor()
-                cur.execute("UPDATE transactionChangeWork SET status=%s, consider_time1=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, TimeStamp, transactionChangeWork_TimeStamp, transactionChangeWork_id))
+                cur.execute("UPDATE transactionChangeWork SET status=%s, status2=%s, consider_time1=%s, TimeStamp=%s WHERE transactionChangeWork_id=%s",(status, status, TimeStamp, transactionChangeWork_TimeStamp, transactionChangeWork_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('manager.pending'))
