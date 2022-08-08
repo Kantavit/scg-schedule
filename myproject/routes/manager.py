@@ -87,7 +87,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการเปลี่ยนหน่วยงานใหม่'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนหน่วยงานใหม่ (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนหน่วยงานใหม่ (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -128,7 +128,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการปฏิเสธรายการเปลี่ยนหน่วยงานใหม่'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนหน่วยงานใหม่ (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนหน่วยงานใหม่ (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -170,7 +170,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการเพิ่มกะในวันเดียวกัน'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเพิ่มกะในวันเดียวกัน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเพิ่มกะในวันเดียวกัน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -211,7 +211,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการปฏิเสธรายการเพิ่มกะในวันเดียวกัน'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเพิ่มกะในวันเดียวกัน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเพิ่มกะในวันเดียวกัน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -253,7 +253,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการเปลี่ยนกะตนเอง'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนกะตนเอง (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนกะตนเอง (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -294,7 +294,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการปฏิเสธรายการเปลี่ยนกะตนเอง'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนกะตนเอง (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนกะตนเอง (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -343,14 +343,14 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager หากไม่พบรายการท่านอาจต้องรอการอนุมัติจากผู้จัดการก่อน'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000 หากไม่พบรายการท่านอาจต้องรอการอนุมัติจากผู้จัดการก่อน'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
 
                 recipients = [director_email]
                 subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {director_name} {director_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุดของ employee คุณ {employee_name} {employee_lastname} (จาก manager คุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {director_name} {director_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติเปลี่ยนรูปแบบการทำงานและวันหยุดของ employee คุณ {employee_name} {employee_lastname} (จาก manager คุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/director'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -391,7 +391,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการปฏิเสธรายการเปลี่ยนรูปแบบการทำงานและวันหยุด'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธเปลี่ยนรูปแบบการทำงานและวันหยุด (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -433,7 +433,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการอนุมัติรายการสลับกะกับเพื่อน'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติสลับกะกับเพื่อน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการอนุมัติสลับกะกับเพื่อน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
@@ -474,7 +474,7 @@ def pending():
 
                 recipients = [employee_email]
                 subject = 'ระบบมีการปฏิเสธรายการสลับกะกับเพื่อน'
-                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธสลับกะกับเพื่อน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+                body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการปฏิเสธสลับกะกับเพื่อน (จากคุณ {approver_name} {approver_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000'
                 yag.useralias = 'testbyNamhvam'
                 yag.send(to=recipients,subject=subject,contents=[body])
                 print ('ส่ง Email สำเร็จ')
