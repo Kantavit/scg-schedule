@@ -861,25 +861,205 @@ def addEmployee():
                 if request.form['choose2'] == "เพิ่มสมาชิก":  
                     if name1 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name1))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name1])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการเปลี่ยนทีมย่อย'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนทีมย่อยของท่านให้อยู่ในทีม {addToTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name2 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name2))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name2])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการเปลี่ยนทีมย่อย'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนทีมย่อยของท่านให้อยู่ในทีม {addToTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name3 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name3))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name3])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการเปลี่ยนทีมย่อย'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนทีมย่อยของท่านให้อยู่ในทีม {addToTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name4 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name4))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name4])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการเปลี่ยนทีมย่อย'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนทีมย่อยของท่านให้อยู่ในทีม {addToTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name5 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(addToTeam, name5))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name5])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการเปลี่ยนทีมย่อย'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการเปลี่ยนทีมย่อยของท่านให้อยู่ในทีม {addToTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                 elif request.form['choose2'] == "สร้างทีม":
                     if name1 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name1))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name1])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการสร้างทีมย่อยใหม่'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการสร้างทีมย่อยใหม่ของท่านให้อยู่ในทีม {createTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name2 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name2))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name2])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการสร้างทีมย่อยใหม่'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการสร้างทีมย่อยใหม่ของท่านให้อยู่ในทีม {createTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name3 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name3))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name3])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการสร้างทีมย่อยใหม่'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการสร้างทีมย่อยใหม่ของท่านให้อยู่ในทีม {createTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name4 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name4))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name4])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการสร้างทีมย่อยใหม่'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการสร้างทีมย่อยใหม่ของท่านให้อยู่ในทีม {createTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                     if name5 != "none":
                         cur.execute("UPDATE employeeInfo SET sub_team=%s WHERE employee_id=%s",(createTeam, name5))
+                        try:
+                            cur.execute("SELECT employee_name, employee_lastname, employee_email FROM employeeInfo WHERE employee_id=%s",[name5])
+                            employee_data = cur.fetchall()
+                            employee_name = employee_data[0][0]
+                            employee_lastname = employee_data[0][1]
+                            employee_email = employee_data[0][2]
+
+                            current_time = datetime.datetime.now()
+                            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+                            recipients = [employee_email]
+                            subject = 'ระบบมีรายการสร้างทีมย่อยใหม่'
+                            body = f'เรียน {employee_name} {employee_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nระบบมีรายการสร้างทีมย่อยใหม่ของท่านให้อยู่ในทีม {createTeam} เรียบร้อยแล้ว (เมื่อวันที่ {TimeStamp} ท่านสามารถตรวจสอบผ่านลิงก์ด้านล่าง http://127.0.0.1:5000'
+                            yag.useralias = 'testbyNamhvam'
+                            yag.send(to=recipients,subject=subject,contents=[body])
+                            print ('ส่ง Email สำเร็จ')
+                        except IndexError:
+                            pass
                 
                 db.connection.commit()
                 cur.close()
