@@ -22,28 +22,28 @@
     <div class="table-scrolling">
         <table class="ui celled unstackable table">
             <thead>
+                <th> </th>
+                <th> </th>
                 <th>ชื่อ</th>
                 <th>วันที่ขอเปลี่ยน</th>
                 <th>กะเดิม/อื่น ๆ</th>
                 <th>กะใหม่/อื่น ๆ</th>
                 <th>เหตุผล</th>
-                <th> </th>
-                <th> </th>
             </thead>
             <tbody>
                 {% for transaction in transactionChangeShift %}
                 <tr>
-                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
-                    <td>{{transaction.2}}</td>
-                    <td>{{transaction.3}}</td>
-                    <td>{{transaction.4}}</td>
-                    <td>{{transaction.6}}</td>
                     <td>
                         <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
                     </td>
                     <td>
                         <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
                     </td>
+                    <td>{{first_name.0.0}} {{last_name.0.0}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
                 </tr>
                 
 
