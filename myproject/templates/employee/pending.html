@@ -65,39 +65,39 @@
         {% for transaction in transactionCoworkShift %}
         <table class="ui celled unstackable table">
             <thead>
+                <th> </th>
                 <th>ชื่อ</th>
                 <th>วันที่ขอเปลี่ยน</th>
                 <th>กะเดิม</th>
                 <th>กะใหม่</th>
-                <th> </th>
             </thead>
             
             <tbody>
                 <tr>
+                    <td><a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a></td>
                     <td>{{first_name.0.0}} {{last_name.0.0}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
-                    <td><a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a></td>
                 </tr>
             </tbody>
             <tbody>
                 <tr>
+                    <td> </td>
                     <td>{{transaction.11}} {{transaction.12}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.13}}</td>
                     <td>{{transaction.14}}</td>
-                    <td> </td>
                 </tr>
             </tbody>
             {% if transaction.15 != None %}
             <tbody>
                 <tr>
+                    <td> </td>
                     <td>{{transaction.16}} {{transaction.17}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.18}}</td>
                     <td>{{transaction.19}}</td>
-                    <td> </td>
                 </tr>
             </tbody>
             {% endif %}
