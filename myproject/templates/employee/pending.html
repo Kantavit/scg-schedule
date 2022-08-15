@@ -158,6 +158,8 @@
     <div class="table-scrolling">
         <table class="ui celled unstackable table">
             <thead>
+                <th> </th>
+                <th> </th>
                 <th>ชื่อ</th>
                 <th>วันที่มีผล</th>
                 <th>รูปแบบการทำงานเดิม</th>
@@ -166,12 +168,16 @@
                 <th>วันหยุดใหม่</th>
                 <th>เลือกรูปแบบกะ</th>
                 <th>เหตุผล</th>
-                <th> </th>
-                <th> </th>
             </thead>
             <tbody>
                 {% for transaction in transactionChangeWork %}
                 <tr>
+                    <td>
+                        <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
+                    </td>
+                    <td>
+                        <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
+                    </td>
                     <td>{{transaction.2}} {{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
                     <td>{{transaction.12}}</td>
@@ -180,12 +186,6 @@
                     <td>{{transaction.15}}</td>
                     <td>{{transaction.16}}</td>
                     <td>{{transaction.6}}</td>
-                    <td>
-                        <a class="ui orange edit-data button {{transaction.0}}">แก้ไข</a>
-                    </td>
-                    <td>
-                        <a class="ui red delete-data button {{transaction.0}}">ยกเลิก</a>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
