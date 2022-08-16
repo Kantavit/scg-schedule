@@ -208,30 +208,30 @@
     <div class="table-scrolling">
         <table class="ui celled unstackable table">
             <thead>
+                <th> </th>
+                <th> </th>
                 <th>เลขประจำตัว</th>
                 <th>ชื่อ-นามสกุล</th>
                 <th>วันเริ่มต้น</th>
                 <th>วันสิ้นสุด</th>
                 <th>หน่วยงานเดิม</th>
                 <th>หน่วยงานใหม่</th>
-                <th> </th>
-                <th> </th>
             </thead>
             <tbody>
                 {% for transaction in transactionaddemployee %}
                 <tr>
-                    <td>{{transaction.1}}</td>
-                    <td>{{transaction.2}} {{transaction.3}}</td>
-                    <td>{{transaction.4}}</td>
-                    <td>{{transaction.5}}</td>
-                    <td>{{transaction.6}}</td>
-                    <td>{{transaction.7}}</td>
                     <td>
                         <a class="ui green edit-data-section button {{transaction.0}}">อนุมัติ</a>
                     </td>
                     <td>
                         <a class="ui red delete-data-section button {{transaction.0}}">ยกเลิก</a>
                     </td>
+                    <td>{{transaction.1}}</td>
+                    <td>{{transaction.2}} {{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.5}}</td>
+                    <td>{{transaction.6}}</td>
+                    <td>{{transaction.7}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
