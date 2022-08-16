@@ -122,28 +122,28 @@
     <div class="table-scrolling">
         <table class="ui celled unstackable table">
             <thead>
+                <th> </th>
+                <th> </th>
                 <th>ชื่อ</th>
                 <th>วันที่ขอเปลี่ยน</th>
                 <th>กะเดิม/อื่น ๆ</th>
                 <th>เพิ่มกะใหม่/อื่น ๆ</th>
                 <th>เหตุผล</th>
-                <th> </th>
-                <th> </th>
             </thead>
             <tbody>
                 {% for transaction in transactionaddShift %}
                 <tr>
-                    <td>{{transaction.11}} {{transaction.12}}</td>
-                    <td>{{transaction.2}}</td>
-                    <td>{{transaction.3}}</td>
-                    <td>{{transaction.4}}</td>
-                    <td>{{transaction.6}}</td>
                     <td>
                         <a class="ui green edit-data-addShift button {{transaction.0}}">อนุมัติ</a>
                     </td>
                     <td>
                         <a class="ui red delete-data-addShift button {{transaction.0}}">ยกเลิก</a>
                     </td>
+                    <td>{{transaction.11}} {{transaction.12}}</td>
+                    <td>{{transaction.2}}</td>
+                    <td>{{transaction.3}}</td>
+                    <td>{{transaction.4}}</td>
+                    <td>{{transaction.6}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
