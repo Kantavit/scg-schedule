@@ -65,43 +65,43 @@
         {% for transaction in transactionCoworkShift %}
         <table class="ui celled unstackable table">
             <thead>
+                <th> </th>
+                <th> </th>
                 <th>ชื่อ</th>
                 <th>วันที่ขอเปลี่ยน</th>
                 <th>กะเดิม</th>
                 <th>กะใหม่</th>
-                <th> </th>
-                <th> </th>
             </thead>
             
             <tbody>
                 <tr>
+                    <td><a class="ui green edit-data-CoworkShift button {{transaction.0}}">อนุมัติ</a></td>
+                    <td><a class="ui red delete-data-CoworkShift button {{transaction.0}}">ยกเลิก</a></td>
                     <td>{{transaction.21}} {{transaction.22}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.3}}</td>
                     <td>{{transaction.4}}</td>
-                    <td><a class="ui green edit-data-CoworkShift button {{transaction.0}}">อนุมัติ</a></td>
-                    <td><a class="ui red delete-data-CoworkShift button {{transaction.0}}">ยกเลิก</a></td>
                 </tr>
             </tbody>
             <tbody>
                 <tr>
+                    <td> </td>
+                    <td> </td>
                     <td>{{transaction.11}} {{transaction.12}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.13}}</td>
                     <td>{{transaction.14}}</td>
-                    <td> </td>
-                    <td> </td>
                 </tr>
             </tbody>
             {% if transaction.15 != None %}
             <tbody>
                 <tr>
+                    <td> </td>
+                    <td> </td>
                     <td>{{transaction.16}} {{transaction.17}}</td>
                     <td>{{transaction.2}}</td>
                     <td>{{transaction.18}}</td>
                     <td>{{transaction.19}}</td>
-                    <td> </td>
-                    <td> </td>
                 </tr>
             </tbody>
             {% endif %}
