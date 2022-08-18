@@ -1,0 +1,36 @@
+{% extends './base/layout.html' %}
+
+{% block title %}
+การ generate date auto
+{% endblock %}
+
+
+{% block head %}
+คุณ 
+{% endblock %}
+
+{% block body %}
+
+
+
+<form id="confirm-form" action="{{ url_for('employee.generate') }}" method="POST">
+    <div class="field">
+        <label> กรอกวันที่ start </label><br>
+        <input type="text" name="start" ><br>
+        <label> กรอกวันที่ end </label><br>
+        <input type="text" name="end" >
+    </div>
+</form>
+
+ <button type="submit" form="confirm-form"  class="ui green ok inverted button">ยืนยัน</button>
+
+{% for data in argsssssss %} 
+<p>{{data.0}} {{data.1}} {{data.2}} {{data.3}} {{data.4}} {{data.5}} {{data.6}}</p>
+{% endfor %}
+
+
+
+
+
+
+{% endblock %}
