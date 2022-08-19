@@ -2,7 +2,7 @@ from .__init__ import employee
 from ..extensions import db, yag
 from flask import render_template, redirect, url_for, request, session
 import datetime;
-
+import pendulum
 
 @employee.route('/')
 def employeeLoginPage():
@@ -1091,19 +1091,28 @@ def addEmployee():
                 employee_id = employee_id.split()[0]
                 date_start = request.form['date_start']
                 date_end = request.form['date_end']
-                Oldsection = request.form['Oldsection']
-                Newsection = request.form['Newsection']
+
+                cur = db.connection.cursor()
+                cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s",[employee_id])
+                Oldsection = cur.fetchall()
+                Oldsection = Oldsection[0][0]
+                NewApprover = request.form['NewApprover']
+                NewApprover = NewApprover.split()[0]
+                cur.execute("SELECT approver_section FROM approverInfo WHERE approver_id=%s",[NewApprover])
+                Newsection = cur.fetchall()
+                Newsection = Newsection[0][0]
+                cur.execute("SELECT director_id FROM approverInfo WHERE approver_id=%s",[NewApprover])
+                NewDirector = cur.fetchall()
+                NewDirector = NewDirector[0][0]
+                cur.close()
+
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 
                 status = "unsuccessful"
                 
                 cur = db.connection.cursor()
-                cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
-                approver_id = cur.fetchall()
-                approver_id = approver_id[0][0]
-
-                cur.execute("INSERT INTO transactionaddemployee (requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id))
+                cur.execute("INSERT INTO transactionaddemployee (requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, director_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, NewApprover, NewDirector))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.addEmployee'))
@@ -1116,19 +1125,28 @@ def addEmployee():
                 employee_id = employee_id.split()[0]
                 date_start = request.form['date_start']
                 date_end = request.form['date_end']
-                Oldsection = request.form['Oldsection']
-                Newsection = request.form['Newsection']
+
+                cur = db.connection.cursor()
+                cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s",[employee_id])
+                Oldsection = cur.fetchall()
+                Oldsection = Oldsection[0][0]
+                NewApprover = request.form['NewApprover']
+                NewApprover = NewApprover.split()[0]
+                cur.execute("SELECT approver_section FROM approverInfo WHERE approver_id=%s",[NewApprover])
+                Newsection = cur.fetchall()
+                Newsection = Newsection[0][0]
+                cur.execute("SELECT director_id FROM approverInfo WHERE approver_id=%s",[NewApprover])
+                NewDirector = cur.fetchall()
+                NewDirector = NewDirector[0][0]
+                cur.close()
+
                 current_time = datetime.datetime.now()
                 TimeStamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
                 
                 status = "unsuccessful"
 
                 cur = db.connection.cursor()
-                cur.execute("SELECT approver_id FROM employeeInfo WHERE employee_section=%s",[Newsection])
-                approver_id = cur.fetchall()
-                approver_id = approver_id[0][0]
-
-                cur.execute("UPDATE transactionaddemployee SET requestId=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s WHERE transactionaddemployee_id=%s",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, approver_id, transactionaddemployee_id))
+                cur.execute("UPDATE transactionaddemployee SET requestId=%s, employee_id=%s, employee_name=%s, employee_lastname=%s, date_start=%s, date_end=%s, Oldsection=%s, Newsection=%s, TimeStamp=%s, status=%s, approver_id=%s, director_id=%s WHERE transactionaddemployee_id=%s",(requestId, employee_id, employee_name, employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, status, NewApprover, NewDirector, transactionaddemployee_id))
                 db.connection.commit()
                 cur.close()
                 return redirect(url_for('employee.addEmployee'))
@@ -1144,10 +1162,12 @@ def addEmployee():
 
     else:
         cur = db.connection.cursor()
-        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee INNER JOIN approverInfo on transactionaddemployee.approver_id = approverInfo.approver_id  WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddemployee = cur.fetchall()
         cur.execute("SELECT * FROM employeeInfo")
         allEmployee = cur.fetchall()
+        cur.execute("SELECT * FROM approverInfo")
+        allApprover = cur.fetchall()
         cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
         employee_section = cur.fetchall()
         cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s", [employee_id])
@@ -1163,7 +1183,7 @@ def addEmployee():
 
         return render_template('employee/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee,
-                        allEmployee=allEmployee, employeeInsection=employeeInsection, employee_section=employee_section,
+                        allEmployee=allEmployee, allApprover=allApprover, employeeInsection=employeeInsection, employee_section=employee_section,
                         teamInSection_element=teamInSection_element, teamInSection=teamInSection, employeeInTeam_element=employeeInTeam_element,
                         employeeInTeam=employeeInTeam)
 
@@ -1510,11 +1530,14 @@ def employeeAddTransaction():
 
     else:
         cur = db.connection.cursor()
-        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
+        transactionaddemployee_element = cur.execute(" SELECT * FROM transactionaddemployee INNER JOIN approverInfo on transactionaddemployee.approver_id = approverInfo.approver_id  WHERE requestId=%s AND status=%s", (employee_id, "unsuccessful"))
         transactionaddemployee = cur.fetchall()
         
         email_count = cur.execute("SELECT DISTINCT employee_email FROM `transactionaddemployee` INNER JOIN employeeInfo on transactionaddemployee.employee_id = employeeInfo.employee_id WHERE transactionaddemployee.requestId=%s and transactionaddemployee.employee_id!=%s and status=%s",(employee_id, employee_id, 'unsuccessful'))
         email_query = cur.fetchall()
+
+        approver_email_count = cur.execute("SELECT DISTINCT approver_email FROM `transactionaddemployee` INNER JOIN approverInfo on transactionaddemployee.approver_id = approverInfo.approver_id WHERE transactionaddemployee.requestId=%s and status=%s",(employee_id, "unsuccessful"))
+        approver_email_query = cur.fetchall()
         cur.close()
         
         email_list = []
@@ -1522,6 +1545,12 @@ def employeeAddTransaction():
             email_list.append(email_query[i][0])
         
         session['email_list'] = email_list
+
+        approver_email_list = []
+        for i in range(approver_email_count):
+            approver_email_list.append(approver_email_query[i][0])
+
+        session['approver_email_list'] = approver_email_list
 
         return render_template('employee/addEmployeeEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee)
@@ -1715,6 +1744,7 @@ def employeeAddEmployeeTransactionEnd():
     line_id = session.get("line_id") # in case for query
     employee_id = session.get("employee_id")
     email_list = session.get("email_list")
+    approver_email_list = session.get("approver_email_list")
         
     if line_id is None or session.get("first_name") == "userNotFound":
         return render_template('employee/warning.html')
@@ -1742,26 +1772,91 @@ def employeeAddEmployeeTransactionEnd():
             yag.send(to=recipients,subject=subject,contents=[body])
             print ('ส่ง Email สำเร็จ')
 
-        cur.execute("SELECT approver_name,approver_lastname,approver_email FROM `approverInfo` INNER JOIN employeeInfo ON approverInfo.approver_id = employeeInfo.approver_id WHERE employeeInfo.employee_id=%s",[employee_id])
-        approver_data = cur.fetchall()
-        approver_name = approver_data[0][0]
-        approver_lastname = approver_data[0][1]
-        approver_email = approver_data[0][2]
+        for approver_email in approver_email_list:
+            cur.execute("SELECT approver_name, approver_lastname FROM approverInfo WHERE approver_email=%s",[approver_email])
+            approver_data = cur.fetchall()
+            approver_name = approver_data[0][0]
+            approver_lastname = approver_data[0][1]
 
-        cur.execute("SELECT employee_name, employee_lastname FROM employeeInfo WHERE employee_id=%s",[employee_id])
-        employee_data = cur.fetchall()
-        employee_name = employee_data[0][0]
-        employee_lastname = employee_data[0][1]
+            current_time = datetime.datetime.now()
+            TimeStamp = current_time.strftime("%Y-%m-%d")
+
+            recipients = [approver_email]
+            subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนหน่วยงานใหม่จากพนักงาน'
+            body = f'เรียน {approver_name} {approver_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการเปลี่ยนหน่วยงานใหม่ (จากคุณ {request_name} {request_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
+            yag.useralias = 'testbyNamhvam'
+            yag.send(to=recipients,subject=subject,contents=[body])
+            print ('ส่ง Email สำเร็จ')
+
         cur.close()
-
-        current_time = datetime.datetime.now()
-        TimeStamp = current_time.strftime("%Y-%m-%d")
-
-        recipients = [approver_email]
-        subject = 'ระบบมีการรออนุมัติรายการเปลี่ยนหน่วยงานใหม่จากพนักงาน'
-        body = f'เรียน {approver_name} {approver_lastname},\n\nอีเมล์นี้เป็นอีเมล์อัตโนมัติทีส่งจากระบบ SCG-Schedule\n\nด้วยความเคารพ,\nโปรดตรวจสอบรายการเปลี่ยนหน่วยงานใหม่ (จากคุณ {employee_name} {employee_lastname} เมื่อวันที่ {TimeStamp} กรุณาพิจารณารายการผ่านทางลิงก์ด้านล่าง http://127.0.0.1:5000/manager'
-        yag.useralias = 'testbyNamhvam'
-        yag.send(to=recipients,subject=subject,contents=[body])
-        print ('ส่ง Email สำเร็จ')
-
         return render_template('employee/addEmployeeTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
+
+
+
+@employee.route('/employee/generate', methods=['POST','GET'])
+def generate():
+    line_id = session.get("line_id") # in case for query
+    employee_id = session.get("employee_id")
+    LV = 3
+    start = '0000-00-00'
+    end = '0000-00-00'
+    cur = db.connection.cursor()
+    cur.execute(" SELECT * FROM shiftformat " )
+    formatdata = cur.fetchall()
+    cur.execute(" SELECT section_code FROM employeeInfo  WHERE employee_id=%s",[employee_id])
+    section_code = cur.fetchall()
+    section_code =  section_code[0][0]
+
+    cur.execute(" SELECT LV	 FROM filtershift  WHERE section_code =%s",[section_code])
+    LV = cur.fetchall()
+    LV =  LV[0][0]
+    #print (section_code)
+
+    if request.method == 'POST':
+        start = request.form['start']
+        end = request.form['end']
+ 
+        #วันเริ่ม - จบ
+        start = pendulum.from_format(start,'YYYY-MM-DD')
+        #print (start)
+        end = pendulum.from_format(end,'YYYY-MM-DD')
+        #print (end)
+        # เก็บวันเริ่มเเละจบ
+        period = pendulum.period(start,end)
+        #print (period)
+        for dt in period:
+            date = dt.to_date_string()
+            print(date)
+            d = datetime.datetime.strptime(date ,'%Y-%m-%d')
+            x = datetime.datetime.strftime(d,'%W') 
+            intweek = int(x) 
+            modweek = intweek % LV
+            strmodweek = str(modweek)
+            # print(strmodweek)
+            day = d.strftime("%a")
+            # print (day)
+            for i in range(len(formatdata)): 
+                if (section_code == formatdata[i][2] and day == formatdata[i][1] and modweek == formatdata[i][6] ):
+                    print ( date)
+                    print ( formatdata[i][3])
+                    # formatdata[i][3]
+                    print ('if2')
+                    
+                    try:
+                        cur.execute("INSERT INTO employeeShift (employeeShift_id, section_code , date , day , Shift , start_time , stop_time ) VALUES (%s,%s,%s,%s,%s,%s,%s)",(employee_id,section_code,date,day,formatdata[i][3],formatdata[i][4],formatdata[i][5]))
+                        db.connection.commit()
+                    #ถ้า error ให้หยุดใส่ข้อมูลแล้วแสดงใน terminal ว่า ERROR
+                    except (cur.Error, cur.Warning) as e:
+                        print(e)
+                        print("ERROR IS HERE")
+                        
+
+    cur.close()    
+
+    cur = db.connection.cursor()
+    cur.execute("SELECT * FROM employeeShift WHERE employeeShift_id=%s",[employee_id])
+    argsssssss = cur.fetchall()
+    cur.close()
+
+    # ตัวคือที่จะเอาไปแสดง = ชื่อที่ใส่ให้มัน
+    return render_template('employee/generatedateAuto.html' , formatdata = formatdata, argsssssss=argsssssss )    
