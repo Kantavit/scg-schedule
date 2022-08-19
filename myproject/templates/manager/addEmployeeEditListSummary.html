@@ -27,6 +27,7 @@
                 <th>วันสิ้นสุด</th>
                 <th>หน่วยงานเดิม</th>
                 <th>หน่วยงานใหม่</th>
+                <th>ชื่อ-นามสกุล หัวหน้าคนใหม่</th>
             </thead>
             <tbody>
                 {% for transaction in transactionaddemployee %}
@@ -37,6 +38,7 @@
                     <td>{{transaction.5}}</td>
                     <td>{{transaction.6}}</td>
                     <td>{{transaction.7}}</td>
+                    <td>{{transaction.17}} {{transaction.18}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
