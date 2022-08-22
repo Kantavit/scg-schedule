@@ -3,7 +3,7 @@ from ..extensions import db, yag
 from flask import render_template, redirect, url_for, request, session
 import datetime;
 
-
+# Director start page
 @director.route('/director')
 def directorLoginPage():
     line_id = request.args.get("userId")
@@ -41,6 +41,8 @@ def directorLoginPage():
 
     return render_template('director/welcome.html')
 
+
+# Director home page
 @director.route('/director/home', methods=['POST','GET'])
 def directorPage():
     line_id = session.get("line_id") # in case for query
@@ -52,6 +54,7 @@ def directorPage():
     # return render_template('director/director.html')
 
 
+# Director see pending shift and off work transaction
 @director.route('/director/status/pending', methods=['POST','GET'])
 def pending():
     line_id = session.get("line_id") # in case for query
@@ -153,6 +156,7 @@ def pending():
                     transactionChangeWork=transactionChangeWork,transactionChangeWork_element=transactionChangeWork_element)
 
 
+# Director see approve transaction of themself
 @director.route('/director/status/approve', methods=['POST','GET'])
 def approve():
     line_id = session.get("line_id") # in case for query
