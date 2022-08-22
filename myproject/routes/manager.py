@@ -2,7 +2,7 @@ from .__init__ import manager
 from ..extensions import db, yag
 from flask import render_template, redirect, url_for, request, session
 import datetime;
-
+import pendulum
 
 @manager.route('/manager')
 def managerLoginPage():
