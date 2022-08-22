@@ -4,6 +4,7 @@ from flask import render_template, redirect, url_for, request, session
 import datetime;
 import pendulum
 
+# Manager start page
 @manager.route('/manager')
 def managerLoginPage():
     line_id = request.args.get("userId")
@@ -41,6 +42,8 @@ def managerLoginPage():
 
     return render_template('manager/welcome.html')
 
+
+# Manager home page
 @manager.route('/manager/home', methods=['POST','GET'])
 def managerPage():
     line_id = session.get("line_id") # in case for query
@@ -51,6 +54,8 @@ def managerPage():
         return render_template('manager/manager.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
     # return render_template('manager/manager.html')
 
+
+# Manager see pending transaction
 @manager.route('/manager/status/pending', methods=['POST','GET'])
 def pending():
     line_id = session.get("line_id") # in case for query
@@ -514,6 +519,7 @@ def pending():
                     transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
 
 
+# Manager see approve transaction of themself
 @manager.route('/manager/status/approve', methods=['POST','GET'])
 def approve():
     line_id = session.get("line_id") # in case for query
@@ -546,6 +552,7 @@ def approve():
                     transactionCoworkShift=transactionCoworkShift,transactionCoworkShift_element=transactionCoworkShift_element)
                     
 
+# Manager check employee shift in date range
 @manager.route('/manager/shift', methods=['POST','GET'])
 def chooseEditShift():
     line_id = session.get("line_id") # in case for query
@@ -558,6 +565,7 @@ def chooseEditShift():
 
 ####################################################################################################
 
+# Manager choose sub team before edit employee data
 @manager.route('/manager/edit', methods=['POST','GET'])
 def employeeShift():
     line_id = session.get("line_id") # in case for query
@@ -581,6 +589,7 @@ def employeeShift():
                     teamInSection_element=teamInSection_element, teamInSection=teamInSection)
 
 
+# Manager edit employee shift transaction
 @manager.route('/manager/edit/selflist', methods=['POST','GET'])
 def editYourselfList():
     line_id = session.get("line_id") # in case for query
@@ -708,7 +717,7 @@ def editYourselfList():
                                 idSub_teamAll=idSub_teamAll, workData1=workData1, workData2=workData2, workData3=workData3, workData4=workData4, workData5=workData5,
                                 transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
 
-
+# Manager edit employee cowork shift transaction
 @manager.route('/manager/edit/cowork', methods=['POST','GET'])
 def editCowork():
     line_id = session.get("line_id") # in case for query
@@ -932,6 +941,7 @@ def editCowork():
                                 idSub_team=idSub_team, workData1=workData1, workData2=workData2, workData3=workData3, workData4=workData4, workData5=workData5)
 
 
+# Manager edit employee add shift in the same day transaction
 @manager.route('/manager/edit/addshift', methods=['POST','GET'])
 def editAddShift():
     line_id = session.get("line_id") # in case for query
@@ -1060,6 +1070,7 @@ def editAddShift():
                                 transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
 
 
+# Manager edit employee shift and off work transaction
 @manager.route('/manager/edit/shiftandoff', methods=['POST','GET'])
 def chooseEditShiftAndOff():
     line_id = session.get("line_id") # in case for query
@@ -1230,28 +1241,7 @@ def chooseEditShiftAndOff():
                                 section_code_data=section_code_data, transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork )
 
 
-@manager.route('/manager/edit/shiftandoff/viewshift', methods=['POST','GET']) # แก้เป็นให้เข้าไปแก้ตาม <int:id> 
-def viewShift():
-    line_id = session.get("line_id") # in case for query
-        
-    if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
-    else:
-        return render_template('manager/viewShift.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/viewShift.html')
-
-
-@manager.route('/manager/edit/shiftandoff/viewshiftonly', methods=['POST','GET']) 
-def viewShiftOnly():
-    line_id = session.get("line_id") # in case for query
-        
-    if line_id is None or session.get("first_name") == "userNotFound":
-        return render_template('manager/warning.html')
-    else:
-        return render_template('manager/viewShiftOnly.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/viewShiftOnly.html')
-
-
+# Manager edit employee to new section or edit sub team
 @manager.route('/manager/edit/addemployee', methods=['POST','GET'])
 def addEmployee():
     line_id = session.get("line_id") # in case for query
@@ -1604,6 +1594,7 @@ def addEmployee():
 
 ####################################################################################################
 
+# Manager edit employee shift summary transaction
 @manager.route('/manager/edit/selflist/selflistsummary', methods=['POST','GET'])
 def employeeSelfTransaction():
     line_id = session.get("line_id") # in case for query
@@ -1650,6 +1641,7 @@ def employeeSelfTransaction():
                         transactionChangeShift_element=transactionChangeShift_element, transactionChangeShift=transactionChangeShift)
 
 
+# Manager edit employee cowork shift summary transaction
 @manager.route('/manager/edit/cowork/coworksummary', methods=['POST','GET'])
 def employeeCoworkTransaction():
     line_id = session.get("line_id") # in case for query
@@ -1778,6 +1770,7 @@ def employeeCoworkTransaction():
         return render_template('manager/coworkEditListSummary.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 
+# Manager edit employee add shift in the same day summary transaction
 @manager.route('/manager/edit/addshift/addshiftsummary', methods=['POST','GET'])
 def employeeAddShiftTransaction():
     line_id = session.get("line_id") # in case for query
@@ -1824,6 +1817,7 @@ def employeeAddShiftTransaction():
                         transactionaddShift_element=transactionaddShift_element, transactionaddShift=transactionaddShift)
 
 
+# Manager edit employee shift and off work summary transaction
 @manager.route('/manager/edit/shiftandoff/shiftandoffsummary', methods=['POST','GET'])
 def employeeShiftAndOffTransaction():
     line_id = session.get("line_id") # in case for query
@@ -1869,6 +1863,7 @@ def employeeShiftAndOffTransaction():
                         transactionChangeWork_element=transactionChangeWork_element, transactionChangeWork=transactionChangeWork)
 
 
+# Manager edit employee in new section summary transaction
 @manager.route('/manager/edit/addemployee/addemployeesummary', methods=['POST','GET'])
 def employeeAddTransaction():
     line_id = session.get("line_id") # in case for query
@@ -1925,17 +1920,7 @@ def employeeAddTransaction():
 
 ####################################################################################################
 
-@manager.route('/manager/status/pending/approvetransactionend', methods=['POST','GET'])
-def managerApproveTransactionEnd():
-    line_id = session.get("line_id") # in case for query
-        
-    if line_id is None or session.get("first_name") == "userNotFound":
-        render_template('manager/warning.html')
-    else:
-        return render_template('manager/approveTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
-    # return render_template('manager/approveTransactionEnd.html')
-
-
+# Manager edit employee shift transaction ended
 @manager.route('/manager/edit/selflist/selflistsummary/selftransactionend', methods=['POST','GET'])
 def employeeSelfTransactionEnd():
     line_id = session.get("line_id") # in case for query
@@ -1973,6 +1958,7 @@ def employeeSelfTransactionEnd():
     # return render_template('manager/selfTransactionEnd.html')
 
 
+# Manager edit employee cowork shift transaction ended
 @manager.route('/manager/edit/cowork/coworksummary/coworktransactionend', methods=['POST','GET'])
 def employeeCoworkTransactionEnd():
     line_id = session.get("line_id") # in case for query
@@ -2009,6 +1995,7 @@ def employeeCoworkTransactionEnd():
         return render_template('manager/coworkTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 
+# Manager edit employee add shift in the same day transaction ended
 @manager.route('/manager/edit/addshift/addshiftsummary/addshifttransactionend', methods=['POST','GET'])
 def employeeAddShiftTransactionEnd():
     line_id = session.get("line_id") # in case for query
@@ -2045,6 +2032,7 @@ def employeeAddShiftTransactionEnd():
         return render_template('manager/addShiftTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 
+# Manager edit employee shift and off work transaction summary
 @manager.route('/manager/edit/shiftandoff/shiftandoffsummary/shiftandofftransactionend', methods=['POST','GET'])
 def employeeShiftAndOffTransactionEnd():
     line_id = session.get("line_id") # in case for query
@@ -2081,6 +2069,7 @@ def employeeShiftAndOffTransactionEnd():
         return render_template('manager/shiftAndOffTransactionEnd.html', first_name=session.get("first_name"), last_name=session.get("last_name"))
 
 
+# Manager edit employee in new section transaction ended
 @manager.route('/manager/edit/addemployee/addemployeesummary/addemployeetransactionend', methods=['POST','GET'])
 def employeeAddEmployeeTransactionEnd():
     line_id = session.get("line_id") # in case for query
