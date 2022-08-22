@@ -24,10 +24,20 @@ def employeeLoginPage():
     last_name = cur.fetchall()
     query = "SELECT employee_id FROM employee WHERE line_id = " + "'" + toString + "'"
     cur.execute(query)
-    employee_id = cur.fetchall() 
+    employee_id = cur.fetchall()
     cur.execute("SELECT sub_team FROM employeeInfo WHERE employee_id=%s",(employee_id))
     sub_team = cur.fetchall()
 
+    # update employee_section from approver
+    cur.execute("SELECT approver_section FROM employeeInfo INNER JOIN approverInfo on approverInfo.approver_id = employeeInfo.approver_id WHERE employee_id=%s", [employee_id])
+    approver_section = cur.fetchall()
+    print(approver_section)
+    print(approver_section)
+    print(approver_section)
+
+    cur.execute("UPDATE employeeInfo SET employee_section=%s WHERE employee_id=%s",(approver_section, employee_id))
+    db.connection.commit()
+    print("okokojipon")
     cur.close()
 
     if bool(first_name) == False and bool(last_name) == False:
@@ -1168,8 +1178,6 @@ def addEmployee():
         allEmployee = cur.fetchall()
         cur.execute("SELECT * FROM approverInfo")
         allApprover = cur.fetchall()
-        cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
-        employee_section = cur.fetchall()
         cur.execute("SELECT employee_section FROM employeeInfo WHERE employee_id=%s", [employee_id])
         user_section = cur.fetchall()
         user_section = user_section[0][0]
@@ -1183,7 +1191,7 @@ def addEmployee():
 
         return render_template('employee/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee,
-                        allEmployee=allEmployee, allApprover=allApprover, employeeInsection=employeeInsection, employee_section=employee_section,
+                        allEmployee=allEmployee, allApprover=allApprover, employeeInsection=employeeInsection,
                         teamInSection_element=teamInSection_element, teamInSection=teamInSection, employeeInTeam_element=employeeInTeam_element,
                         employeeInTeam=employeeInTeam)
 
