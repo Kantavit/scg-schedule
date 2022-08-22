@@ -1586,8 +1586,6 @@ def addEmployee():
         allEmployee = cur.fetchall()
         cur.execute("SELECT * FROM approverInfo")
         allApprover = cur.fetchall()
-        cur.execute("SELECT DISTINCT employee_section FROM employeeInfo")
-        employee_section = cur.fetchall()
         user_section = approver_section
         cur.execute("SELECT employee_id , employee_name , employee_lastname FROM employeeInfo WHERE employee_section=%s",[user_section])
         employeeInsection = cur.fetchall()
@@ -1599,7 +1597,7 @@ def addEmployee():
 
         return render_template('manager/addEmployee.html', first_name=session.get("first_name"), last_name=session.get("last_name"),
                         transactionaddemployee_element=transactionaddemployee_element, transactionaddemployee=transactionaddemployee,
-                        allEmployee=allEmployee, allApprover=allApprover, employeeInsection=employeeInsection, employee_section=employee_section,
+                        allEmployee=allEmployee, allApprover=allApprover, employeeInsection=employeeInsection,
                         teamInSection_element=teamInSection_element, teamInSection=teamInSection, employeeInTeam_element=employeeInTeam_element,
                         employeeInTeam=employeeInTeam)
 
