@@ -496,7 +496,7 @@ def pending():
 
     else:
         cur = db.connection.cursor()
-        transactionaddemployee_element = cur.execute("SELECT * FROM transactionaddemployee WHERE approver_id=%s AND status=%s",(approver_id, "waiting"))
+        transactionaddemployee_element = cur.execute("SELECT transactionaddemployee_id, employee_id, employee_name,employee_lastname, date_start, date_end, Oldsection, Newsection, TimeStamp, reason, transactionaddemployee.approver_id, consider_time, status, requestId, approver_name, approver_lastname FROM transactionaddemployee INNER JOIN approverInfo on transactionaddemployee.approver_id = approverInfo.approver_id WHERE transactionaddemployee.approver_id = " + "'" + approver_id + "'" + " AND status='waiting'")
         transactionaddemployee = cur.fetchall()
 
         transactionaddShift_element = cur.execute("SELECT transactionaddShift_id ,transactionaddShift.employee_id ,date ,OldShift ,addShift ,TimeStamp ,reason ,Status ,transactionaddShift.approver_id ,consider_time ,requestId , employee_name , employee_lastname FROM transactionaddShift INNER JOIN employeeInfo on transactionaddShift.employee_id = employeeInfo.employee_id WHERE transactionaddShift.approver_id = " + "'" + approver_id + "'" + " AND status='waiting'")
